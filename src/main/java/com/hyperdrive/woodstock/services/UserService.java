@@ -23,5 +23,11 @@ public class UserService {
 		Optional<User> opt = repository.findById(id);
 		
 		return opt.get();
-	}	
+	}
+	
+	public User findByEmailAndPassoword(User user) {
+		Optional<User> opt = repository.FindByEmailAndPassword(user.getEmail(), user.getPassword());
+		
+		return opt.get();
+	}
 }
