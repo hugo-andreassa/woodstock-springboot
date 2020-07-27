@@ -6,11 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.hyperdrive.woodstock.entities.enums.UserStatus;
 import com.hyperdrive.woodstock.entities.enums.UserType;
 
-@Entity(name = "tb_user")
+@Entity
+@Table(name = "tb_user")
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,11 +29,15 @@ public class User implements Serializable {
 	private UserStatus status;
 	private UserType type;
 	
+	@ManyToOne
+	@JoinColumn(name = "company_id")
+	private Company company;
+	
 	public User() {
 		
 	}
 
-	public User(Long id, String name, String password, String email, String phone, UserStatus status, UserType type) {
+	public User(Long id, String name, String password, String email, String phone, UserStatus status, UserType type, Company company) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -38,6 +46,7 @@ public class User implements Serializable {
 		this.phone = phone;
 		this.status = status;
 		this.type = type;
+		this.company = company;
 	}
 
 	public Long getId() {
@@ -94,6 +103,14 @@ public class User implements Serializable {
 
 	public void setType(UserType type) {
 		this.type = type;
+	}
+	
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	@Override
