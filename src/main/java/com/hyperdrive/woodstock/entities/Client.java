@@ -7,7 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_client")
@@ -19,27 +24,34 @@ public class Client implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false)
 	private Long id;
-	
 	@Column(nullable = false)
 	private String name;
-	
 	private String email;
-	
 	private String phone;
-	
 	@Column(unique = true, nullable = false)
 	private String cpf;
+	
+	@ManyToOne
+	@JoinColumn(name = "company_id")
+	private Company company;
+	
+	@OneToOne
+	@JoinColumn(name = "adress_id")
+	private Adress adress;
 	
 	public Client() {
 		
 	}
 
-	public Client(Long id, String name, String phone, String cpf) {
+	public Client(Long id, String name, String email, String phone, String cpf, Company company, Adress adress) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.email = email;
 		this.phone = phone;
 		this.cpf = cpf;
+		this.company = company;
+		this.adress = adress;
 	}
 
 	public Long getId() {
@@ -80,6 +92,23 @@ public class Client implements Serializable {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+	
+	@JsonIgnore
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	public Adress getAdress() {
+		return adress;
+	}
+
+	public void setAdress(Adress adress) {
+		this.adress = adress;
 	}
 
 	@Override

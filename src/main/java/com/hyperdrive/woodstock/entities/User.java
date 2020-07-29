@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hyperdrive.woodstock.entities.enums.UserStatus;
 import com.hyperdrive.woodstock.entities.enums.UserType;
 
@@ -77,7 +78,8 @@ public class User implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}

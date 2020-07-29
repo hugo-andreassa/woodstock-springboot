@@ -42,6 +42,9 @@ public class Company implements Serializable {
 	@OneToMany(mappedBy = "company")
 	private List<User> users = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "company")
+	private List<Client> clients = new ArrayList<>();
+	
 	public Company() {
 	
 	}
@@ -115,6 +118,11 @@ public class Company implements Serializable {
 	@JsonIgnore
 	public List<User> getUsers() {
 		return users;
+	}
+	
+	@JsonIgnore
+	public List<Client> getClients() {
+		return clients;
 	}
 	
 	@Override
