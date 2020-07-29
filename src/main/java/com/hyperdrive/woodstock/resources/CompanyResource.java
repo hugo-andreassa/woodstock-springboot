@@ -1,11 +1,9 @@
 package com.hyperdrive.woodstock.resources;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,32 +13,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.hyperdrive.woodstock.entities.User;
-import com.hyperdrive.woodstock.services.UserService;
+import com.hyperdrive.woodstock.entities.Company;
+import com.hyperdrive.woodstock.services.CompanyService;
 
 @RestController
-@RequestMapping(value = "/users")
-public class UserResource {
+@RequestMapping(value = "/companys")
+public class CompanyResource {
 	
 	@Autowired
-	private UserService service;
-	
-	@GetMapping()
-	public ResponseEntity<List<User>> findAll() {
-		List<User> list = service.findAll();
-		
-		return ResponseEntity.ok().body(list);
-	}
+	private CompanyService service;
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<User> findById(@PathVariable Long id) {
-		User obj = service.findById(id);
+	public ResponseEntity<Company> findById(@PathVariable Long id) {
+		Company obj = service.findById(id);
 		
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@PostMapping
-	public ResponseEntity<User> insert(@RequestBody User obj) {
+	public ResponseEntity<Company> insert(@RequestBody Company obj) {
 		obj = service.insert(obj);
 		
 		// Cria uma uri com o ID gerado
@@ -53,24 +44,10 @@ public class UserResource {
 		return ResponseEntity.created(uri).body(obj);
 	}
 	
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id){
-		service.deleteById(id);
-		
-		return ResponseEntity.noContent().build();
-	}
-	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj) {
+	public ResponseEntity<Company> update(@PathVariable Long id, @RequestBody Company obj) {
 		obj = service.update(id, obj);
 		
 		return ResponseEntity.ok().body(obj);
 	}
-	
-	/* @PostMapping(value = "/login")
-	public ResponseEntity<User> findByEmailAndPassoword(@RequestBody User user) {
-		User obj = service.findByEmailAndPassoword(user);
-		
-		return ResponseEntity.ok().body(obj);
-	} */
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,12 +22,21 @@ public class Company implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(nullable = false)
 	private Long id;
+	
+	@Column(nullable = false)
 	private String tradingName;
+	
+	@Column(unique = true, nullable = false)
 	private String cnpj;
+	
 	private String phone;
+	
 	private String email;
+	
 	private String site;
+	
 	private String logo;
 	
 	@OneToMany(mappedBy = "company")
