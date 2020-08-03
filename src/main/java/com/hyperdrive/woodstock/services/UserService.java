@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.hibernate.PropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -31,8 +32,14 @@ public class UserService {
 		return opt.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
-	public User insert(User entity) {	
-		return repository.save(entity);
+	public User insert(User entity) {
+		try {
+			entity.setId(null);
+			
+			return repository.save(entity);	
+		} catch (PropertyValueException e) {
+			throw new ResourceNotFoundException(entity.getId());
+		}
 	}
 	
 	public void deleteById(Long id) {
@@ -42,7 +49,6 @@ public class UserService {
 			throw new ResourceNotFoundException(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
-			
 		}		
 	}
 	

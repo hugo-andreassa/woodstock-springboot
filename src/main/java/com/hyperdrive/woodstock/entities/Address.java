@@ -9,9 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "tb_adress")
-public class Adress implements Serializable {
+public class Address implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -25,14 +27,17 @@ public class Adress implements Serializable {
 	private String comp;
 	private String cep;
 	
-	@OneToOne(mappedBy = "adress")
+	@OneToOne(mappedBy = "address")
 	private Client client;
 	
-	public Adress() {
+	@OneToOne(mappedBy = "address")
+	private Budget budget;
+	
+	public Address() {
 		super();
 	}
 	
-	public Adress(Long id, String street, String city, String state, String number, String comp, String cep) {
+	public Address(Long id, String street, String city, String state, String number, String comp, String cep) {
 		super();
 		this.id = id;
 		this.street = street;
@@ -99,6 +104,24 @@ public class Adress implements Serializable {
 		this.cep = cep;
 	}
 
+	@JsonIgnore
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	@JsonIgnore
+	public Budget getBudget() {
+		return budget;
+	}
+
+	public void setBudget(Budget budget) {
+		this.budget = budget;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -115,7 +138,7 @@ public class Adress implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Adress other = (Adress) obj;
+		Address other = (Address) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

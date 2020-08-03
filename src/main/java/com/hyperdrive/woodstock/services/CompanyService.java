@@ -4,11 +4,13 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.hibernate.PropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hyperdrive.woodstock.entities.Company;
 import com.hyperdrive.woodstock.repositories.CompanyRepository;
+import com.hyperdrive.woodstock.services.exceptions.DatabaseException;
 import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -24,8 +26,13 @@ public class CompanyService {
 	}
 	
 	public Company insert(Company entity) {	
-		entity.setId(null);
-		return repository.save(entity);
+		try {
+			entity.setId(null);
+			return repository.save(entity);
+		} catch (PropertyValueException e) {
+			throw new DatabaseException(e.getMessage());
+		} 
+		
 	}
 	
 	public Company update(Long id, Company obj) {
@@ -36,7 +43,9 @@ public class CompanyService {
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
-		}		
+		} catch (PropertyValueException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 	
 	private void updateData(Company entity, Company obj) {

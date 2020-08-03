@@ -1,6 +1,7 @@
 package com.hyperdrive.woodstock.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,10 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name = "tb_client")
@@ -24,26 +27,35 @@ public class Client implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false)
 	private Long id;
+	
 	@Column(nullable = false)
 	private String name;
+	
 	private String email;
+	
 	private String phone;
+	
 	@Column(unique = true, nullable = false)
 	private String cpf;
 	
 	@ManyToOne
-	@JoinColumn(name = "company_id")
+	@JoinColumn(name = "company_id", nullable = false)
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private Company company;
 	
 	@OneToOne
-	@JoinColumn(name = "adress_id")
-	private Adress adress;
+	@JoinColumn(name = "address_id")
+	@JsonProperty(access = Access.READ_WRITE)
+	private Address address;
+	
+	@OneToMany(mappedBy = "client")
+	private List<Budget> budgets;	
 	
 	public Client() {
 		
 	}
 
-	public Client(Long id, String name, String email, String phone, String cpf, Company company, Adress adress) {
+	public Client(Long id, String name, String email, String phone, String cpf, Company company, Address address) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -51,7 +63,7 @@ public class Client implements Serializable {
 		this.phone = phone;
 		this.cpf = cpf;
 		this.company = company;
-		this.adress = adress;
+		this.address = address;
 	}
 
 	public Long getId() {
@@ -94,7 +106,6 @@ public class Client implements Serializable {
 		this.cpf = cpf;
 	}
 	
-	@JsonIgnore
 	public Company getCompany() {
 		return company;
 	}
@@ -102,13 +113,17 @@ public class Client implements Serializable {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-
-	public Adress getAdress() {
-		return adress;
+	
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setAdress(Adress adress) {
-		this.adress = adress;
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	
+	public List<Budget> getBudgets() {
+		return budgets;
 	}
 
 	@Override

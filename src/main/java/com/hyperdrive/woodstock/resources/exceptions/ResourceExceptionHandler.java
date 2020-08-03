@@ -34,4 +34,14 @@ public class ResourceExceptionHandler {
 		
 		return ResponseEntity.status(status).body(err);
 	}
+	
+	@ExceptionHandler(RuntimeException.class)
+	public ResponseEntity<StandardError> sql(RuntimeException e, HttpServletRequest request) {
+		String error = "Internal Server Error";
+		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+		
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+		
+		return ResponseEntity.status(status).body(err);
+	}
 }

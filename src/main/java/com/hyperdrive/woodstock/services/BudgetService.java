@@ -1,5 +1,6 @@
 package com.hyperdrive.woodstock.services;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,37 +13,45 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.hyperdrive.woodstock.entities.Address;
+import com.hyperdrive.woodstock.entities.Budget;
 import com.hyperdrive.woodstock.entities.Client;
 import com.hyperdrive.woodstock.repositories.AddressRepository;
+import com.hyperdrive.woodstock.repositories.BudgetRepository;
 import com.hyperdrive.woodstock.repositories.ClientRepository;
 import com.hyperdrive.woodstock.services.exceptions.DatabaseException;
 import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 
 @Service
-public class ClientService {
+public class BudgetService {
 	
 	@Autowired
-	private ClientRepository repository;
+	private BudgetRepository repository;
 	@Autowired
-	private AddressRepository adressRepository;
+	private ClientRepository clientRepository;	
+	@Autowired
+	private AddressRepository addressRepository;
 	
-	public List<Client> findAll() {
-		return repository.findAll();
+	public List<Budget> findAllByClientId(Long clientId) {
+		Optional<Client> client = clientRepository.findById(clientId);
+		
+		List<Budget> list = repository.findByClient(client.orElseThrow(() -> new ResourceNotFoundException(clientId)));
+		return list;
 	}
 	
-	public Client findById(Long id) {
-		Optional<Client> opt = repository.findById(id);
+	public Budget findById(Long id) {
+		Optional<Budget> opt = repository.findById(id);
 		
 		return opt.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
-	public Client insert(Client entity) {
+	public Budget insert(Budget entity) {
 		try {
 			entity.setId(null);
+			entity.setCreationDate(Instant.now());
 			
 			entity.getAddress().setId(null);
-			Address adrs = adressRepository.save(entity.getAddress());
-			entity.setAddress(adrs);
+			Address adrs = addressRepository.save(entity.getAddress());
+			entity.setAddress(adrs);				
 			
 			return repository.save(entity);
 		} catch (PropertyValueException e) {
@@ -60,11 +69,11 @@ public class ClientService {
 		}	
 	}
 	
-	public Client update(Long id, Client obj) {
+	public Budget update(Long id, Budget obj) {
 		try {
-			Client entity = repository.getOne(id);
+			Budget entity = repository.getOne(id);
 			updateData(entity, obj);
-			adressRepository.save(entity.getAddress());
+			addressRepository.save(entity.getAddress());
 			
 			return repository.save(entity);	
 		} catch (EntityNotFoundException e) {
@@ -74,12 +83,10 @@ public class ClientService {
 		}
 	}
 	
-	private void updateData(Client entity, Client obj) {
+	private void updateData(Budget entity, Budget obj) {
 		entity.setId(null);
-		entity.setName(obj.getName());
-		entity.setPhone(obj.getPhone());
-		entity.setEmail(obj.getEmail());
-		entity.setCpf(obj.getCpf());
+		entity.setDeliveryDay(obj.getDeliveryDay());
+		entity.setStatus(obj.getStatus());
 		
 		entity.setAddress(obj.getAddress());
 	}
