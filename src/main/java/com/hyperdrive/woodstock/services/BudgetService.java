@@ -84,7 +84,6 @@ public class BudgetService {
 	}
 	
 	private void updateData(Budget entity, Budget obj) {
-		entity.setId(null);
 		entity.setDeliveryDay(obj.getDeliveryDay());
 		entity.setStatus(obj.getStatus());
 		
