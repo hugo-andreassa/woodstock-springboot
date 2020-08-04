@@ -37,7 +37,8 @@ public class Address implements Serializable {
 		super();
 	}
 	
-	public Address(Long id, String street, String city, String state, String number, String comp, String cep) {
+	public Address(Long id, String street, String city, String state, String number, String comp, 
+			String cep, Client client, Budget budget) {
 		super();
 		this.id = id;
 		this.street = street;
@@ -46,6 +47,8 @@ public class Address implements Serializable {
 		this.number = number;
 		this.comp = comp;
 		this.cep = cep;
+		this.client = client;
+		this.budget = budget;
 	}
 
 	public Long getId() {

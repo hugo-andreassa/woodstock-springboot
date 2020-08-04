@@ -2,7 +2,9 @@ package com.hyperdrive.woodstock.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -47,13 +50,16 @@ public class Budget implements Serializable {
 	private BudgetStatus status;
 	
 	@ManyToOne
-	@JoinColumn(name = "client_id")
+	@JoinColumn(name = "client_id", nullable = false)
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private Client client;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "address_id")
 	private Address address;
+	
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "budget")
+	private List<BudgetItem> items;
 	
 	// TODO: Função de calcular valor total do orçamento
 	public Budget() {
@@ -121,6 +127,10 @@ public class Budget implements Serializable {
 		this.status = status;
 	}
 	
+	public List<BudgetItem> getItems() {
+		return items;
+	}
+
 	@JsonIgnore
 	public Client getClient() {
 		return client;

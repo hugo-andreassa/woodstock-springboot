@@ -3,6 +3,7 @@ package com.hyperdrive.woodstock.entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,12 +44,12 @@ public class Client implements Serializable {
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private Company company;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "address_id")
 	@JsonProperty(access = Access.READ_WRITE)
 	private Address address;
 	
-	@OneToMany(mappedBy = "client")
+	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 	private List<Budget> budgets;	
 	
 	public Client() {
