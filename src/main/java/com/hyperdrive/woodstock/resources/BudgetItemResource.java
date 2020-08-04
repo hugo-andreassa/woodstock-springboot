@@ -20,7 +20,7 @@ import com.hyperdrive.woodstock.entities.BudgetItem;
 import com.hyperdrive.woodstock.services.BudgetItemService;
 
 @RestController
-@RequestMapping(value = "/budgets")
+@RequestMapping(value = "/budgetItems")
 public class BudgetItemResource {
 	
 	@Autowired
