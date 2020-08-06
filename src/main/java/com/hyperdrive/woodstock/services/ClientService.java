@@ -38,16 +38,17 @@ public class ClientService {
 	
 	public Client insert(Client entity) {
 		try {
-			entity.setId(null);
 			
+			entity.setId(null);
 			entity.getAddress().setId(null);
 			Address adrs = adressRepository.save(entity.getAddress());
+			
 			entity.setAddress(adrs);
 			
 			return repository.save(entity);
-		} catch (PropertyValueException e) {
+		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
-		}
+		} 
 	}
 	
 	public void deleteById(Long id) {

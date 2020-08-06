@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.hyperdrive.woodstock.services.exceptions.DatabaseException;
+import com.hyperdrive.woodstock.services.exceptions.NotNullPropertyException;
 import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice
@@ -35,10 +36,10 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 	}
 	
-	@ExceptionHandler(RuntimeException.class)
-	public ResponseEntity<StandardError> sql(RuntimeException e, HttpServletRequest request) {
-		String error = "Internal Server Error";
-		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+	@ExceptionHandler(NotNullPropertyException.class)
+	public ResponseEntity<StandardError> notNullProperty(NotNullPropertyException e, HttpServletRequest request) {
+		String error = "Not a null property";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
 		
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 		

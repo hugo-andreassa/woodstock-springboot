@@ -15,9 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 @Entity
 @Table(name = "tb_client")
 public class Client implements Serializable {
@@ -41,12 +38,10 @@ public class Client implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = false)
-	@JsonProperty(access = Access.WRITE_ONLY)
 	private Company company;
 	
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "address_id")
-	@JsonProperty(access = Access.READ_WRITE)
 	private Address address;
 	
 	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
