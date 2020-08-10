@@ -16,34 +16,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.hyperdrive.woodstock.entities.BudgetItem;
-import com.hyperdrive.woodstock.services.BudgetItemService;
+import com.hyperdrive.woodstock.entities.CuttingPlan;
+import com.hyperdrive.woodstock.services.CuttingPlanService;
 
 @RestController
-@RequestMapping(value = "/budgetItems")
-public class BudgetItemResource {
+@RequestMapping(value = "/cuttingPlans")
+public class CuttingPlanResource {
 	
 	@Autowired
-	private BudgetItemService service;
+	private CuttingPlanService service;
 	
 	@GetMapping()
-	public ResponseEntity<List<BudgetItem>> findAll(
-			@RequestParam(value = "budget", defaultValue = "") Long budgetId) {
-		
-		List<BudgetItem> list = service.findAllByBudgetId(budgetId);
+	public ResponseEntity<List<CuttingPlan>> findAll(
+			@RequestParam(value = "budgetItem", defaultValue = "") Long budgetItemId) {
+		List<CuttingPlan> list = service.findAllByBudgetId(budgetItemId);
 		
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<BudgetItem> findById(@PathVariable Long id) {
-		BudgetItem obj = service.findById(id);
+	public ResponseEntity<CuttingPlan> findById(@PathVariable Long id) {
+		CuttingPlan obj = service.findById(id);
 		
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@PostMapping
-	public ResponseEntity<BudgetItem> insert(@RequestBody BudgetItem obj) {
+	public ResponseEntity<CuttingPlan> insert(@RequestBody CuttingPlan obj) {
 		obj = service.insert(obj);
 		
 		// Cria uma uri com o ID gerado
@@ -64,7 +63,7 @@ public class BudgetItemResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<BudgetItem> update(@PathVariable Long id, @RequestBody BudgetItem obj) {
+	public ResponseEntity<CuttingPlan> update(@PathVariable Long id, @RequestBody CuttingPlan obj) {
 		obj = service.update(id, obj);
 		
 		return ResponseEntity.ok().body(obj);

@@ -104,7 +104,7 @@ public class ClientTest {
 	@Test
 	public void deleteErrado() throws Exception {
 		// Ações
-		ResultActions response = mockMvc.perform(delete("/clients/7"));
+		ResultActions response = mockMvc.perform(delete("/clients/A"));
 		
 		// Verificações 
 		System.out.println(response.andExpect(status().isNotFound())

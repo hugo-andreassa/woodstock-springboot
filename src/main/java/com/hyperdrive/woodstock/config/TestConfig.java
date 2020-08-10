@@ -13,6 +13,8 @@ import com.hyperdrive.woodstock.entities.Budget;
 import com.hyperdrive.woodstock.entities.BudgetItem;
 import com.hyperdrive.woodstock.entities.Client;
 import com.hyperdrive.woodstock.entities.Company;
+import com.hyperdrive.woodstock.entities.CuttingPlan;
+import com.hyperdrive.woodstock.entities.Project;
 import com.hyperdrive.woodstock.entities.User;
 import com.hyperdrive.woodstock.entities.enums.BudgetItemStatus;
 import com.hyperdrive.woodstock.entities.enums.BudgetStatus;
@@ -23,6 +25,8 @@ import com.hyperdrive.woodstock.repositories.BudgetItemRepository;
 import com.hyperdrive.woodstock.repositories.BudgetRepository;
 import com.hyperdrive.woodstock.repositories.ClientRepository;
 import com.hyperdrive.woodstock.repositories.CompanyRepository;
+import com.hyperdrive.woodstock.repositories.CuttingPlanRepository;
+import com.hyperdrive.woodstock.repositories.ProjectRepository;
 import com.hyperdrive.woodstock.repositories.UserRepository;
 
 @Configuration
@@ -41,6 +45,10 @@ public class TestConfig implements CommandLineRunner {
 	private BudgetRepository budgetRepository;
 	@Autowired
 	private BudgetItemRepository budgetItemRepository;
+	@Autowired
+	private CuttingPlanRepository cuttingPlanRepository;
+	@Autowired
+	private ProjectRepository projectRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -82,5 +90,12 @@ public class TestConfig implements CommandLineRunner {
 		BudgetItem bi4 = new BudgetItem(null, "Escrivaninha", 500.0, 1, "quarto", BudgetItemStatus.WAITING, b3);
 		budgetItemRepository.saveAll(Arrays.asList(bi1, bi2, bi3, bi4));		
 		
+		CuttingPlan cp1 = new CuttingPlan(null, 2.40, 1.40, 3, "", bi1);
+		CuttingPlan cp2 = new CuttingPlan(null, 1.40, 2.40, 1, "", bi1);
+		cuttingPlanRepository.saveAll(Arrays.asList(cp1, cp2));
+		
+		Project p1 = new Project(null, "", "", bi1);
+		Project p2 = new Project(null, "", "", bi1);
+		projectRepository.saveAll(Arrays.asList(p1, p2));
 	}
 }

@@ -1,7 +1,9 @@
 package com.hyperdrive.woodstock.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -41,6 +44,9 @@ public class BudgetItem implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "budget_id", nullable = false)
 	private Budget budget;
+	
+	@OneToMany(mappedBy = "budgetItem", cascade = CascadeType.REMOVE)
+	private List<CuttingPlan> cuttingPlan;
 	
 	public BudgetItem() {
 		super();
@@ -113,6 +119,10 @@ public class BudgetItem implements Serializable {
 
 	public void setBudget(Budget budget) {
 		this.budget = budget;
+	}
+	
+	public List<CuttingPlan> getCuttingPlan() {
+		return cuttingPlan;
 	}
 
 	@Override
