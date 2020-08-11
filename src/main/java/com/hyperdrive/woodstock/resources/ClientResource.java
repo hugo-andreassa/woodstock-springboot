@@ -3,6 +3,8 @@ package com.hyperdrive.woodstock.resources;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.hyperdrive.woodstock.dto.ClientDTO;
 import com.hyperdrive.woodstock.entities.Client;
 import com.hyperdrive.woodstock.services.ClientService;
 
@@ -40,8 +43,8 @@ public class ClientResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Client> insert(@RequestBody Client obj) {
-		obj = service.insert(obj);
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClientDTO dto) {
+		Client obj = service.insert(dto.toClient());
 		
 		// Cria uma uri com o ID gerado
 		URI uri = ServletUriComponentsBuilder
@@ -50,7 +53,7 @@ public class ClientResource {
 				.buildAndExpand(obj.getId())
 				.toUri();
 		
-		return ResponseEntity.created(uri).body(obj);
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@DeleteMapping(value = "/{id}")
@@ -61,9 +64,9 @@ public class ClientResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Client> update(@PathVariable Long id, @RequestBody Client obj) {
-		obj = service.update(id, obj);
+	public ResponseEntity<ClientDTO> update(@PathVariable Long id, @Valid @RequestBody ClientDTO dto) {
+		service.update(id, dto.toClient());
 		
-		return ResponseEntity.ok().body(obj);
+		return ResponseEntity.ok().build();
 	}
 }

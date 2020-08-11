@@ -6,11 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.hyperdrive.woodstock.services.exceptions.DatabaseException;
-import com.hyperdrive.woodstock.services.exceptions.NotNullPropertyException;
 import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice
@@ -36,12 +37,16 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 	}
 	
-	@ExceptionHandler(NotNullPropertyException.class)
-	public ResponseEntity<StandardError> notNullProperty(NotNullPropertyException e, HttpServletRequest request) {
-		String error = "Not a null property";
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<StandardError> methodArgumentNotValid(MethodArgumentNotValidException e, HttpServletRequest request) {
+		String error = "Argument not valid";
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		
-		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+		ValidationError err = new ValidationError(Instant.now(), status.value(), error, "Validation failed", request.getRequestURI());
+		
+		for (FieldError x : e.getBindingResult().getFieldErrors()) {
+			err.addError(x.getField(), x.getDefaultMessage());
+		}
 		
 		return ResponseEntity.status(status).body(err);
 	}

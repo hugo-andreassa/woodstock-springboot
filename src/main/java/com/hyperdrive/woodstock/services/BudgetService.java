@@ -46,12 +46,12 @@ public class BudgetService {
 	
 	public Budget insert(Budget entity) {
 		try {
-			entity.setId(null);
 			entity.setCreationDate(Instant.now());
 			
-			entity.getAddress().setId(null);
-			Address adrs = addressRepository.save(entity.getAddress());
-			entity.setAddress(adrs);				
+			if(entity.getAddress() != null) {
+				Address adrs = addressRepository.save(entity.getAddress());
+				entity.setAddress(adrs);
+			}			
 			
 			return repository.save(entity);
 		} catch (PropertyValueException e) {
@@ -69,11 +69,14 @@ public class BudgetService {
 		}	
 	}
 	
-	public Budget update(Long id, Budget obj) {
+	public Budget update(Long id, Budget entity) {
 		try {
-			Budget entity = repository.getOne(id);
-			updateData(entity, obj);
-			addressRepository.save(entity.getAddress());
+			entity.setId(id);
+			
+			if(entity.getAddress() != null) {
+				Address adrs = addressRepository.save(entity.getAddress());
+				entity.setAddress(adrs);
+			}
 			
 			return repository.save(entity);	
 		} catch (EntityNotFoundException e) {
@@ -81,12 +84,5 @@ public class BudgetService {
 		} catch (PropertyValueException e) {
 			throw new DatabaseException(e.getMessage());
 		}
-	}
-	
-	private void updateData(Budget entity, Budget obj) {
-		entity.setDeliveryDay(obj.getDeliveryDay());
-		entity.setStatus(obj.getStatus());
-		
-		entity.setAddress(obj.getAddress());
 	}
 }

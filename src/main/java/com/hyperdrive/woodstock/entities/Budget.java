@@ -38,7 +38,7 @@ public class Budget implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", locale = "pt-BR", timezone = "Brazil/East")
 	private Instant deliveryDay;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, updatable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", locale = "pt-BR", timezone = "Brazil/East")
 	@JsonProperty(access = Access.READ_ONLY)
 	private Instant creationDate;

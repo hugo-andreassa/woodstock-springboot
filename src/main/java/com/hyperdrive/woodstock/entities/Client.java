@@ -31,6 +31,7 @@ public class Client implements Serializable {
 	
 	private String email;
 	
+	@Column(nullable = false)
 	private String phone;
 	
 	@Column(unique = true, nullable = false)

@@ -48,6 +48,9 @@ public class BudgetItem implements Serializable {
 	@OneToMany(mappedBy = "budgetItem", cascade = CascadeType.REMOVE)
 	private List<CuttingPlan> cuttingPlan;
 	
+	@OneToMany(mappedBy = "budgetItem", cascade = CascadeType.REMOVE)
+	private List<Project> project;
+	
 	public BudgetItem() {
 		super();
 	}
@@ -123,6 +126,10 @@ public class BudgetItem implements Serializable {
 	
 	public List<CuttingPlan> getCuttingPlan() {
 		return cuttingPlan;
+	}
+
+	public List<Project> getProject() {
+		return project;
 	}
 
 	@Override

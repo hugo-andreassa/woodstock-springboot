@@ -38,12 +38,12 @@ public class ClientService {
 	
 	public Client insert(Client entity) {
 		try {
-			
-			entity.setId(null);
 			entity.getAddress().setId(null);
-			Address adrs = adressRepository.save(entity.getAddress());
 			
-			entity.setAddress(adrs);
+			if(entity.getAddress() != null) {
+				Address adrs = adressRepository.save(entity.getAddress());
+				entity.setAddress(adrs);
+			}				
 			
 			return repository.save(entity);
 		} catch (DataIntegrityViolationException e) {
@@ -63,24 +63,14 @@ public class ClientService {
 	
 	public Client update(Long id, Client obj) {
 		try {
-			Client entity = repository.getOne(id);
-			updateData(entity, obj);
-			adressRepository.save(entity.getAddress());
+			obj.setId(id);
+			adressRepository.save(obj.getAddress());
 			
-			return repository.save(entity);	
+			return repository.save(obj);	
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		} catch (PropertyValueException e) {
 			throw new DatabaseException(e.getMessage());
 		}
-	}
-	
-	private void updateData(Client entity, Client obj) {
-		entity.setName(obj.getName());
-		entity.setPhone(obj.getPhone());
-		entity.setEmail(obj.getEmail());
-		entity.setCpf(obj.getCpf());
-		
-		entity.setAddress(obj.getAddress());
 	}
 }
