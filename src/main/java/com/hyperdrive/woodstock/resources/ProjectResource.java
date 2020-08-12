@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.hyperdrive.woodstock.dto.ProjectDTO;
 import com.hyperdrive.woodstock.entities.Project;
 import com.hyperdrive.woodstock.services.ProjectService;
 
@@ -42,8 +43,8 @@ public class ProjectResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Project> insert(@RequestBody Project obj) {
-		obj = service.insert(obj);
+	public ResponseEntity<Void> insert(@RequestBody ProjectDTO dto) {
+		Project obj = service.insert(dto.toProject());
 		
 		// Cria uma uri com o ID gerado
 		URI uri = ServletUriComponentsBuilder
@@ -52,7 +53,7 @@ public class ProjectResource {
 				.buildAndExpand(obj.getId())
 				.toUri();
 		
-		return ResponseEntity.created(uri).body(obj);
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@DeleteMapping(value = "/{id}")
@@ -63,9 +64,9 @@ public class ProjectResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Project> update(@PathVariable Long id, @RequestBody Project obj) {
-		obj = service.update(id, obj);
+	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody ProjectDTO dto) {
+		service.update(id, dto.toProject());
 		
-		return ResponseEntity.ok().body(obj);
+		return ResponseEntity.ok().build();
 	}
 }

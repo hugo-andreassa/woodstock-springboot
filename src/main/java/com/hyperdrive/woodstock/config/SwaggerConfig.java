@@ -21,19 +21,21 @@ public class SwaggerConfig {
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("com.hyperdrive.woodstock.resources"))
-				.paths(PathSelectors.any()).build();
+				.paths(PathSelectors.any())
+				.build()
+				.apiInfo(apiInfo());
 	}
 
 	private ApiInfo apiInfo() {
 		return new ApiInfo(
-				"Nome da API",
-				"Descrição da API", 
+				"API do projeto WoodStock",
+				"Está API será utilizada pelo aplicativo WoodStock", 
 				"Versão 1.0",
 				"",
 				new Contact(
-						"Nome para contato", 
-						"Site", 
-						"Email"),
+						"Hugo Andreassa Amaral", 
+						"", 
+						"hugo.andreassa@gmail.com"),
 				"", 
 				"", 
 				Collections.emptyList()				

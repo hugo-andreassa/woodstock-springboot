@@ -41,7 +41,6 @@ public class ProjectService {
 	
 	public Project insert(Project entity) {
 		try {
-			entity.setId(null);				
 			
 			return repository.save(entity);
 		} catch (PropertyValueException e) {
@@ -59,10 +58,9 @@ public class ProjectService {
 		}	
 	}
 	
-	public Project update(Long id, Project obj) {
+	public Project update(Long id, Project entity) {
 		try {
-			Project entity = repository.getOne(id);
-			updateData(entity, obj);
+			entity.setId(id);
 			
 			return repository.save(entity);	
 		} catch (EntityNotFoundException e) {
@@ -70,10 +68,5 @@ public class ProjectService {
 		} catch (PropertyValueException e) {
 			throw new DatabaseException(e.getMessage());
 		}
-	}
-	
-	private void updateData(Project entity, Project obj) {
-		entity.setUrl(obj.getUrl());
-		entity.setComment(obj.getComment());
 	}
 }

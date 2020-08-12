@@ -40,8 +40,7 @@ public class CuttingPlanService {
 	}
 	
 	public CuttingPlan insert(CuttingPlan entity) {
-		try {
-			entity.setId(null);				
+		try {				
 			
 			return repository.save(entity);
 		} catch (PropertyValueException e) {
@@ -59,10 +58,9 @@ public class CuttingPlanService {
 		}	
 	}
 	
-	public CuttingPlan update(Long id, CuttingPlan obj) {
+	public CuttingPlan update(Long id, CuttingPlan entity) {
 		try {
-			CuttingPlan entity = repository.getOne(id);
-			updateData(entity, obj);
+			entity.setId(id);
 			
 			return repository.save(entity);	
 		} catch (EntityNotFoundException e) {
@@ -70,12 +68,5 @@ public class CuttingPlanService {
 		} catch (PropertyValueException e) {
 			throw new DatabaseException(e.getMessage());
 		}
-	}
-	
-	private void updateData(CuttingPlan entity, CuttingPlan obj) {
-		entity.setQuantity(obj.getQuantity());
-		entity.setHeight(obj.getHeight());
-		entity.setWidth(obj.getWidth());
-		entity.setComment(obj.getComment());
 	}
 }

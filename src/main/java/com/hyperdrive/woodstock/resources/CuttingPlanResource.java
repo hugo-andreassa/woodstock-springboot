@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.hyperdrive.woodstock.dto.CuttingPlanDTO;
 import com.hyperdrive.woodstock.entities.CuttingPlan;
 import com.hyperdrive.woodstock.services.CuttingPlanService;
 
@@ -42,8 +43,8 @@ public class CuttingPlanResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<CuttingPlan> insert(@RequestBody CuttingPlan obj) {
-		obj = service.insert(obj);
+	public ResponseEntity<Void> insert(@RequestBody CuttingPlanDTO dto) {
+		CuttingPlan obj = service.insert(dto.toCuttingPlan());
 		
 		// Cria uma uri com o ID gerado
 		URI uri = ServletUriComponentsBuilder
@@ -52,7 +53,7 @@ public class CuttingPlanResource {
 				.buildAndExpand(obj.getId())
 				.toUri();
 		
-		return ResponseEntity.created(uri).body(obj);
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@DeleteMapping(value = "/{id}")
@@ -63,9 +64,9 @@ public class CuttingPlanResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CuttingPlan> update(@PathVariable Long id, @RequestBody CuttingPlan obj) {
-		obj = service.update(id, obj);
+	public ResponseEntity<CuttingPlan> update(@PathVariable Long id, @RequestBody CuttingPlanDTO dto) {
+		service.update(id, dto.toCuttingPlan());
 		
-		return ResponseEntity.ok().body(obj);
+		return ResponseEntity.ok().build();
 	}
 }
