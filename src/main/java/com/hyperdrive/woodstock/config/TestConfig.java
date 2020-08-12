@@ -60,9 +60,9 @@ public class TestConfig implements CommandLineRunner {
 		User u3 = new User(null, "Wesley Fernando", "123456", "wesley@gmail.com", "11956492430", UserStatus.ENABLED, UserType.WOODWORKER, comp);
 		userRepository.saveAll(Arrays.asList(u1, u2, u3));
 		
-		Address ad1 = new Address(null, "street", "city", "state", "number", "comp", "cep", null, null);
-		Address ad2 = new Address(null, "street", "city", "state", "number", "comp", "cep", null, null);
-		Address ad3 = new Address(null, "street", "city", "state", "number", "comp", "cep", null, null);
+		Address ad1 = new Address(null, "Rua Dublin", "Santo André", "SP", "253", "apto23", "09220810", null, null);
+		Address ad2 = new Address(null, "Rua Bell Aliance", "São Caetano do Sul", "SP", "225", "", "09581-680", null, null);
+		Address ad3 = new Address(null, "Av. Governador Mário Covas", "Mauá", "SP", "287", "", "09390-040", null, null);
 		adressRespository.saveAll(Arrays.asList(ad1, ad2, ad3));
 		ad1 = adressRespository.findById(1L).get();
 		ad2 = adressRespository.findById(2L).get();
@@ -74,25 +74,27 @@ public class TestConfig implements CommandLineRunner {
 		clientRepository.saveAll(Arrays.asList(c1, c2, c3));
 		
 		Budget b1 = new Budget(null, 50, null, Instant.now(), 
-				"Entrada de 30% e restante em até 10x no cartão", 
+				"Entrada de 30% e restante em até 15x no cartão", 
 				BudgetStatus.COMPLETED, c1, null);
 		Budget b2 = new Budget(null, 50, null, Instant.now(), 
-				"Entrada de 30% e restante em até 10x no cartão", 
+				"Entrada de 20% e restante em até 10x no cartão", 
 				BudgetStatus.COMPLETED, c2, null);
 		Budget b3 = new Budget(null, 50, null, Instant.now(), 
-				"Entrada de 30% e restante em até 10x no cartão", 
+				"Entrada de 40% e restante em até 20x no cartão", 
 				BudgetStatus.COMPLETED, c3, null);
 		budgetRepository.saveAll(Arrays.asList(b1, b2, b3));
 		
 		BudgetItem bi1 = new BudgetItem(null, "Escrivaninha", 500.0, 1, "quarto", BudgetItemStatus.WAITING, b1);
-		BudgetItem bi2 = new BudgetItem(null, "Escrivaninha", 500.0, 1, "quarto", BudgetItemStatus.WAITING, b1);
-		BudgetItem bi3 = new BudgetItem(null, "Escrivaninha", 500.0, 1, "quarto", BudgetItemStatus.WAITING, b2);
-		BudgetItem bi4 = new BudgetItem(null, "Escrivaninha", 500.0, 1, "quarto", BudgetItemStatus.WAITING, b3);
+		BudgetItem bi2 = new BudgetItem(null, "Criado", 100.0, 2, "quarto", BudgetItemStatus.FINISHED, b1);
+		BudgetItem bi3 = new BudgetItem(null, "Torre Quente", 1250.0, 1, "cozinha", BudgetItemStatus.PRODUCING, b2);
+		BudgetItem bi4 = new BudgetItem(null, "Armário", 900.0, 1, "cozinha", BudgetItemStatus.WAITING, b3);
 		budgetItemRepository.saveAll(Arrays.asList(bi1, bi2, bi3, bi4));		
 		
 		CuttingPlan cp1 = new CuttingPlan(null, 2.40, 1.40, 3, "", bi1);
 		CuttingPlan cp2 = new CuttingPlan(null, 1.40, 2.40, 1, "", bi1);
-		cuttingPlanRepository.saveAll(Arrays.asList(cp1, cp2));
+		CuttingPlan cp3 = new CuttingPlan(null, 3.00, 0.50, 2, "", bi1);
+		CuttingPlan cp4 = new CuttingPlan(null, 2.50, 1.00, 2, "", bi1);
+		cuttingPlanRepository.saveAll(Arrays.asList(cp1, cp2, cp3, cp4));
 		
 		Project p1 = new Project(null, "", "", bi1);
 		Project p2 = new Project(null, "", "", bi1);
