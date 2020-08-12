@@ -35,7 +35,7 @@ public class Client implements Serializable {
 	private String phone;
 	
 	@Column(unique = true, nullable = false)
-	private String cpf;
+	private String cpfOrCnpj;
 	
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = false)
@@ -52,13 +52,13 @@ public class Client implements Serializable {
 		
 	}
 
-	public Client(Long id, String name, String email, String phone, String cpf, Company company, Address address) {
+	public Client(Long id, String name, String email, String phone, String cpfOrCnpj, Company company, Address address) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
-		this.cpf = cpf;
+		this.cpfOrCnpj = cpfOrCnpj;
 		this.company = company;
 		this.address = address;
 	}
@@ -95,12 +95,12 @@ public class Client implements Serializable {
 		this.phone = phone;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public String getCpfOrCnpj() {
+		return cpfOrCnpj;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setCpfOrCnpj(String cpfOrCnpj) {
+		this.cpfOrCnpj = cpfOrCnpj;
 	}
 	
 	public Company getCompany() {
@@ -127,7 +127,7 @@ public class Client implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+		result = prime * result + ((cpfOrCnpj == null) ? 0 : cpfOrCnpj.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
@@ -141,10 +141,10 @@ public class Client implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Client other = (Client) obj;
-		if (cpf == null) {
-			if (other.cpf != null)
+		if (cpfOrCnpj == null) {
+			if (other.cpfOrCnpj != null)
 				return false;
-		} else if (!cpf.equals(other.cpf))
+		} else if (!cpfOrCnpj.equals(other.cpfOrCnpj))
 			return false;
 		if (id == null) {
 			if (other.id != null)

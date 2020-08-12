@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.hyperdrive.woodstock.entities.Address;
 import com.hyperdrive.woodstock.entities.Client;
@@ -24,8 +25,9 @@ public class ClientDTO implements Serializable {
 	private String phone;
 	
 	@NotBlank
-	private String cpf;
+	private String cpfOrCnpj;
 	
+	@NotNull
 	@Min(value = 1)
 	private Long companyId;
 	
@@ -35,12 +37,12 @@ public class ClientDTO implements Serializable {
 		
 	}
 
-	public ClientDTO(String name, String email, String phone, String cpf, Long companyId, Address address) {
+	public ClientDTO(String name, String email, String phone, String cpfOrCnpj, Long companyId, Address address) {
 		super();
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
-		this.cpf = cpf;
+		this.cpfOrCnpj = cpfOrCnpj;
 		this.companyId = companyId;
 		this.address = address;
 	}
@@ -69,12 +71,12 @@ public class ClientDTO implements Serializable {
 		this.phone = phone;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public String getCpfOrCnpj() {
+		return cpfOrCnpj;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setCpfOrCnpj(String cpfOrCnpj) {
+		this.cpfOrCnpj = cpfOrCnpj;
 	}
 
 	public Long getCompanyId() {
@@ -99,9 +101,12 @@ public class ClientDTO implements Serializable {
 		client.setName(getName());
 		client.setEmail(getEmail());
 		client.setPhone(getPhone());
-		client.setCpf(getCpf());
-		client.setCompany(new Company(getCompanyId(), null, null, null, null, null, null));
+		client.setCpfOrCnpj(getCpfOrCnpj());
 		client.setAddress(getAddress());
+		
+		Company comp = new Company();
+		comp.setId(companyId);
+		client.setCompany(comp);
 		
 		return client;
 	}

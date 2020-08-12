@@ -17,7 +17,7 @@ import com.hyperdrive.woodstock.entities.Company;
 import com.hyperdrive.woodstock.services.CompanyService;
 
 @RestController
-@RequestMapping(value = "/companys")
+@RequestMapping(value = "/companies")
 public class CompanyResource {
 	
 	@Autowired

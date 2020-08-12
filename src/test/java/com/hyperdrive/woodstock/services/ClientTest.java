@@ -36,7 +36,7 @@ public class ClientTest {
 		Address ad = new Address(null, "street", "city", "state", "number", "comp", "cep", null, null);
 		Client c = new Client(null, "Felipe Giglio", "", "", "00000000005", comp, ad);
 
-		System.out.println(c.getCpf());
+		System.out.println(c.getCpfOrCnpj());
 		
 		// Ações
 		ResultActions response = mockMvc.perform(post("/clients")
@@ -57,7 +57,7 @@ public class ClientTest {
 		Address ad = new Address(null, "street", "city", "state", "number", "comp", "cep", null, null);
 		Client c = new Client(null, "Felipe Giglio", "", "", "00000000005", null, ad);
 
-		System.out.println(c.getCpf());
+		System.out.println(c.getCpfOrCnpj());
 		
 		// Ações
 		ResultActions response = mockMvc.perform(post("/clients")
@@ -77,7 +77,7 @@ public class ClientTest {
 		Address ad = new Address(null, "street", "city", "state", "number", "comp", "cep", null, null);
 		Client c = new Client(null, "Felipe Giglio", "", "", null, null, ad);
 
-		System.out.println(c.getCpf());
+		System.out.println(c.getCpfOrCnpj());
 		
 		// Ações
 		ResultActions response = mockMvc.perform(post("/clients")

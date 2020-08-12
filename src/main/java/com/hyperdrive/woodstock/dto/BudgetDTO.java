@@ -15,8 +15,8 @@ import com.hyperdrive.woodstock.entities.enums.BudgetStatus;
 
 public class BudgetDTO {
 	
-	@Min(value = 10)
 	@NotNull
+	@Min(value = 10)
 	private Integer deadline;
 	
 	private Instant deliveryDay;
@@ -24,11 +24,12 @@ public class BudgetDTO {
 	@NotBlank
 	private String paymentMethod;
 	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private BudgetStatus status;
 	
-	@Min(value = 1)
 	@NotNull
+	@Min(value = 1)
 	private Long clientId;
 	
 	private Address address;
@@ -104,8 +105,11 @@ public class BudgetDTO {
 		bud.setDeliveryDay(deliveryDay);
 		bud.setPaymentMethod(paymentMethod);
 		bud.setStatus(status);
-		bud.setClient(new Client(clientId, null, null, null, null, null, null));
 		bud.setAddress(address);	
+		
+		Client c = new Client();
+		c.setId(clientId);
+		bud.setClient(c);
 		
 		return bud;
 	}	

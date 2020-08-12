@@ -40,9 +40,7 @@ public class BudgetItemService {
 	}
 	
 	public BudgetItem insert(BudgetItem entity) {
-		try {
-			entity.setId(null);				
-			
+		try {				
 			return repository.save(entity);
 		} catch (PropertyValueException e) {
 			throw new DatabaseException(e.getMessage());
@@ -61,22 +59,13 @@ public class BudgetItemService {
 	
 	public BudgetItem update(Long id, BudgetItem obj) {
 		try {
-			BudgetItem entity = repository.getOne(id);
-			updateData(entity, obj);
+			obj.setId(id);
 			
-			return repository.save(entity);	
+			return repository.save(obj);	
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		} catch (PropertyValueException e) {
 			throw new DatabaseException(e.getMessage());
 		}
-	}
-	
-	private void updateData(BudgetItem entity, BudgetItem obj) {
-		entity.setDescription(obj.getDescription());
-		entity.setPrice(obj.getPrice());
-		entity.setQuantity(obj.getQuantity());
-		entity.setEnvironment(obj.getEnvironment());
-		entity.setStatus(obj.getStatus());
 	}
 }

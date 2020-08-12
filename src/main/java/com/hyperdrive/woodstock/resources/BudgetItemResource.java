@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.hyperdrive.woodstock.dto.BudgetItemDTO;
 import com.hyperdrive.woodstock.entities.BudgetItem;
 import com.hyperdrive.woodstock.services.BudgetItemService;
 
@@ -43,8 +44,8 @@ public class BudgetItemResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<BudgetItem> insert(@RequestBody BudgetItem obj) {
-		obj = service.insert(obj);
+	public ResponseEntity<Void> insert(@RequestBody BudgetItemDTO dto) {
+		BudgetItem obj = service.insert(dto.toBudgetItem());
 		
 		// Cria uma uri com o ID gerado
 		URI uri = ServletUriComponentsBuilder
@@ -53,7 +54,7 @@ public class BudgetItemResource {
 				.buildAndExpand(obj.getId())
 				.toUri();
 		
-		return ResponseEntity.created(uri).body(obj);
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@DeleteMapping(value = "/{id}")
@@ -64,9 +65,9 @@ public class BudgetItemResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<BudgetItem> update(@PathVariable Long id, @RequestBody BudgetItem obj) {
-		obj = service.update(id, obj);
+	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody BudgetItemDTO dto) {
+		service.update(id, dto.toBudgetItem());
 		
-		return ResponseEntity.ok().body(obj);
+		return ResponseEntity.ok().build();
 	}
 }
