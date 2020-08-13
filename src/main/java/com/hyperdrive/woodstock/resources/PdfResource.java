@@ -1,10 +1,8 @@
 package com.hyperdrive.woodstock.resources;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -30,7 +28,8 @@ public class PdfResource {
 			@RequestParam(value = "client", defaultValue = "") Long clientId,
 			@RequestParam(value = "budget", defaultValue = "") Long budgetId) throws IOException {
 
-		String pathToFile = service.generatePdfFromBudget(companyId, clientId, budgetId);
+		Path path = service.generatePdfFromBudget(companyId, clientId, budgetId);
+		ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=orcamento.pdf");
@@ -38,13 +37,8 @@ public class PdfResource {
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
         
-        File file = new File(pathToFile);
-		Path path = Paths.get(file.getAbsolutePath());
-		ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
-
 		return ResponseEntity.ok()
 				.headers(headers)
-				.contentLength(file.length())
 				.contentType(MediaType.APPLICATION_OCTET_STREAM)
 				.body(resource);
 	}

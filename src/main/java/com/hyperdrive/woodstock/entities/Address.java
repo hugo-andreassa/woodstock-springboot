@@ -152,8 +152,7 @@ public class Address implements Serializable {
 
 	@Override
 	public String toString() {
-		return street + ", " + city + ", " + state + ", " + number + ", "
-				+ comp + ", " + cep;
+		return street + ", " + city + ", " + number + ", " + comp + " - " + state + ", " + cep;
 	}	
 	
 	
