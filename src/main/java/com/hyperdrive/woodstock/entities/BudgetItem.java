@@ -131,6 +131,10 @@ public class BudgetItem implements Serializable {
 	public List<Project> getProject() {
 		return project;
 	}
+	
+	public Double subTotal() {
+		return quantity * price;
+	}
 
 	@Override
 	public int hashCode() {
