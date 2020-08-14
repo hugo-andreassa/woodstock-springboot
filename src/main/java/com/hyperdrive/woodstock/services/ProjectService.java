@@ -1,5 +1,6 @@
 package com.hyperdrive.woodstock.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hyperdrive.woodstock.entities.BudgetItem;
 import com.hyperdrive.woodstock.entities.Project;
@@ -25,6 +27,9 @@ public class ProjectService {
 	private ProjectRepository repository;
 	@Autowired
 	private BudgetItemRepository budgetItemRepository;
+	@Autowired
+	private S3Service s3Service;
+	
 	
 	public List<Project> findAllByBudgetId(Long budgetItemId) {
 		Optional<BudgetItem> budgetItem = budgetItemRepository.findById(budgetItemId);
@@ -68,5 +73,9 @@ public class ProjectService {
 		} catch (PropertyValueException e) {
 			throw new DatabaseException(e.getMessage());
 		}
+	}
+	
+	public URI uploadPicture(MultipartFile multipartFile) {
+			return s3Service.uploadFile(multipartFile);
 	}
 }
