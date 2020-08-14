@@ -3,9 +3,6 @@ package com.hyperdrive.woodstock.services;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.NumberFormat;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +14,9 @@ import org.springframework.stereotype.Service;
 import com.hyperdrive.woodstock.entities.Budget;
 import com.hyperdrive.woodstock.entities.BudgetItem;
 import com.hyperdrive.woodstock.entities.Client;
+import com.hyperdrive.woodstock.entities.Company;
+import com.hyperdrive.woodstock.services.exceptions.FileException;
+import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -33,34 +33,52 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class PdfService {
 
 	@Autowired
-	private ClientService service;
-
+	private CompanyService companyService;
+	@Autowired
+	private BudgetService budgetService;
+	@Autowired
+	private ClientService clientService;
+	
+	private Company company;
 	private Budget budget;
 	private Client client;
 
-	final String pathToFile = "C:\\Temp\\pdf.pdf";
-	final Font FONT_BOLD = new Font(FontFamily.HELVETICA, 9f, Font.BOLD);
-	final Font FONT_NORMAL = new Font(FontFamily.HELVETICA, 9f, Font.NORMAL);
+	private final String PATH = "auto-generated-budget.pdf";
 	
-	DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-            .withZone(ZoneId.systemDefault());
+	private final Font FONT_BOLD = new Font(FontFamily.HELVETICA, 9f, Font.BOLD);
+	private final Font FONT_NORMAL = new Font(FontFamily.HELVETICA, 9f, Font.NORMAL);
 
-	public Path generatePdfFromBudget(Long companyId, Long clientId, Long budgetId) {
-		Client client = service.findById(clientId);
-		Budget budget = client.getBudgets().stream().filter(x -> x.getId() == budgetId).findFirst().get();
+	public File generatePdfFromBudget(Long companyId, Long clientId, Long budgetId) {
+		
+		Company company = companyService.findById(companyId);
+		Client client = clientService.findById(clientId);
+		Budget budget = budgetService.findById(budgetId);	
+		
+		if(company == null) {
+			throw new ResourceNotFoundException(companyId);
+		} else if(client == null) {
+			throw new ResourceNotFoundException(clientId);
+		} else if (budget == null) {
+			throw new ResourceNotFoundException(budgetId);
+		}		
 
 		this.client = client;
 		this.budget = budget;
-
+		this.company = company;
+		
+		return generateBudgetPdf();
+	}
+	
+	private File generateBudgetPdf() {
+		
 		Document document = new Document();
 		
 		try {
 			
-			PdfWriter.getInstance(document, new FileOutputStream(pathToFile));
+			PdfWriter.getInstance(document, new FileOutputStream(PATH));
 			document.open();
 
-			// adicionando um parágrafo ao documento
-			// document.add(new Paragraph("Gerando PDF em Java - metadados"));
+			// Adicionando dados de criação ao pdf
 			document.addSubject("Gerando PDF em Java");
 			document.addKeywords("Woodstock auto genarated budget");
 			document.addCreator("iText");
@@ -69,37 +87,51 @@ public class PdfService {
 			// Primeira tabela ---------------------------------------------------
 			createFirstTableBudget(document);
 			// -----------------------------------------------------------
+			
 			document.add(new Paragraph("\n"));
+			
 			// Segunda tabela ------------------------------------------------
 			createSecondTableBudget(document);
 			// --------------------------------------------------------------
+			
 			document.add(new Paragraph("\n"));
+			
 			// Terceira tabela -----------------------------------------------
 			createThirdTableBudget(document);
 			// --------------------------------------------------------------
+			
 			document.add(new Paragraph("\n"));
+			
 			// Quarta tabela -----------------------------------------------------
 			createFourthTableBudget(document);
 			// -----------------------------------------------------------------
 	        
-			File file = new File(pathToFile);
-			Path path = Paths.get(file.getAbsolutePath());
+			File file = new File(PATH);
 			
-			return path;
-		} catch (DocumentException de) {
-			System.err.println(de.getMessage());
-		} catch (IOException ioe) {
-			System.err.println(ioe.getMessage());
+			return file;
+		} catch (DocumentException e) {
+			throw new FileException("An error occurred while trying to open the file.");
+		} catch (IOException e) {
+			throw new FileException("An error occurred while trying to open the file.");
 		} finally {
 			document.close();
 		}
-		
-		return null;
 	}
 
-	private void createFirstTableBudget(Document document)
-			throws DocumentException, MalformedURLException, IOException {
-
+	private void createFirstTableBudget(Document document) throws DocumentException, IOException {
+		
+		final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+	            .withZone(ZoneId.systemDefault());
+		
+		// Dados utilizados na primeira tabela
+		String logo = "logo.jpg";
+		String phone = company.getPhone();
+		String whatsapp = company.getWhatsapp();
+		String address = "Avenida Brasil, Nº95 - Parque das Flores, São Mateus - SP, 09320-720";
+		String email = company.getEmail();
+		String site = company.getSite();
+		String creationDate = DATE_TIME_FORMATTER.format(budget.getCreationDate());
+		
 		// Cria a tabela
 		PdfPTable table = new PdfPTable(3);
 		table.setWidthPercentage(100);
@@ -109,7 +141,7 @@ public class PdfService {
 		PdfPCell cell = null;
 
 		// Recupera o logo e adiciona ele na classe Image
-		Image img = Image.getInstance("C:\\Temp\\logo.jpg");
+		Image img = Image.getInstance(logo);
 		img.setAlignment(Element.ALIGN_CENTER);
 		img.scaleToFit(200, 200);
 
@@ -132,25 +164,25 @@ public class PdfService {
 		prgphSecondCell.setFont(FONT_BOLD);
 		prgphSecondCell.add("Tel.: ");
 		prgphSecondCell.setFont(FONT_NORMAL);
-		prgphSecondCell.add("(11) 3484-0227 \n");
-
+		prgphSecondCell.add(phone + " \n");
+		
 		prgphSecondCell.setFont(FONT_BOLD);
 		prgphSecondCell.add("WhatsApp: ");
 		prgphSecondCell.setFont(FONT_NORMAL);
-		prgphSecondCell.add("(11) 3484-0227 \n\n");
+		prgphSecondCell.add(whatsapp + " \n\n");
 
 		prgphSecondCell.setFont(FONT_NORMAL);
-		prgphSecondCell.add("Avenida Brasil, Nº95 - Parque das Flores, \n São Mateus - SP CEP: 09320-720 \n\n");
+		prgphSecondCell.add(address + "\n\n");
 
 		prgphSecondCell.setFont(FONT_BOLD);
 		prgphSecondCell.add("E-mail.: ");
 		prgphSecondCell.setFont(FONT_NORMAL);
-		prgphSecondCell.add("berlattomoveis@hotmail.com \n");
+		prgphSecondCell.add(email + " \n");
 
 		prgphSecondCell.setFont(FONT_BOLD);
 		prgphSecondCell.add("Site: ");
 		prgphSecondCell.setFont(FONT_NORMAL);
-		prgphSecondCell.add("www.berlattomoveis.com.br");
+		prgphSecondCell.add(site);
 
 		// Adiciona o paragrafo na celula
 		cell = new PdfPCell();
@@ -170,7 +202,7 @@ public class PdfService {
 		prgphThirdCell.clear();
 		prgphThirdCell.setFont(FONT_BOLD);
 		prgphThirdCell.setAlignment(Element.ALIGN_CENTER);
-		prgphThirdCell.add("Criado em \n " + DATE_TIME_FORMATTER.format(budget.getCreationDate()));
+		prgphThirdCell.add("Criado em \n " + creationDate);
 
 		// Coloca o paragrafo dentro da celula
 		cell = new PdfPCell();
@@ -201,7 +233,12 @@ public class PdfService {
 	}
 
 	private void createSecondTableBudget(Document document) throws DocumentException {
-
+		
+		// Dados utilizados na criação da tabela
+		String name = client.getName();
+		String address = client.getAddress().toString();
+		
+		
 		// Cria a tabela com 2 colunas
 		PdfPTable table = new PdfPTable(2);
 		table.setWidthPercentage(100);
@@ -229,7 +266,7 @@ public class PdfService {
 		// Configura o paragrafo
 		p.clear();
 		p.setFont(FONT_NORMAL);
-		p.add(client.getName());
+		p.add(name);
 		// Adiciona o paragrafo na celula 2
 		cell = new PdfPCell();
 		cell.setBorderWidth(0.5f);
@@ -253,7 +290,7 @@ public class PdfService {
 		// Configura o paragrafo
 		p.clear();
 		p.setFont(FONT_NORMAL);
-		p.add(client.getAddress().toString());
+		p.add(address);
 		// Adiciona o paragrafo na celula 4
 		cell = new PdfPCell();
 		cell.setBorderWidth(0.5f);
@@ -266,7 +303,6 @@ public class PdfService {
 	}
 
 	public void createThirdTableBudget(Document document) throws DocumentException {
-		Locale locale = new Locale("pt", "BR");
 		
 		// Cria a tabela com 4 colunas
 		PdfPTable table = new PdfPTable(4);
@@ -330,10 +366,23 @@ public class PdfService {
 		// Deixa a fonte normal
 		p.setFont(FONT_NORMAL);
 
+		// Dados utilizados na criação da tabela
+		Locale locale = new Locale("pt", "BR");
+		String quantity = "";
+		String description = "";
+		String environment = "";
+		String sum = "";
+		String total = NumberFormat.getCurrencyInstance(locale).format(budget.getTotal());
+		
 		for(BudgetItem x : budget.getItems()) {
+			quantity = x.getQuantity().toString();
+			description = x.getDescription();
+			environment = String.valueOf(x.getEnvironment());
+			sum = NumberFormat.getCurrencyInstance(locale).format(x.subTotal());
+			
 			// Configura o paragrafo
 			p.clear();
-			p.add(x.getQuantity().toString());
+			p.add(quantity);
 			// Adiciona o paragrafo na celula 1 e coluna 1
 			cell = new PdfPCell();
 			cell.setBorderWidth(0.5f);
@@ -344,7 +393,7 @@ public class PdfService {
 
 			// Configura o paragrafo
 			p.clear();
-			p.add(x.getDescription());
+			p.add(description);
 			// Adiciona o paragrafo na celula 2 e coluna 2
 			cell = new PdfPCell();
 			cell.setBorderWidth(0.5f);
@@ -355,7 +404,7 @@ public class PdfService {
 
 			// Configura o paragrafo
 			p.clear();
-			p.add(String.valueOf(x.getEnvironment()));
+			p.add(environment);
 			// Adiciona o paragrafo na celula 3 e coluna 3
 			cell = new PdfPCell();
 			cell.setBorderWidth(0.5f);
@@ -366,10 +415,7 @@ public class PdfService {
 
 			// Configura o parágrafo
 			p.clear();
-
-			String total = NumberFormat.getCurrencyInstance(locale).format(x.subTotal());
-			p.add(String.valueOf(total));
-			
+			p.add(sum);
 			// Adiciona o parágrafo na célula 4 e coluna 4
 			cell = new PdfPCell();
 			cell.setBorderWidth(0.5f);
@@ -389,11 +435,7 @@ public class PdfService {
 		// Configura o parágrafo
 		p.clear();
 		p.setFont(FONT_BOLD);
-		
-		String total = NumberFormat.getCurrencyInstance(locale).format(budget.getTotal());
-		
-		p.add(String.valueOf(total));
-		
+		p.add(total);
 		// Adiciona o parágrafo na tabela
 		cell.setBorderWidth(0.5f);
 		cell.setBorderColor(BaseColor.GRAY);
@@ -405,6 +447,12 @@ public class PdfService {
 	}
 
 	public void createFourthTableBudget(Document document) throws DocumentException {
+
+		// Dados utilizados na criação da tabela
+		String deadline = budget.getDeadline().toString() + " dias.";
+		String paymentMethod = budget.getPaymentMethod();
+
+		
 		// Cria a tabela com 2 colunas
 		PdfPTable table = new PdfPTable(2);
 		table.setWidthPercentage(100);
@@ -432,7 +480,7 @@ public class PdfService {
 		// Configura o paragrafo
 		p.clear();
 		p.setFont(FONT_NORMAL);
-		p.add(String.valueOf(budget.getDeadline()) + " dias.");
+		p.add(deadline);
 		// Adiciona o paragrafo na celula 2
 		cell = new PdfPCell();
 		cell.setBorderWidth(0.5f);
@@ -456,7 +504,7 @@ public class PdfService {
 		// Configura o paragrafo
 		p.clear();
 		p.setFont(FONT_NORMAL);
-		p.add(budget.getPaymentMethod());
+		p.add(paymentMethod);
 		// Adiciona o paragrafo na celula 4
 		cell = new PdfPCell();
 		cell.setBorderWidth(0.5f);

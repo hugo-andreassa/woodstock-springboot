@@ -52,7 +52,7 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		Company comp = new Company(null, "Berlatto Moveis Planejados", "12944621000102", "11940308371", "berlattomoveis@hotmail.com", "https://berlattomoveis.com.br", "");
+		Company comp = new Company(null, "Berlatto Moveis Planejados", "12944621000102", "(11) 3484-0227", "(11) 940308371", "berlattomoveis@hotmail.com", "https://berlattomoveis.com.br", "");
 		companyRepository.save(comp);
 		
 		User u1 = new User(null, "Hugo A.", "123456", "hugo.andreassa@gmail.com", "11956492900", UserStatus.ENABLED, UserType.STOCKIST, comp);

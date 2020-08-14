@@ -31,12 +31,19 @@ public class Company implements Serializable {
 	@Column(unique = true, nullable = false)
 	private String cnpj;
 	
+	@Column(nullable = false)
 	private String phone;
 	
+	@Column(nullable = false)
+	private String whatsapp;
+	
+	@Column(nullable = false)
 	private String email;
 	
+	@Column(nullable = false)
 	private String site;
 	
+	@Column(nullable = false)
 	private String logo;
 	
 	@OneToMany(mappedBy = "company")
@@ -49,11 +56,13 @@ public class Company implements Serializable {
 	
 	}
 
-	public Company(Long id, String tradingName, String cnpj, String phone, String email, String site, String logo) {
+	public Company(Long id, String tradingName, String cnpj, String phone, String whatsapp, 
+			String email, String site, String logo) {
 		this.id = id;
 		this.tradingName = tradingName;
 		this.cnpj = cnpj;
 		this.phone = phone;
+		this.whatsapp = whatsapp;
 		this.email = email;
 		this.site = site;
 		this.logo = logo;
@@ -91,6 +100,14 @@ public class Company implements Serializable {
 		this.phone = phone;
 	}
 	
+	public String getWhatsapp() {
+		return whatsapp;
+	}
+
+	public void setWhatsapp(String whatsapp) {
+		this.whatsapp = whatsapp;
+	}
+
 	public String getEmail() {
 		return email;
 	}
