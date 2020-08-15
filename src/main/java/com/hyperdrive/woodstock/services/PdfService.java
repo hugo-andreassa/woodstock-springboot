@@ -29,6 +29,10 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+/** Serviço responsável por gerar um PDF a partir dos dados da Empresa, Cliente e Orçamento
+ * 
+ * @author Hugo Andreassa Amaral
+ */
 @Service
 public class PdfService {
 
@@ -127,7 +131,7 @@ public class PdfService {
 		String logo = "logo.jpg";
 		String phone = company.getPhone();
 		String whatsapp = company.getWhatsapp();
-		String address = "Avenida Brasil, Nº95 - Parque das Flores, São Mateus - SP, 09320-720";
+		String address = company.getAddress().toString();
 		String email = company.getEmail();
 		String site = company.getSite();
 		String creationDate = DATE_TIME_FORMATTER.format(budget.getCreationDate());

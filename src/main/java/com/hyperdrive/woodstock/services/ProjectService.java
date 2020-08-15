@@ -20,6 +20,10 @@ import com.hyperdrive.woodstock.repositories.ProjectRepository;
 import com.hyperdrive.woodstock.services.exceptions.DatabaseException;
 import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 
+/** ProjectService
+ * 
+ * @author Hugo Andreassa Amaral
+ */
 @Service
 public class ProjectService {
 	

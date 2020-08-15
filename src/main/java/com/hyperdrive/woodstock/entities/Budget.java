@@ -22,6 +22,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.hyperdrive.woodstock.entities.enums.BudgetStatus;
 
+/** Budget
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 @Entity
 @Table(name = "tb_budget")
 public class Budget implements Serializable {

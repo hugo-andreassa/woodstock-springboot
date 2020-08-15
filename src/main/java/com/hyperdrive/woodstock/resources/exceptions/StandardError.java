@@ -5,6 +5,10 @@ import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/** StandardError
+ * 
+ * @author Hugo Andreassa Amaral
+ */
 public class StandardError implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

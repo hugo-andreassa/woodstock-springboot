@@ -13,6 +13,10 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/** Project
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 @Entity
 @Table(name = "tb_project")
 public class Project implements Serializable {

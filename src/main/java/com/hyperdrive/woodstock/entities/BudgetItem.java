@@ -17,6 +17,10 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hyperdrive.woodstock.entities.enums.BudgetItemStatus;
 
+/** BudgetItem
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 @Entity
 @Table(name = "tb_budget_item")
 public class BudgetItem implements Serializable {

@@ -11,6 +11,10 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/** Address
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 @Entity
 @Table(name = "tb_adress")
 public class Address implements Serializable {
@@ -33,12 +37,15 @@ public class Address implements Serializable {
 	@OneToOne(mappedBy = "address")
 	private Budget budget;
 	
+	@OneToOne(mappedBy = "address")
+	private Company company;
+	
 	public Address() {
 		super();
 	}
 	
 	public Address(Long id, String street, String city, String state, String number, String comp, 
-			String cep, Client client, Budget budget) {
+			String cep) {
 		super();
 		this.id = id;
 		this.street = street;
@@ -47,8 +54,6 @@ public class Address implements Serializable {
 		this.number = number;
 		this.comp = comp;
 		this.cep = cep;
-		this.client = client;
-		this.budget = budget;
 	}
 
 	public Long getId() {
@@ -152,7 +157,7 @@ public class Address implements Serializable {
 
 	@Override
 	public String toString() {
-		return street + ", " + city + ", " + number + ", " + comp + " - " + state + ", " + cep;
+		return street + ", Nº" + number + " - " + city + " - " + state + ", " + cep;
 	}	
 	
 	

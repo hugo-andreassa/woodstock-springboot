@@ -13,6 +13,10 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/** CuttingPlan
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 @Entity
 @Table(name = "tb_cutting_plan")
 public class CuttingPlan implements Serializable {

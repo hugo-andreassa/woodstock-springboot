@@ -2,6 +2,8 @@ package com.hyperdrive.woodstock.resources;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.hyperdrive.woodstock.dto.CompanyDTO;
 import com.hyperdrive.woodstock.entities.Company;
 import com.hyperdrive.woodstock.services.CompanyService;
 
@@ -31,8 +34,8 @@ public class CompanyResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Company> insert(@RequestBody Company obj) {
-		obj = service.insert(obj);
+	public ResponseEntity<Void> insert(@Valid @RequestBody CompanyDTO dto) {
+		Company obj = service.insert(dto.toCompany());
 		
 		// Cria uma uri com o ID gerado
 		URI uri = ServletUriComponentsBuilder
@@ -41,13 +44,13 @@ public class CompanyResource {
 				.buildAndExpand(obj.getId())
 				.toUri();
 		
-		return ResponseEntity.created(uri).body(obj);
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Company> update(@PathVariable Long id, @RequestBody Company obj) {
-		obj = service.update(id, obj);
+	public ResponseEntity<Company> update(@PathVariable Long id, @Valid @RequestBody CompanyDTO dto) {
+		service.update(id, dto.toCompany());
 		
-		return ResponseEntity.ok().body(obj);
+		return ResponseEntity.ok().build();
 	}
 }

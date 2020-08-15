@@ -32,8 +32,8 @@ public class ClientTest {
 	public void postCorreto() throws JsonProcessingException, Exception {
 		
 		// Cenario
-		Company comp = new Company(1L, null, null, null, null, null, null, null);
-		Address ad = new Address(null, "street", "city", "state", "number", "comp", "cep", null, null);
+		Company comp = new Company(1L, null, null, null, null, null, null, null, null);
+		Address ad = new Address(null, "street", "city", "state", "number", "comp", "cep");
 		Client c = new Client(null, "Felipe Giglio", "", "", "00000000005", comp, ad);
 
 		System.out.println(c.getCpfOrCnpj());
@@ -54,7 +54,7 @@ public class ClientTest {
 	public void postSemIdEmpresa() throws JsonProcessingException, Exception {
 		
 		// Cenario
-		Address ad = new Address(null, "street", "city", "state", "number", "comp", "cep", null, null);
+		Address ad = new Address(null, "street", "city", "state", "number", "comp", "cep");
 		Client c = new Client(null, "Felipe Giglio", "", "", "00000000005", null, ad);
 
 		System.out.println(c.getCpfOrCnpj());
@@ -74,7 +74,7 @@ public class ClientTest {
 	public void postSemCpf() throws JsonProcessingException, Exception {
 		
 		// Cenario
-		Address ad = new Address(null, "street", "city", "state", "number", "comp", "cep", null, null);
+		Address ad = new Address(null, "street", "city", "state", "number", "comp", "cep");
 		Client c = new Client(null, "Felipe Giglio", "", "", null, null, ad);
 
 		System.out.println(c.getCpfOrCnpj());

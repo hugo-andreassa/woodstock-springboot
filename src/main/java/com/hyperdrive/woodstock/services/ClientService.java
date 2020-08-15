@@ -13,11 +13,16 @@ import org.springframework.stereotype.Service;
 
 import com.hyperdrive.woodstock.entities.Address;
 import com.hyperdrive.woodstock.entities.Client;
+import com.hyperdrive.woodstock.entities.Company;
 import com.hyperdrive.woodstock.repositories.AddressRepository;
 import com.hyperdrive.woodstock.repositories.ClientRepository;
 import com.hyperdrive.woodstock.services.exceptions.DatabaseException;
 import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 
+/** ClientService
+ * 
+ * @author Hugo Andreassa Amaral
+ */
 @Service
 public class ClientService {
 	
@@ -26,8 +31,11 @@ public class ClientService {
 	@Autowired
 	private AddressRepository adressRepository;
 	
-	public List<Client> findAll() {
-		return repository.findAll();
+	public List<Client> findAllByCompanyId(Long companyId) {
+		Company company = new Company();
+		company.setId(companyId);
+		
+		return repository.findByCompany(company);
 	}
 	
 	public Client findById(Long id) {
@@ -61,12 +69,16 @@ public class ClientService {
 		}	
 	}
 	
-	public Client update(Long id, Client obj) {
+	public Client update(Long id, Client entity) {
 		try {
-			obj.setId(id);
-			adressRepository.save(obj.getAddress());
+			entity.setId(id);
 			
-			return repository.save(obj);	
+			if(entity.getAddress() != null) {
+				Address adrs = adressRepository.save(entity.getAddress());
+				entity.setAddress(adrs);
+			}	
+			
+			return repository.save(entity);	
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		} catch (PropertyValueException e) {

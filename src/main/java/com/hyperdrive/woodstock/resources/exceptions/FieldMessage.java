@@ -2,6 +2,10 @@ package com.hyperdrive.woodstock.resources.exceptions;
 
 import java.io.Serializable;
 
+/** FieldMessage
+ * 
+ * @author Hugo Andreassa Amaral
+ */
 public class FieldMessage implements Serializable {
 
 	private static final long serialVersionUID = 1L;

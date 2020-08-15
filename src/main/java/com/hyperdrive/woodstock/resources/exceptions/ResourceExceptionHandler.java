@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.hyperdrive.woodstock.services.exceptions.DatabaseException;
 import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 
+/** ResourceExceptionHandler
+ * 
+ * @author Hugo Andreassa Amaral
+ */
 @ControllerAdvice
 public class ResourceExceptionHandler {
 

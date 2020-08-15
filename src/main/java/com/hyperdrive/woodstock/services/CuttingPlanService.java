@@ -18,6 +18,10 @@ import com.hyperdrive.woodstock.repositories.CuttingPlanRepository;
 import com.hyperdrive.woodstock.services.exceptions.DatabaseException;
 import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 
+/** CuttingPlanService
+ * 
+ * @author Hugo Andreassa Amaral
+ */
 @Service
 public class CuttingPlanService {
 	

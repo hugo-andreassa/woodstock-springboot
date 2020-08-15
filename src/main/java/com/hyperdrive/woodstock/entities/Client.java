@@ -15,6 +15,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/** Client
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 @Entity
 @Table(name = "tb_client")
 public class Client implements Serializable {
@@ -37,15 +41,15 @@ public class Client implements Serializable {
 	@Column(unique = true, nullable = false)
 	private String cpfOrCnpj;
 	
-	@ManyToOne
-	@JoinColumn(name = "company_id", nullable = false)
-	private Company company;
-	
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "address_id")
 	private Address address;
 	
-	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+	@ManyToOne
+	@JoinColumn(name = "company_id", nullable = false)
+	private Company company;
+	
+	@OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
 	private List<Budget> budgets;	
 	
 	public Client() {
@@ -103,20 +107,20 @@ public class Client implements Serializable {
 		this.cpfOrCnpj = cpfOrCnpj;
 	}
 	
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
-	}
-	
 	public Address getAddress() {
 		return address;
 	}
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+	
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 	
 	public List<Budget> getBudgets() {

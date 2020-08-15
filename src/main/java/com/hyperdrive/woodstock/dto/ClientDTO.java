@@ -11,6 +11,10 @@ import com.hyperdrive.woodstock.entities.Address;
 import com.hyperdrive.woodstock.entities.Client;
 import com.hyperdrive.woodstock.entities.Company;
 
+/** ClientDTO
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 public class ClientDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

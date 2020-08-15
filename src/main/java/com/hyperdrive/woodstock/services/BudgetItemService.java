@@ -18,6 +18,10 @@ import com.hyperdrive.woodstock.repositories.BudgetRepository;
 import com.hyperdrive.woodstock.services.exceptions.DatabaseException;
 import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 
+/** BudgetItemService
+ * 
+ * @author Hugo Andreassa Amaral
+ */
 @Service
 public class BudgetItemService {
 	

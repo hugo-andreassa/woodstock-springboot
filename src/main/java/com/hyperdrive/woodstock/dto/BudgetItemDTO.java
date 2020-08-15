@@ -12,6 +12,10 @@ import com.hyperdrive.woodstock.entities.Budget;
 import com.hyperdrive.woodstock.entities.BudgetItem;
 import com.hyperdrive.woodstock.entities.enums.BudgetItemStatus;
 
+/** BudgetItemDTO
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 public class BudgetItemDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

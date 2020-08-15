@@ -9,11 +9,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/** Company
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 @Entity
 @Table(name = "tb_company")
 public class Company implements Serializable {
@@ -46,6 +52,10 @@ public class Company implements Serializable {
 	@Column(nullable = false)
 	private String logo;
 	
+	@OneToOne
+	@JoinColumn(name = "address_id", nullable = false)
+	private Address address;
+	
 	@OneToMany(mappedBy = "company")
 	private List<User> users = new ArrayList<>();
 	
@@ -57,7 +67,7 @@ public class Company implements Serializable {
 	}
 
 	public Company(Long id, String tradingName, String cnpj, String phone, String whatsapp, 
-			String email, String site, String logo) {
+			String email, String site, String logo, Address address) {
 		this.id = id;
 		this.tradingName = tradingName;
 		this.cnpj = cnpj;
@@ -66,6 +76,7 @@ public class Company implements Serializable {
 		this.email = email;
 		this.site = site;
 		this.logo = logo;
+		this.address = address;
 	}
 
 	public Long getId() {
@@ -132,6 +143,14 @@ public class Company implements Serializable {
 		this.logo = logo;
 	}
 	
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
 	@JsonIgnore
 	public List<User> getUsers() {
 		return users;

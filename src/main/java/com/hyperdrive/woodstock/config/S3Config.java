@@ -10,6 +10,10 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
+/** Classe de configuração do serviço de Bucket da Amazon (AmazonS3)
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 @Configuration
 public class S3Config {
 

@@ -9,12 +9,16 @@ import javax.validation.constraints.NotNull;
 import com.hyperdrive.woodstock.entities.BudgetItem;
 import com.hyperdrive.woodstock.entities.Project;
 
+/** ProjectDTO
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 public class ProjectDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@NotBlank
-	private String url;
+	private String picture;
 	
 	private String comment;
 	
@@ -28,17 +32,17 @@ public class ProjectDTO implements Serializable {
 
 	public ProjectDTO(String url, String comment, Long budgetItemId) {
 		super();
-		this.url = url;
+		this.picture = url;
 		this.comment = comment;
 		this.budgetItemId = budgetItemId;
 	}
 
 	public String getUrl() {
-		return url;
+		return picture;
 	}
 
 	public void setUrl(String url) {
-		this.url = url;
+		this.picture = url;
 	}
 
 	public String getComment() {
@@ -59,7 +63,7 @@ public class ProjectDTO implements Serializable {
 	
 	public Project toProject() {
 		Project proj = new Project();
-		proj.setUrl(url);
+		proj.setUrl(picture);
 		proj.setComment(comment);
 		
 		BudgetItem bdItem = new BudgetItem();

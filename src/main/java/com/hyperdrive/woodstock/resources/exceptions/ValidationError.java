@@ -4,6 +4,10 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+/** ValidationError
+ * 
+ * @author Hugo Andreassa Amaral
+ */
 public class ValidationError extends StandardError {
 
 	private static final long serialVersionUID = 1L;

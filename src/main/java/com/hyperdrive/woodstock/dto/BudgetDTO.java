@@ -13,6 +13,10 @@ import com.hyperdrive.woodstock.entities.Budget;
 import com.hyperdrive.woodstock.entities.Client;
 import com.hyperdrive.woodstock.entities.enums.BudgetStatus;
 
+/** BudgetDTO
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 public class BudgetDTO {
 	
 	@NotNull

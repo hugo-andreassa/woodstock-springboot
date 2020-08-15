@@ -8,6 +8,10 @@ import javax.validation.constraints.NotNull;
 import com.hyperdrive.woodstock.entities.BudgetItem;
 import com.hyperdrive.woodstock.entities.CuttingPlan;
 
+/** CuttingPlanDTO
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 public class CuttingPlanDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

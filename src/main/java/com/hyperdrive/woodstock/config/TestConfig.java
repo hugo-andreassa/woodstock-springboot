@@ -29,6 +29,10 @@ import com.hyperdrive.woodstock.repositories.CuttingPlanRepository;
 import com.hyperdrive.woodstock.repositories.ProjectRepository;
 import com.hyperdrive.woodstock.repositories.UserRepository;
 
+/** Classe para o perfil de teste
+ * 
+ * @author Hugo Andreassa Amaral 
+ */
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
@@ -38,7 +42,7 @@ public class TestConfig implements CommandLineRunner {
 	@Autowired
 	private CompanyRepository companyRepository;
 	@Autowired
-	private AddressRepository adressRespository;
+	private AddressRepository addressRespository;
 	@Autowired
 	private ClientRepository clientRepository;
 	@Autowired
@@ -52,7 +56,11 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		Company comp = new Company(null, "Berlatto Moveis Planejados", "12944621000102", "(11) 3484-0227", "(11) 940308371", "berlattomoveis@hotmail.com", "https://berlattomoveis.com.br", "");
+		Address adrs = new Address(null, "Avenida Brasil", "Mauá", "SP", "95", "", "09320-720");
+		addressRespository.save(adrs);
+		adrs = addressRespository.findById(1l).get();
+		
+		Company comp = new Company(null, "Berlatto Moveis Planejados", "12944621000102", "(11) 3484-0227", "(11) 940308371", "berlattomoveis@hotmail.com", "https://berlattomoveis.com.br", "", adrs);
 		companyRepository.save(comp);
 		
 		User u1 = new User(null, "Hugo A.", "123456", "hugo.andreassa@gmail.com", "11956492900", UserStatus.ENABLED, UserType.STOCKIST, comp);
@@ -60,13 +68,13 @@ public class TestConfig implements CommandLineRunner {
 		User u3 = new User(null, "Wesley Fernando", "123456", "wesley@gmail.com", "11956492430", UserStatus.ENABLED, UserType.WOODWORKER, comp);
 		userRepository.saveAll(Arrays.asList(u1, u2, u3));
 		
-		Address ad1 = new Address(null, "Rua Dublin", "Santo André", "SP", "253", "apto23", "09220810", null, null);
-		Address ad2 = new Address(null, "Rua Bell Aliance", "São Caetano do Sul", "SP", "225", "", "09581-680", null, null);
-		Address ad3 = new Address(null, "Av. Governador Mário Covas", "Mauá", "SP", "287", "", "09390-040", null, null);
-		adressRespository.saveAll(Arrays.asList(ad1, ad2, ad3));
-		ad1 = adressRespository.findById(1L).get();
-		ad2 = adressRespository.findById(2L).get();
-		ad3 = adressRespository.findById(3L).get();
+		Address ad1 = new Address(null, "Rua Dublin", "Santo André", "SP", "253", "apto23", "09220810");
+		Address ad2 = new Address(null, "Rua Bell Aliance", "São Caetano do Sul", "SP", "225", "", "09581-680");
+		Address ad3 = new Address(null, "Av. Governador Mário Covas", "Mauá", "SP", "287", "", "09390-040");
+		addressRespository.saveAll(Arrays.asList(ad1, ad2, ad3));
+		ad1 = addressRespository.findById(2L).get();
+		ad2 = addressRespository.findById(3L).get();
+		ad3 = addressRespository.findById(4L).get();
 		
 		Client c1 = new Client(null, "Felipe Giglio", "", "", "00000000001", comp, ad1);
 		Client c2 = new Client(null, "Eduardo Monção", "", "", "00000000002", comp, ad3);
