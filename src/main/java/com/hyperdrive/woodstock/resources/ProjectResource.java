@@ -72,8 +72,10 @@ public class ProjectResource {
 	}
 	
 	@PostMapping(value = "/picture")
-	public ResponseEntity<Void> upload(@RequestParam(name = "file") MultipartFile multipartFile) {
-		URI uri = service.uploadPicture(multipartFile);
+	public ResponseEntity<Void> upload(
+			@RequestParam(name = "file") MultipartFile multipartFile, 
+			@RequestParam(name = "project") Long projectId) {
+		URI uri = service.uploadPicture(multipartFile, projectId);
 		
 		return ResponseEntity.created(uri).build();
 	} 

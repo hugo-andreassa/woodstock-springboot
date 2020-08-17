@@ -3,6 +3,7 @@ package com.hyperdrive.woodstock.services;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.text.NumberFormat;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -128,7 +129,7 @@ public class PdfService {
 	            .withZone(ZoneId.systemDefault());
 		
 		// Dados utilizados na primeira tabela
-		String logo = "logo.jpg";
+		String logo = company.getLogo();
 		String phone = company.getPhone();
 		String whatsapp = company.getWhatsapp();
 		String address = company.getAddress().toString();
@@ -145,9 +146,10 @@ public class PdfService {
 		PdfPCell cell = null;
 
 		// Recupera o logo e adiciona ele na classe Image
-		Image img = Image.getInstance(logo);
+		Image img = Image.getInstance(new URL(logo));
 		img.setAlignment(Element.ALIGN_CENTER);
 		img.scaleToFit(200, 200);
+		System.out.println(img.toString());
 
 		// Adiciona o logo na celula
 		cell = new PdfPCell();

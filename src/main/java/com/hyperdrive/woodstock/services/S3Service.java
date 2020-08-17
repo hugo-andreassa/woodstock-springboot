@@ -44,7 +44,7 @@ public class S3Service {
 		}
 	}
 
-	private URI uploadFile(InputStream is, String filename, String contentType) {
+	public URI uploadFile(InputStream is, String filename, String contentType) {
 		try {
 			ObjectMetadata meta = new ObjectMetadata();
 			meta.setContentType(contentType);
@@ -54,7 +54,6 @@ public class S3Service {
 			log.info("Upload finalizado");
 
 			return s3client.getUrl(bucketName, filename).toURI();
-
 		} /* catch (AmazonServiceException e) {
 			log.info("AmazonServiceException: " + e.getMessage());
 			log.info("Erro Code: " + e.getErrorCode());

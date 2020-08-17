@@ -28,6 +28,7 @@ import com.hyperdrive.woodstock.repositories.CompanyRepository;
 import com.hyperdrive.woodstock.repositories.CuttingPlanRepository;
 import com.hyperdrive.woodstock.repositories.ProjectRepository;
 import com.hyperdrive.woodstock.repositories.UserRepository;
+import com.hyperdrive.woodstock.services.CompanyService;
 
 /** Classe para o perfil de teste
  * 
@@ -60,7 +61,10 @@ public class TestConfig implements CommandLineRunner {
 		addressRespository.save(adrs);
 		adrs = addressRespository.findById(1l).get();
 		
-		Company comp = new Company(null, "Berlatto Moveis Planejados", "12944621000102", "(11) 3484-0227", "(11) 940308371", "berlattomoveis@hotmail.com", "https://berlattomoveis.com.br", "", adrs);
+		Company comp = new Company(null, "Berlatto Moveis Planejados", "12944621000102", 
+				"(11) 3484-0227", "(11) 940308371", "berlattomoveis@hotmail.com", 
+				"https://berlattomoveis.com.br", 
+				"https://woodstock-springboot.s3-sa-east-1.amazonaws.com/comp1.jpg", adrs);
 		companyRepository.save(comp);
 		
 		User u1 = new User(null, "Hugo A.", "123456", "hugo.andreassa@gmail.com", "11956492900", UserStatus.ENABLED, UserType.STOCKIST, comp);

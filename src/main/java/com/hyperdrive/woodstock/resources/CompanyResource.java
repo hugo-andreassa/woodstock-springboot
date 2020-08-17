@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.hyperdrive.woodstock.dto.CompanyDTO;
@@ -53,4 +55,13 @@ public class CompanyResource {
 		
 		return ResponseEntity.ok().build();
 	}
+	
+	@PostMapping(value = "/picture")
+	public ResponseEntity<Void> upload(
+			@RequestParam(name = "file") MultipartFile multipartFile, 
+			@RequestParam(name = "company") Long companyId) {
+		URI uri = service.uploadPicture(multipartFile, companyId);
+		
+		return ResponseEntity.created(uri).build();
+	} 
 }
