@@ -28,7 +28,6 @@ import com.hyperdrive.woodstock.repositories.CompanyRepository;
 import com.hyperdrive.woodstock.repositories.CuttingPlanRepository;
 import com.hyperdrive.woodstock.repositories.ProjectRepository;
 import com.hyperdrive.woodstock.repositories.UserRepository;
-import com.hyperdrive.woodstock.services.CompanyService;
 
 /** Classe para o perfil de teste
  * 
@@ -96,10 +95,10 @@ public class TestConfig implements CommandLineRunner {
 				BudgetStatus.COMPLETED, c3, null);
 		budgetRepository.saveAll(Arrays.asList(b1, b2, b3));
 		
-		BudgetItem bi1 = new BudgetItem(null, "Escrivaninha", 500.0, 1, "quarto", BudgetItemStatus.WAITING, b1);
-		BudgetItem bi2 = new BudgetItem(null, "Criado", 100.0, 2, "quarto", BudgetItemStatus.FINISHED, b1);
-		BudgetItem bi3 = new BudgetItem(null, "Torre Quente", 1250.0, 1, "cozinha", BudgetItemStatus.PRODUCING, b2);
-		BudgetItem bi4 = new BudgetItem(null, "Armário", 900.0, 1, "cozinha", BudgetItemStatus.WAITING, b3);
+		BudgetItem bi1 = new BudgetItem(null, "Escrivaninha", 500.0, 1, "Quarto", BudgetItemStatus.WAITING, b1);
+		BudgetItem bi2 = new BudgetItem(null, "Criado", 100.0, 2, "Quarto", BudgetItemStatus.FINISHED, b1);
+		BudgetItem bi3 = new BudgetItem(null, "Torre Quente", 1250.0, 1, "Cozinha", BudgetItemStatus.PRODUCING, b1);
+		BudgetItem bi4 = new BudgetItem(null, "Armário", 900.0, 1, "Cozinha", BudgetItemStatus.WAITING, b1);
 		budgetItemRepository.saveAll(Arrays.asList(bi1, bi2, bi3, bi4));		
 		
 		CuttingPlan cp1 = new CuttingPlan(null, 2.40, 1.40, 3, "", bi1);

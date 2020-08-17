@@ -43,17 +43,11 @@ public class PdfService {
 	private BudgetService budgetService;
 	@Autowired
 	private ClientService clientService;
-	
-	private Company company;
-	private Budget budget;
-	private Client client;
 
-	private final String PATH = "auto-generated-budget.pdf";
-	
 	private final Font FONT_BOLD = new Font(FontFamily.HELVETICA, 9f, Font.BOLD);
 	private final Font FONT_NORMAL = new Font(FontFamily.HELVETICA, 9f, Font.NORMAL);
 
-	public File generatePdfFromBudget(Long companyId, Long clientId, Long budgetId) {
+	public File generateBudgetPdf(Long companyId, Long clientId, Long budgetId) {
 		
 		Company company = companyService.findById(companyId);
 		Client client = clientService.findById(clientId);
@@ -66,20 +60,16 @@ public class PdfService {
 		} else if (budget == null) {
 			throw new ResourceNotFoundException(budgetId);
 		}		
-
-		this.client = client;
-		this.budget = budget;
-		this.company = company;
 		
-		return generateBudgetPdf();
+		return generateBudgetPdf(company, client, budget);
 	}
 	
-	private File generateBudgetPdf() {
+	private File generateBudgetPdf(Company company, Client client, Budget budget) {
+		final String PATH = "Budget.pdf";
 		
 		Document document = new Document();
 		
-		try {
-			
+		try {			
 			PdfWriter.getInstance(document, new FileOutputStream(PATH));
 			document.open();
 
@@ -90,28 +80,29 @@ public class PdfService {
 			document.addAuthor("Hugo Andreassa Amaral");
 
 			// Primeira tabela ---------------------------------------------------
-			createFirstTableBudget(document);
+			createFirstTableBudget(company, budget, document);
+			document.add(new Paragraph("\n"));
+			
 			// -----------------------------------------------------------
 			
-			document.add(new Paragraph("\n"));
-			
 			// Segunda tabela ------------------------------------------------
-			createSecondTableBudget(document);
-			// --------------------------------------------------------------
-			
+			createSecondTableBudget(client, document);
 			document.add(new Paragraph("\n"));
+			
+			// --------------------------------------------------------------
 			
 			// Terceira tabela -----------------------------------------------
-			createThirdTableBudget(document);
+			createThirdTableBudget(budget, document);
+			document.add(new Paragraph("\n"));
 			// --------------------------------------------------------------
 			
-			document.add(new Paragraph("\n"));
-			
 			// Quarta tabela -----------------------------------------------------
-			createFourthTableBudget(document);
+			createFourthTableBudget(budget, document);
+			
 			// -----------------------------------------------------------------
 	        
 			File file = new File(PATH);
+			file.delete();
 			
 			return file;
 		} catch (DocumentException e) {
@@ -123,7 +114,7 @@ public class PdfService {
 		}
 	}
 
-	private void createFirstTableBudget(Document document) throws DocumentException, IOException {
+	private void createFirstTableBudget(Company company, Budget budget, Document document) throws DocumentException, IOException {
 		
 		final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 	            .withZone(ZoneId.systemDefault());
@@ -138,240 +129,125 @@ public class PdfService {
 		String creationDate = DATE_TIME_FORMATTER.format(budget.getCreationDate());
 		
 		// Cria a tabela
-		PdfPTable table = new PdfPTable(3);
-		table.setWidthPercentage(100);
-		table.setWidths(new int[] { 10, 8, 5 });
-
-		// Cria a celula
-		PdfPCell cell = null;
+		PdfPTable table = createTable(3, new int[] { 10, 8, 5 });
 
 		// Recupera o logo e adiciona ele na classe Image
 		Image img = Image.getInstance(new URL(logo));
 		img.setAlignment(Element.ALIGN_CENTER);
 		img.scaleToFit(200, 200);
 		System.out.println(img.toString());
-
+		
+		// Cria a celula
+		PdfPCell cell = null;
+		
 		// Adiciona o logo na celula
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(img);
+		cell = createCellTableWithElement(0.5f, img);
 		cell.setRowspan(2);
-
 		// Adiciona a celula na tabela
 		table.addCell(cell);
 
 		// Cria o paragrafo e configura o mesmo
-		Paragraph prgphSecondCell = new Paragraph();
-		prgphSecondCell.setAlignment(Element.ALIGN_CENTER);
-		prgphSecondCell.setLeading(11f);
+		Paragraph p = createParagraph(Element.ALIGN_CENTER, FONT_BOLD, 10.5f);
 
-		// Adiciona os textos ao paragrafo e troca o espaçamento
-		prgphSecondCell.setFont(FONT_BOLD);
-		prgphSecondCell.add("Tel.: ");
-		prgphSecondCell.setFont(FONT_NORMAL);
-		prgphSecondCell.add(phone + " \n");
+		// Adiciona os textos ao paragrafo
+		p.setFont(FONT_BOLD);
+		p.add("Tel.: ");
+		p.setFont(FONT_NORMAL);
+		p.add(phone + " \n");
 		
-		prgphSecondCell.setFont(FONT_BOLD);
-		prgphSecondCell.add("WhatsApp: ");
-		prgphSecondCell.setFont(FONT_NORMAL);
-		prgphSecondCell.add(whatsapp + " \n\n");
+		p.setFont(FONT_BOLD);
+		p.add("WhatsApp: ");
+		p.setFont(FONT_NORMAL);
+		p.add(whatsapp + " \n\n");
 
-		prgphSecondCell.setFont(FONT_NORMAL);
-		prgphSecondCell.add(address + "\n\n");
+		p.setFont(FONT_NORMAL);
+		p.add(address + "\n\n");
 
-		prgphSecondCell.setFont(FONT_BOLD);
-		prgphSecondCell.add("E-mail.: ");
-		prgphSecondCell.setFont(FONT_NORMAL);
-		prgphSecondCell.add(email + " \n");
+		p.setFont(FONT_BOLD);
+		p.add("E-mail.: ");
+		p.setFont(FONT_NORMAL);
+		p.add(email + " \n");
 
-		prgphSecondCell.setFont(FONT_BOLD);
-		prgphSecondCell.add("Site: ");
-		prgphSecondCell.setFont(FONT_NORMAL);
-		prgphSecondCell.add(site);
+		p.setFont(FONT_BOLD);
+		p.add("Site: ");
+		p.setFont(FONT_NORMAL);
+		p.add(site);
 
 		// Adiciona o paragrafo na celula
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(prgphSecondCell);
+		cell = createCellTableWithElement(0.5f, p);
 		cell.setRowspan(2);
-
 		// Adiciona a celula na tabela
 		table.addCell(cell);
 
 		// Cria o paragrafo e configura o mesmo
-		Paragraph prgphThirdCell = new Paragraph();
-		prgphThirdCell.setAlignment(Element.ALIGN_CENTER);
-
-		// Configura o texto do paragrafo da 3 celula
-		prgphThirdCell.clear();
-		prgphThirdCell.setFont(FONT_BOLD);
-		prgphThirdCell.setAlignment(Element.ALIGN_CENTER);
-		prgphThirdCell.add("Criado em \n " + creationDate);
+		p = createParagraph(Element.ALIGN_CENTER, FONT_BOLD);
+		// Limpa o paragrafo e adiciona o texto
+		clearParagraph(p, "Criado em \n " + creationDate);
 
 		// Coloca o paragrafo dentro da celula
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(prgphThirdCell);
+		cell = createCellTableWithElement(0.5f, p);	
 		cell.setFixedHeight(50);
-
 		// Adiciona a celula na tabela
 		table.addCell(cell);
 
 		// Configura o texto do paragrafo da 3 celula e 2 linha
-		prgphThirdCell.clear();
-		prgphThirdCell.setFont(FONT_BOLD);
-		prgphThirdCell.add("Agradecemos a preferência!");
+		clearParagraph(p, "Agradecemos a preferência!");
 
 		// Coloca o paragrafo dentro da celula
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(prgphThirdCell);
+		cell = createCellTableWithElement(0.5f, p);
 		cell.setFixedHeight(50);
-
 		// Adiciona a celula na tabela
 		table.addCell(cell);
 
 		document.add(table);
 	}
 
-	private void createSecondTableBudget(Document document) throws DocumentException {
+	private void createSecondTableBudget(Client client, Document document) throws DocumentException {
 		
 		// Dados utilizados na criação da tabela
 		String name = client.getName();
 		String address = client.getAddress().toString();
 		
-		
 		// Cria a tabela com 2 colunas
-		PdfPTable table = new PdfPTable(2);
-		table.setWidthPercentage(100);
-		table.setWidths(new int[] { 1, 10 });
+		PdfPTable table = createTable(2, new int[] { 1, 10 });
 
-		// Cria a celula
-		PdfPCell cell = null;
-
-		// Cria o paragrafo e configura
-		Paragraph p = new Paragraph();
-		p.setAlignment(Element.ALIGN_LEFT);
-
-		// Configura o paragrafo
-		p.clear();
-		p.setFont(FONT_BOLD);
+		// Cria o parágrafo e configura
+		Paragraph p = createParagraph(Element.ALIGN_LEFT, FONT_BOLD);
 		p.add("Cliente");
-		// Adiciona o paragrafo na celula 1
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(p);
-		// Adiciona a celula na tabela
-		table.addCell(cell);
+		createCellTableWithElement(0.5f, p, table);
 
-		// Configura o paragrafo
-		p.clear();
-		p.setFont(FONT_NORMAL);
-		p.add(name);
-		// Adiciona o paragrafo na celula 2
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(p);
-		// Adiciona a celula na tabela
-		table.addCell(cell);
+		clearParagraph(p, name, FONT_NORMAL);
+		createCellTableWithElement(0.5f, p, table);
 
-		// Configura o paragrafo
-		p.clear();
-		p.setFont(FONT_BOLD);
-		p.add("Endereço");
-		// Adiciona o paragrafo na celula 3
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(p);
-		// Adiciona a celula na tabela
-		table.addCell(cell);
+		clearParagraph(p, "Endereço", FONT_BOLD);
+		createCellTableWithElement(0.5f, p, table);
 
-		// Configura o paragrafo
-		p.clear();
-		p.setFont(FONT_NORMAL);
-		p.add(address);
-		// Adiciona o paragrafo na celula 4
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(p);
-		// Adiciona a celula na tabela
-		table.addCell(cell);
-
+		clearParagraph(p, address, FONT_NORMAL);
+		createCellTableWithElement(0.5f, p, table);
+		
 		document.add(table);
 	}
 
-	public void createThirdTableBudget(Document document) throws DocumentException {
+	public void createThirdTableBudget(Budget budget, Document document) throws DocumentException {
 		
 		// Cria a tabela com 4 colunas
-		PdfPTable table = new PdfPTable(4);
-		table.setWidthPercentage(100);
-		table.setWidths(new float[] { 0.5f, 5f, 1.5f, 1f });
-
-		// Cria a celula
-		PdfPCell cell = null;
+		PdfPTable table = createTable(4, new float[] { 0.5f, 5f, 1.5f, 1f });
 
 		// Cria o paragrafo e configura
-		Paragraph p = new Paragraph();
-		p.setAlignment(Element.ALIGN_CENTER);
-
-		// Deixa a fonte em negrito
-		p.setFont(FONT_BOLD);
-
-		// Configura o paragrafo
-		p.clear();
+		Paragraph p = createParagraph(Element.ALIGN_CENTER, FONT_BOLD);
+		
 		p.add("Qtd.");
-		// Adiciona o paragrafo na celula 1
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(p);
-		// Adiciona a celula na tabela
-		table.addCell(cell);
+		createCellTableWithElement(0.5f, p, table);
+		
+		clearParagraph(p, "Descrição");
+		createCellTableWithElement(0.5f, p, table);
 
-		// Configura o paragrafo
-		p.clear();
-		p.add("Descrição");
-		// Adiciona o paragrafo na celula 2
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(p);
-		// Adiciona a celula na tabela
-		table.addCell(cell);
-
-		// Configura o paragrafo
-		p.clear();
-		p.add("Ambiente");
-		// Adiciona o paragrafo na celula 3
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(p);
-		// Adiciona a celula na tabela
-		table.addCell(cell);
-
-		// Configura o paragrafo
-		p.clear();
-		p.add("Total");
-		// Adiciona o paragrafo na celula 4
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(p);
-		// Adiciona a celula na tabela
-		table.addCell(cell);
-
-		// Deixa a fonte normal
-		p.setFont(FONT_NORMAL);
-
+		clearParagraph(p, "Ambiente");
+		createCellTableWithElement(0.5f, p, table);
+		
+		clearParagraph(p, "Total");
+		createCellTableWithElement(0.5f, p, table);
+		
 		// Dados utilizados na criação da tabela
 		Locale locale = new Locale("pt", "BR");
 		String quantity = "";
@@ -381,78 +257,37 @@ public class PdfService {
 		String total = NumberFormat.getCurrencyInstance(locale).format(budget.getTotal());
 		
 		for(BudgetItem x : budget.getItems()) {
+			sum = "";
 			quantity = x.getQuantity().toString();
 			description = x.getDescription();
 			environment = String.valueOf(x.getEnvironment());
 			sum = NumberFormat.getCurrencyInstance(locale).format(x.subTotal());
 			
-			// Configura o paragrafo
-			p.clear();
-			p.add(quantity);
-			// Adiciona o paragrafo na celula 1 e coluna 1
-			cell = new PdfPCell();
-			cell.setBorderWidth(0.5f);
-			cell.setBorderColor(BaseColor.GRAY);
-			cell.addElement(p);
-			// Adiciona a celula na tabela
-			table.addCell(cell);
+			clearParagraph(p, quantity, FONT_NORMAL);
+			createCellTableWithElement(0.5f, p, table);
 
-			// Configura o paragrafo
-			p.clear();
-			p.add(description);
-			// Adiciona o paragrafo na celula 2 e coluna 2
-			cell = new PdfPCell();
-			cell.setBorderWidth(0.5f);
-			cell.setBorderColor(BaseColor.GRAY);
-			cell.addElement(p);
-			// Adiciona a celula na tabela
-			table.addCell(cell);
+			clearParagraph(p, description, FONT_NORMAL);
+			createCellTableWithElement(0.5f, p, table);
 
-			// Configura o paragrafo
-			p.clear();
-			p.add(environment);
-			// Adiciona o paragrafo na celula 3 e coluna 3
-			cell = new PdfPCell();
-			cell.setBorderWidth(0.5f);
-			cell.setBorderColor(BaseColor.GRAY);
-			cell.addElement(p);
-			// Adiciona a celula na tabela
-			table.addCell(cell);
-
-			// Configura o parágrafo
-			p.clear();
-			p.add(sum);
-			// Adiciona o parágrafo na célula 4 e coluna 4
-			cell = new PdfPCell();
-			cell.setBorderWidth(0.5f);
-			cell.setBorderColor(BaseColor.GRAY);
-			cell.addElement(p);
-			// Adiciona a célula na tabela
-			table.addCell(cell);
+			clearParagraph(p, environment, FONT_NORMAL);
+			createCellTableWithElement(0.5f, p, table);
+			
+			clearParagraph(p, sum, FONT_NORMAL);
+			createCellTableWithElement(0.5f, p, table);
 		}
 
 		// Adiciona células sem borda a tabela
-		cell = new PdfPCell();
-		cell.setBorderWidth(0);
-		table.addCell(cell);
-		table.addCell(cell);
-		table.addCell(cell);
+		table.addCell(createCellTable(0));
+		table.addCell(createCellTable(0));
+		table.addCell(createCellTable(0));
 
-		// Configura o parágrafo
-		p.clear();
-		p.setFont(FONT_BOLD);
-		p.add(total);
-		// Adiciona o parágrafo na tabela
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(p);
-		// Adiciona na tabela
-		table.addCell(cell);
+		clearParagraph(p, total, FONT_BOLD);
+		createCellTableWithElement(0.5f, p, table);
 
 		document.add(table);
 	}
 
-	public void createFourthTableBudget(Document document) throws DocumentException {
+	public void createFourthTableBudget(Budget budget, Document document) throws DocumentException {
 
 		// Dados utilizados na criação da tabela
 		String deadline = budget.getDeadline().toString() + " dias.";
@@ -460,66 +295,93 @@ public class PdfService {
 
 		
 		// Cria a tabela com 2 colunas
-		PdfPTable table = new PdfPTable(2);
-		table.setWidthPercentage(100);
-		table.setWidths(new int[] { 1, 4 });
-
-		// Cria a celula
-		PdfPCell cell = null;
+		PdfPTable table = createTable(2, new int[] { 1, 4 });
 
 		// Cria o paragrafo e configura
-		Paragraph p = new Paragraph();
-		p.setAlignment(Element.ALIGN_LEFT);
+		Paragraph p = createParagraph(Element.ALIGN_LEFT, FONT_BOLD);
 
-		// Configura o paragrafo
-		p.clear();
-		p.setFont(FONT_BOLD);
 		p.add("Prazo de entrega");
-		// Adiciona o paragrafo na celula 1
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(p);
-		// Adiciona a celula na tabela
-		table.addCell(cell);
+		createCellTableWithElement(0.5f, p, table);
 
-		// Configura o paragrafo
-		p.clear();
-		p.setFont(FONT_NORMAL);
-		p.add(deadline);
-		// Adiciona o paragrafo na celula 2
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(p);
-		// Adiciona a celula na tabela
-		table.addCell(cell);
+		clearParagraph(p, deadline, FONT_NORMAL);
+		createCellTableWithElement(0.5f, p, table);
 
-		// Configura o paragrafo
-		p.clear();
-		p.setFont(FONT_BOLD);
-		p.add("Forma de pagamento");
-		// Adiciona o paragrafo na celula 3
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(p);
-		// Adiciona a celula na tabela
-		table.addCell(cell);
-
-		// Configura o paragrafo
-		p.clear();
-		p.setFont(FONT_NORMAL);
-		p.add(paymentMethod);
-		// Adiciona o paragrafo na celula 4
-		cell = new PdfPCell();
-		cell.setBorderWidth(0.5f);
-		cell.setBorderColor(BaseColor.GRAY);
-		cell.addElement(p);
-		// Adiciona a celula na tabela
-		table.addCell(cell);
+		clearParagraph(p, "Forma de pagamento", FONT_BOLD);
+		createCellTableWithElement(0.5f, p, table);
+		
+		clearParagraph(p, paymentMethod, FONT_NORMAL);
+		createCellTableWithElement(0.5f, p, table);
 
 		document.add(table);
 	}
-
+	
+	private PdfPTable createTable(int columns, int[] widths) throws DocumentException {
+		PdfPTable table = new PdfPTable(columns);
+		table.setWidthPercentage(100);
+		table.setWidths(widths);
+		
+		return table;
+	}
+	
+	private PdfPTable createTable(int columns, float[] widths) throws DocumentException {
+		PdfPTable table = new PdfPTable(columns);
+		table.setWidthPercentage(100);
+		table.setWidths(widths);
+		
+		return table;
+	}
+	
+	private PdfPCell createCellTable(float borderWidth) {
+		PdfPCell cell = new PdfPCell();
+		cell.setBorderWidth(borderWidth);
+		cell.setBorderColor(BaseColor.GRAY);
+		
+		return cell;
+	}
+	
+	private PdfPCell createCellTableWithElement(float borderWidth, Element element) {
+		PdfPCell cell = new PdfPCell();
+		cell.setBorderWidth(borderWidth);
+		cell.setBorderColor(BaseColor.GRAY);
+		
+		cell.addElement(element);
+		return cell;
+	}
+	
+	private void createCellTableWithElement(float borderWidth, Element element, PdfPTable table) {
+		PdfPCell cell = new PdfPCell();
+		cell.setBorderWidth(borderWidth);
+		cell.setBorderColor(BaseColor.GRAY);
+		
+		cell.addElement(element);
+		table.addCell(cell);
+	}
+	
+	private Paragraph createParagraph(int alignment, Font font) {
+		Paragraph p = new Paragraph();
+		p.setFont(font);
+		p.setAlignment(alignment);
+		
+		return p;
+	}
+	
+	private Paragraph createParagraph(int alignment, Font font, float fixedLeading) {
+		Paragraph p = new Paragraph();
+		p.setAlignment(alignment);
+		p.setFont(font);
+		p.setLeading(fixedLeading);
+		
+		return p;
+	}
+	
+	private void clearParagraph(Paragraph p, String newContent) {
+		p.clear();
+		p.add(newContent);
+	}
+	
+	private void clearParagraph(Paragraph p, String newContent, Font font) {
+		p.clear();
+		p.setFont(font);
+		p.add(newContent);
+	}
 }

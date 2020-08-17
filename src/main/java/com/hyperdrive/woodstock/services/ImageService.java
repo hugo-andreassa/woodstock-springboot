@@ -1,6 +1,5 @@
 package com.hyperdrive.woodstock.services;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
