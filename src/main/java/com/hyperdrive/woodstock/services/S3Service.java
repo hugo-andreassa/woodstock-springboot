@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.hyperdrive.woodstock.services.exceptions.FileException;
 
 /** Serviço responsável por fazer upload das imagens para o bucket da Amazon
  * 
@@ -39,7 +40,7 @@ public class S3Service {
 
 			return uploadFile(is, filename, contentType);
 		} catch (IOException e) {
-			throw new RuntimeException("Error IO");
+			throw new FileException("Error IO");
 		}
 	}
 
@@ -61,7 +62,7 @@ public class S3Service {
 			log.info("AmazonClientException: " + e.getMessage());
 			log.info("Cause: " + e.getCause());
 		} */ catch (URISyntaxException e) {
-			throw new RuntimeException("Error converting URI");
+			throw new FileException("Error converting URI");
 		}
 	}
 }
