@@ -33,6 +33,7 @@ public class PdfResource {
 		File file = service.generateBudgetPdf(companyId, clientId, budgetId);
 		Path path = Paths.get(file.getAbsolutePath());
 		ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
+		file.delete();
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());

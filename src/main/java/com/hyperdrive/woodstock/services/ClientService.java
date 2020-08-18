@@ -46,9 +46,9 @@ public class ClientService {
 	
 	public Client insert(Client entity) {
 		try {
-			entity.getAddress().setId(null);
 			
 			if(entity.getAddress() != null) {
+				entity.getAddress().setId(null);
 				Address adrs = adressRepository.save(entity.getAddress());
 				entity.setAddress(adrs);
 			}				

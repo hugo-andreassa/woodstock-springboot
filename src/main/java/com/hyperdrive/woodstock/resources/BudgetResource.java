@@ -66,7 +66,7 @@ public class BudgetResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Budget> update(@PathVariable Long id, @Valid @RequestBody BudgetDTO dto) {
+	public ResponseEntity<Void> update(@PathVariable Long id, @Valid @RequestBody BudgetDTO dto) {
 		service.update(id, dto.toBudget());
 		
 		return ResponseEntity.ok().build();

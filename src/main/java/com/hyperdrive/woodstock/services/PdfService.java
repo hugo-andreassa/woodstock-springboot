@@ -102,7 +102,6 @@ public class PdfService {
 			// -----------------------------------------------------------------
 	        
 			File file = new File(PATH);
-			file.delete();
 			
 			return file;
 		} catch (DocumentException e) {

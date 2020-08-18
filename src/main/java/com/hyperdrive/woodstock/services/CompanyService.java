@@ -51,6 +51,7 @@ public class CompanyService {
 		try {
 			
 			if(entity.getAddress() != null) {
+				entity.getAddress().setId(null);
 				Address adrs = addressRepository.save(entity.getAddress());
 				entity.setAddress(adrs);
 			}

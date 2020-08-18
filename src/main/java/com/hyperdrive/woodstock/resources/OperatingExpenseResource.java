@@ -3,6 +3,8 @@ package com.hyperdrive.woodstock.resources;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,35 +18,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.hyperdrive.woodstock.dto.CuttingPlanDTO;
-import com.hyperdrive.woodstock.entities.CuttingPlan;
-import com.hyperdrive.woodstock.services.CuttingPlanService;
+import com.hyperdrive.woodstock.dto.OperatingExpenseDTO;
+import com.hyperdrive.woodstock.entities.OperatingExpense;
+import com.hyperdrive.woodstock.services.OperatingExpenseService;
 
 @RestController
-@RequestMapping(value = "/cuttingPlans")
-public class CuttingPlanResource {
+@RequestMapping(value = "/expenses")
+public class OperatingExpenseResource {
 	
 	@Autowired
-	private CuttingPlanService service;
+	private OperatingExpenseService service;
 	
 	@GetMapping()
-	public ResponseEntity<List<CuttingPlan>> findAll(
-			@RequestParam(value = "budgetItem", defaultValue = "") Long budgetItemId) {
-		List<CuttingPlan> list = service.findAllByBudgetId(budgetItemId);
+	public ResponseEntity<List<OperatingExpense>> findAll(@RequestParam(name = "company") Long companyId) {
+		List<OperatingExpense> list = service.findAllByCompanyId(companyId);
 		
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<CuttingPlan> findById(@PathVariable Long id) {
-		CuttingPlan obj = service.findById(id);
+	public ResponseEntity<OperatingExpense> findById(@PathVariable Long id) {
+		OperatingExpense obj = service.findById(id);
 		
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> insert(@RequestBody CuttingPlanDTO dto) {
-		CuttingPlan obj = service.insert(dto.toCuttingPlan());
+	public ResponseEntity<Void> insert(@Valid @RequestBody OperatingExpenseDTO dto) {
+		OperatingExpense obj = service.insert(dto.toOperatingExpense());
 		
 		// Cria uma uri com o ID gerado
 		URI uri = ServletUriComponentsBuilder
@@ -64,8 +65,8 @@ public class CuttingPlanResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody CuttingPlanDTO dto) {
-		service.update(id, dto.toCuttingPlan());
+	public ResponseEntity<Void> update(@PathVariable Long id, @Valid @RequestBody OperatingExpenseDTO dto) {
+		service.update(id, dto.toOperatingExpense());
 		
 		return ResponseEntity.ok().build();
 	}

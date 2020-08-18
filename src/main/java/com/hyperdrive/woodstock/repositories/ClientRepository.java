@@ -8,6 +8,6 @@ import com.hyperdrive.woodstock.entities.Client;
 import com.hyperdrive.woodstock.entities.Company;
 
 public interface ClientRepository extends JpaRepository<Client, Long>{
-	
+
 	List<Client> findByCompany(Company company);
 }

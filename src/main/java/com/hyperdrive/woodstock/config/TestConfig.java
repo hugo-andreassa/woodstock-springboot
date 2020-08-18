@@ -14,10 +14,12 @@ import com.hyperdrive.woodstock.entities.BudgetItem;
 import com.hyperdrive.woodstock.entities.Client;
 import com.hyperdrive.woodstock.entities.Company;
 import com.hyperdrive.woodstock.entities.CuttingPlan;
+import com.hyperdrive.woodstock.entities.OperatingExpense;
 import com.hyperdrive.woodstock.entities.Project;
 import com.hyperdrive.woodstock.entities.User;
 import com.hyperdrive.woodstock.entities.enums.BudgetItemStatus;
 import com.hyperdrive.woodstock.entities.enums.BudgetStatus;
+import com.hyperdrive.woodstock.entities.enums.OperatingExpenseType;
 import com.hyperdrive.woodstock.entities.enums.UserStatus;
 import com.hyperdrive.woodstock.entities.enums.UserType;
 import com.hyperdrive.woodstock.repositories.AddressRepository;
@@ -26,6 +28,7 @@ import com.hyperdrive.woodstock.repositories.BudgetRepository;
 import com.hyperdrive.woodstock.repositories.ClientRepository;
 import com.hyperdrive.woodstock.repositories.CompanyRepository;
 import com.hyperdrive.woodstock.repositories.CuttingPlanRepository;
+import com.hyperdrive.woodstock.repositories.OperatingExpenseRepository;
 import com.hyperdrive.woodstock.repositories.ProjectRepository;
 import com.hyperdrive.woodstock.repositories.UserRepository;
 
@@ -39,20 +42,30 @@ public class TestConfig implements CommandLineRunner {
 
 	@Autowired
 	private UserRepository userRepository;
+	
 	@Autowired
 	private CompanyRepository companyRepository;
+	
 	@Autowired
 	private AddressRepository addressRespository;
+	
 	@Autowired
 	private ClientRepository clientRepository;
+	
 	@Autowired
 	private BudgetRepository budgetRepository;
+	
 	@Autowired
 	private BudgetItemRepository budgetItemRepository;
+	
 	@Autowired
 	private CuttingPlanRepository cuttingPlanRepository;
+	
 	@Autowired
 	private ProjectRepository projectRepository;
+	
+	@Autowired
+	private OperatingExpenseRepository expenseRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -110,5 +123,12 @@ public class TestConfig implements CommandLineRunner {
 		Project p1 = new Project(null, "", "", bi1);
 		Project p2 = new Project(null, "", "", bi1);
 		projectRepository.saveAll(Arrays.asList(p1, p2));
+		
+		OperatingExpense oe1 = new OperatingExpense(null, "Galão de Água", "", 30.0, 
+				Instant.now(), OperatingExpenseType.SUPPLIES, comp);
+		OperatingExpense oe2 = new OperatingExpense(null, "Canetas", "", 30.0, 
+				Instant.now(), OperatingExpenseType.OFFICE_EXPENSES, comp);
+		expenseRepository.saveAll(Arrays.asList(oe1, oe2));
+		
 	}
 }

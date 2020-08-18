@@ -62,6 +62,9 @@ public class Company implements Serializable {
 	@OneToMany(mappedBy = "company")
 	private List<Client> clients = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "company")
+	private List<OperatingExpense> expenses = new ArrayList<>();
+	
 	public Company() {
 	
 	}

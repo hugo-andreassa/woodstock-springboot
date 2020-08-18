@@ -12,56 +12,43 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.hyperdrive.woodstock.entities.Address;
-import com.hyperdrive.woodstock.entities.Budget;
-import com.hyperdrive.woodstock.entities.Client;
-import com.hyperdrive.woodstock.repositories.AddressRepository;
-import com.hyperdrive.woodstock.repositories.BudgetRepository;
-import com.hyperdrive.woodstock.repositories.ClientRepository;
+import com.hyperdrive.woodstock.entities.Company;
+import com.hyperdrive.woodstock.entities.OperatingExpense;
+import com.hyperdrive.woodstock.repositories.OperatingExpenseRepository;
 import com.hyperdrive.woodstock.services.exceptions.DatabaseException;
 import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 
-/** BudgetService
+/** OperatingExpenseService
  * 
- * @author Hugo Andreassa Amaral
+ * @author Hugo A.
  */
 @Service
-public class BudgetService {
+public class OperatingExpenseService {
 	
 	@Autowired
-	private BudgetRepository repository;
-	@Autowired
-	private ClientRepository clientRepository;	
-	@Autowired
-	private AddressRepository addressRepository;
+	private OperatingExpenseRepository repository;
 	
-	public List<Budget> findAllByClientId(Long clientId) {
-		Optional<Client> client = clientRepository.findById(clientId);
+	public List<OperatingExpense> findAllByCompanyId(Long companyId) {
+		Company company = new Company();
+		company.setId(companyId);
 		
-		List<Budget> list = repository.findByClient(client.orElseThrow(() -> new ResourceNotFoundException(clientId)));
-		return list;
+		return repository.findByCompany(company);
 	}
 	
-	public Budget findById(Long id) {
-		Optional<Budget> opt = repository.findById(id);
+	public OperatingExpense findById(Long id) {
+		Optional<OperatingExpense> opt = repository.findById(id);
 		
 		return opt.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
-	public Budget insert(Budget entity) {
+	public OperatingExpense insert(OperatingExpense entity) {
 		try {
 			entity.setCreationDate(Instant.now());
 			
-			if(entity.getAddress() != null) {
-				entity.getAddress().setId(null);
-				Address adrs = addressRepository.save(entity.getAddress());
-				entity.setAddress(adrs);
-			}			
-			
 			return repository.save(entity);
-		} catch (PropertyValueException e) {
+		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
-		}
+		} 
 	}
 	
 	public void deleteById(Long id) {
@@ -74,14 +61,9 @@ public class BudgetService {
 		}	
 	}
 	
-	public Budget update(Long id, Budget entity) {
+	public OperatingExpense update(Long id, OperatingExpense entity) {
 		try {
 			entity.setId(id);
-			
-			if(entity.getAddress() != null) {
-				Address adrs = addressRepository.save(entity.getAddress());
-				entity.setAddress(adrs);
-			}
 			
 			return repository.save(entity);	
 		} catch (EntityNotFoundException e) {
