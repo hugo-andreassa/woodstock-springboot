@@ -29,6 +29,7 @@ public class OperatingExpenseDTO implements Serializable {
 	@NotNull
 	private OperatingExpenseType type;
 	
+	@NotNull
 	@Min(value = 1)
 	private Long companyId;
 	
