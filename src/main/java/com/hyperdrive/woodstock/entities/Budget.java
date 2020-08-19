@@ -24,7 +24,7 @@ import com.hyperdrive.woodstock.entities.enums.BudgetStatus;
 
 /** Budget
  * 
- * @author Hugo Andreassa Amaral 
+ * @author Hugo A.
  */
 @Entity
 @Table(name = "tb_budget")
@@ -55,17 +55,15 @@ public class Budget implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id", nullable = false)
-	@JsonProperty(access = Access.WRITE_ONLY)
 	private Client client;
 	
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "address_id")
 	private Address address;
 	
-	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "budget")
+	@OneToMany(mappedBy = "budget", cascade = CascadeType.REMOVE)
 	private List<BudgetItem> items;
 	
-	// TODO: Função de calcular valor total do orçamento
 	public Budget() {
 		
 	}

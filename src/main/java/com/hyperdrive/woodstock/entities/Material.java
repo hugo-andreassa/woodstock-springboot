@@ -1,70 +1,63 @@
 package com.hyperdrive.woodstock.entities;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-/** Client
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hyperdrive.woodstock.entities.enums.StockUnit;
+
+/** Material
  * 
  * @author Hugo A.
  */
 @Entity
-@Table(name = "tb_client")
-public class Client implements Serializable {
+@Table(name = "tb_material")
+public class Material implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false)
 	private Long id;
 	
 	@Column(nullable = false)
 	private String name;
 	
-	private String email;
+	private String description;
 	
 	@Column(nullable = false)
-	private String phone;
+	private Integer stock;
 	
-	@Column(unique = true, nullable = false)
-	private String cpfOrCnpj;
-	
-	@OneToOne(cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "address_id")
-	private Address address;
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private StockUnit unit;
 	
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
 	
-	@OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
-	private List<Budget> budgets;	
-	
-	public Client() {
+	public Material() {
 		
 	}
 
-	public Client(Long id, String name, String email, String phone, String cpfOrCnpj, Company company, Address address) {
+	public Material(Long id, String name, String description, Integer stock, StockUnit unit, Company company) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.email = email;
-		this.phone = phone;
-		this.cpfOrCnpj = cpfOrCnpj;
+		this.description = description;
+		this.stock = stock;
+		this.unit = unit;
 		this.company = company;
-		this.address = address;
 	}
 
 	public Long getId() {
@@ -82,39 +75,32 @@ public class Client implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public String getEmail() {
-		return email;
+
+	public String getDescription() {
+		return description;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getPhone() {
-		return phone;
+	public Integer getStock() {
+		return stock;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getCpfOrCnpj() {
-		return cpfOrCnpj;
-	}
-
-	public void setCpfOrCnpj(String cpfOrCnpj) {
-		this.cpfOrCnpj = cpfOrCnpj;
+	public void setStock(Integer stock) {
+		this.stock = stock;
 	}
 	
-	public Address getAddress() {
-		return address;
+	public StockUnit getUnit() {
+		return unit;
 	}
 
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setUnit(StockUnit unit) {
+		this.unit = unit;
 	}
-	
+
+	@JsonIgnore
 	public Company getCompany() {
 		return company;
 	}
@@ -122,16 +108,11 @@ public class Client implements Serializable {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-	
-	public List<Budget> getBudgets() {
-		return budgets;
-	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cpfOrCnpj == null) ? 0 : cpfOrCnpj.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
@@ -144,12 +125,7 @@ public class Client implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Client other = (Client) obj;
-		if (cpfOrCnpj == null) {
-			if (other.cpfOrCnpj != null)
-				return false;
-		} else if (!cpfOrCnpj.equals(other.cpfOrCnpj))
-			return false;
+		Material other = (Material) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -157,5 +133,4 @@ public class Client implements Serializable {
 			return false;
 		return true;
 	}
-	
 }

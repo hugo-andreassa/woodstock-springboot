@@ -19,7 +19,7 @@ import com.hyperdrive.woodstock.entities.enums.BudgetItemStatus;
 
 /** BudgetItem
  * 
- * @author Hugo Andreassa Amaral 
+ * @author Hugo A. 
  */
 @Entity
 @Table(name = "tb_budget_item")

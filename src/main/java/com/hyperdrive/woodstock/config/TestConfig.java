@@ -14,12 +14,14 @@ import com.hyperdrive.woodstock.entities.BudgetItem;
 import com.hyperdrive.woodstock.entities.Client;
 import com.hyperdrive.woodstock.entities.Company;
 import com.hyperdrive.woodstock.entities.CuttingPlan;
+import com.hyperdrive.woodstock.entities.Material;
 import com.hyperdrive.woodstock.entities.OperatingExpense;
 import com.hyperdrive.woodstock.entities.Project;
 import com.hyperdrive.woodstock.entities.User;
 import com.hyperdrive.woodstock.entities.enums.BudgetItemStatus;
 import com.hyperdrive.woodstock.entities.enums.BudgetStatus;
 import com.hyperdrive.woodstock.entities.enums.OperatingExpenseType;
+import com.hyperdrive.woodstock.entities.enums.StockUnit;
 import com.hyperdrive.woodstock.entities.enums.UserStatus;
 import com.hyperdrive.woodstock.entities.enums.UserType;
 import com.hyperdrive.woodstock.repositories.AddressRepository;
@@ -28,13 +30,14 @@ import com.hyperdrive.woodstock.repositories.BudgetRepository;
 import com.hyperdrive.woodstock.repositories.ClientRepository;
 import com.hyperdrive.woodstock.repositories.CompanyRepository;
 import com.hyperdrive.woodstock.repositories.CuttingPlanRepository;
+import com.hyperdrive.woodstock.repositories.MaterialRepository;
 import com.hyperdrive.woodstock.repositories.OperatingExpenseRepository;
 import com.hyperdrive.woodstock.repositories.ProjectRepository;
 import com.hyperdrive.woodstock.repositories.UserRepository;
 
 /** Classe para o perfil de teste
  * 
- * @author Hugo Andreassa Amaral 
+ * @author Hugo A.
  */
 @Configuration
 @Profile("test")
@@ -66,6 +69,9 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	private OperatingExpenseRepository expenseRepository;
+	
+	@Autowired
+	private MaterialRepository materialRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -130,5 +136,21 @@ public class TestConfig implements CommandLineRunner {
 				Instant.now(), OperatingExpenseType.OFFICE_EXPENSES, comp);
 		expenseRepository.saveAll(Arrays.asList(oe1, oe2));
 		
+		Material m1 = new Material(null, "Corrediça 25mm", "", 3, StockUnit.PR, comp);
+		Material m2 = new Material(null, "Corrediça 35mm", "", 3, StockUnit.PR, comp);
+		Material m3 = new Material(null, "Corrediça 45mm", "", 3, StockUnit.PR, comp);
+		Material m4 = new Material(null, "Dobradiça Reta", "", 3, StockUnit.UN, comp);
+		Material m5 = new Material(null, "Dobradiça Curva", "", 3, StockUnit.UN, comp);
+		materialRepository.saveAll(Arrays.asList(m1, m2, m3, m4, m5));
+		
 	}
 }
+
+
+
+
+
+
+
+
+

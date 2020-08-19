@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /** Company
  * 
- * @author Hugo Andreassa Amaral 
+ * @author Hugo A.
  */
 @Entity
 @Table(name = "tb_company")
@@ -52,18 +53,21 @@ public class Company implements Serializable {
 	@Column(nullable = false)
 	private String logo;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "address_id", nullable = false)
 	private Address address;
 	
-	@OneToMany(mappedBy = "company")
+	@OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
 	private List<User> users = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "company")
+	@OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
 	private List<Client> clients = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "company")
+	@OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
 	private List<OperatingExpense> expenses = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
+	private List<Material> materials = new ArrayList<>();
 	
 	public Company() {
 	
@@ -164,6 +168,16 @@ public class Company implements Serializable {
 		return clients;
 	}
 	
+	@JsonIgnore
+	public List<OperatingExpense> getExpenses() {
+		return expenses;
+	}
+	
+	@JsonIgnore
+	public List<Material> getMaterials() {
+		return materials;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

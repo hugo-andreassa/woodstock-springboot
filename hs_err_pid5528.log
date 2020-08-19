@@ -1,0 +1,60 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007fffdc3e885c, pid=5528, tid=500
+#
+# JRE version: Java(TM) SE Runtime Environment (11.0.6+8) (build 11.0.6+8-LTS)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (11.0.6+8-LTS, mixed mode, tiered, compressed oops, g1 gc, windows-amd64)
+# Problematic frame:
+# V  [jvm.dll+0x6c885c]
+#
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=54523 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost -Dspring.jmx.enabled=true -Dspring.application.admin.enabled=true -Xverify:none -XX:TieredStopAtLevel=1 -Dspring.boot.project.name=woodstock -Dfile.encoding=UTF-8 com.hyperdrive.woodstock.WoodstockApplication --spring.output.ansi.enabled=always
+
+Host: AMD FX(tm)-6300 Six-Core Processor             , 6 cores, 11G,  Windows 10 , 64 bit Build 18362 (10.0.18362.959)
+Time: Tue Aug 18 20:24:09 2020 Hora oficial do Brasil elapsed time: 1 seconds (0d 0h 0m 1s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000001c97ddb0800):  WatcherThread [stack: 0x000000c48c900000,0x000000c48ca00000] [id=500]
+
+Stack: [0x000000c48c900000,0x000000c48ca00000],  sp=0x000000c48c9ffb20,  free space=1022k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x6c885c]
+V  [jvm.dll+0x714d0d]
+V  [jvm.dll+0x73ab89]
+V  [jvm.dll+0x733905]
+V  [jvm.dll+0x635846]
+C  [ucrtbase.dll+0x20e82]
+C  [KERNEL32.DLL+0x17bd4]
+C  [ntdll.dll+0x6ce51]
+
+
+siginfo: EXCEPTION_ACCESS_VIOLATION (0xc0000005), reading address 0xffffffffffffffff
+
+
+Register to memory mapping:
+
+RIP=0x00007fffdc3e885c jvm.dll
+RAX=0x007fffdc5847b800 is an unknown value
+RBX=0x0 is NULL
+RCX=0x000001c90000000f points into unknown readable memory: 00
+RDX=0x0000000000000032 is an unknown value
+RSP=0x000000c48c9ffb20 points into unknown readable memory: 00 08 db 7d c9 01 00 00
+RBP=0x0000000000000002 is an unknown value
+RSI=0x000001c97dd0a940 points into unknown readable memory: 30 b8 cd 7d c9 01 00 00
+RDI=0x0 is NULL
+R8 =0x0 is NULL
+R9 =0x000001c900000b80 is at begin+0 in a stub
+StubRoutines::atomic_cmpxchg_long [0x000001c900000b80, 0x000001c900000b89[ (9 bytes)
+R10=0x00000000546c6148 is an unknown value
+R11=0x00000088e828a165 is an unknown value
+R12=0x0 is NULL
+R13=
