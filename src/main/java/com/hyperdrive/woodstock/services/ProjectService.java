@@ -24,7 +24,7 @@ import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 
 /** ProjectService
  * 
- * @author Hugo Andreassa Amaral
+ * @author Hugo A.
  */
 @Service
 public class ProjectService {

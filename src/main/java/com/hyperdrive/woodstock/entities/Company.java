@@ -69,6 +69,9 @@ public class Company implements Serializable {
 	@OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
 	private List<Material> materials = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
+	private List<Request> requests = new ArrayList<>();
+	
 	public Company() {
 	
 	}
@@ -176,6 +179,11 @@ public class Company implements Serializable {
 	@JsonIgnore
 	public List<Material> getMaterials() {
 		return materials;
+	}
+	
+	@JsonIgnore
+	public List<Request> getRequests() {
+		return requests;
 	}
 
 	@Override

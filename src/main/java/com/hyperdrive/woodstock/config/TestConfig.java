@@ -17,10 +17,13 @@ import com.hyperdrive.woodstock.entities.CuttingPlan;
 import com.hyperdrive.woodstock.entities.Material;
 import com.hyperdrive.woodstock.entities.OperatingExpense;
 import com.hyperdrive.woodstock.entities.Project;
+import com.hyperdrive.woodstock.entities.Request;
+import com.hyperdrive.woodstock.entities.RequestItem;
 import com.hyperdrive.woodstock.entities.User;
 import com.hyperdrive.woodstock.entities.enums.BudgetItemStatus;
 import com.hyperdrive.woodstock.entities.enums.BudgetStatus;
 import com.hyperdrive.woodstock.entities.enums.OperatingExpenseType;
+import com.hyperdrive.woodstock.entities.enums.RequestStatus;
 import com.hyperdrive.woodstock.entities.enums.StockUnit;
 import com.hyperdrive.woodstock.entities.enums.UserStatus;
 import com.hyperdrive.woodstock.entities.enums.UserType;
@@ -33,6 +36,8 @@ import com.hyperdrive.woodstock.repositories.CuttingPlanRepository;
 import com.hyperdrive.woodstock.repositories.MaterialRepository;
 import com.hyperdrive.woodstock.repositories.OperatingExpenseRepository;
 import com.hyperdrive.woodstock.repositories.ProjectRepository;
+import com.hyperdrive.woodstock.repositories.RequestItemRepository;
+import com.hyperdrive.woodstock.repositories.RequestRepository;
 import com.hyperdrive.woodstock.repositories.UserRepository;
 
 /** Classe para o perfil de teste
@@ -72,6 +77,12 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	private MaterialRepository materialRepository;
+	
+	@Autowired
+	private RequestRepository requestRepository;
+	
+	@Autowired
+	private RequestItemRepository requestItemRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -142,6 +153,16 @@ public class TestConfig implements CommandLineRunner {
 		Material m4 = new Material(null, "Dobradiça Reta", "", 3, StockUnit.UN, comp);
 		Material m5 = new Material(null, "Dobradiça Curva", "", 3, StockUnit.UN, comp);
 		materialRepository.saveAll(Arrays.asList(m1, m2, m3, m4, m5));
+		
+		Request r1 = new Request(null, "", Instant.now(), RequestStatus.WATING, comp);
+		requestRepository.saveAll(Arrays.asList(r1));
+				
+		RequestItem ri1 = new RequestItem(r1, m1, 10, null);
+		RequestItem ri2 = new RequestItem(r1, m2, 10, null);
+		RequestItem ri3 = new RequestItem(r1, m3, 10, null);
+		RequestItem ri4 = new RequestItem(r1, m4, 10, null);
+		RequestItem ri5 = new RequestItem(r1, m5, 10, null);
+		requestItemRepository.saveAll(Arrays.asList(ri1, ri2, ri3, ri4, ri5));
 		
 	}
 }

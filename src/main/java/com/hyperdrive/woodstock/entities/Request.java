@@ -1,6 +1,7 @@
 package com.hyperdrive.woodstock.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,53 +17,54 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hyperdrive.woodstock.entities.enums.StockUnit;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.hyperdrive.woodstock.entities.enums.RequestStatus;
 
-/** Material
+/** Request
  * 
- * @author Hugo A.
+ * @author Hugo A
  */
 @Entity
-@Table(name = "tb_material")
-public class Material implements Serializable {
-	
+@Table(name = "tb_request")
+public class Request implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false)
-	private String name;
-	
 	private String description;
 	
-	@Column(nullable = false)
-	private Integer stock;
+	@Column(nullable = false, updatable = false)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", locale = "pt-BR", timezone = "Brazil/East")
+	@JsonProperty(access = Access.READ_ONLY)
+	private Instant creationDate;
 	
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
-	private StockUnit unit;
+	private RequestStatus status;
 	
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
 	
-	@OneToMany(mappedBy = "id.material")
+	@OneToMany(mappedBy = "id.request")
 	private Set<RequestItem> items = new HashSet<>();
 	
-	public Material() {
+	public Request() {
 		
 	}
 
-	public Material(Long id, String name, String description, Integer stock, StockUnit unit, Company company) {
+	public Request(Long id, String description, Instant creationDate, RequestStatus status, Company company) {
 		super();
 		this.id = id;
-		this.name = name;
 		this.description = description;
-		this.stock = stock;
-		this.unit = unit;
+		this.creationDate = creationDate;
+		this.status = status;
 		this.company = company;
 	}
 
@@ -74,14 +76,6 @@ public class Material implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -90,22 +84,22 @@ public class Material implements Serializable {
 		this.description = description;
 	}
 
-	public Integer getStock() {
-		return stock;
+	public Instant getCreationDate() {
+		return creationDate;
 	}
 
-	public void setStock(Integer stock) {
-		this.stock = stock;
+	public void setCreationDate(Instant creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public RequestStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(RequestStatus status) {
+		this.status = status;
 	}
 	
-	public StockUnit getUnit() {
-		return unit;
-	}
-
-	public void setUnit(StockUnit unit) {
-		this.unit = unit;
-	}
-
 	@JsonIgnore
 	public Company getCompany() {
 		return company;
@@ -115,17 +109,14 @@ public class Material implements Serializable {
 		this.company = company;
 	}
 
-	@JsonIgnore
-	public Set<Request> getItems() {
-		Set<Request> set = new HashSet<>();
-		
-		for (RequestItem item : items) {
-			set.add(item.getRequest());
-		}
-		
-		return set;
+	public Set<RequestItem> getItems() {
+		return items;
 	}
 	
+	public void setItems(Set<RequestItem> items) {
+		this.items = items;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -142,7 +133,7 @@ public class Material implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Material other = (Material) obj;
+		Request other = (Request) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -150,4 +141,5 @@ public class Material implements Serializable {
 			return false;
 		return true;
 	}
+	
 }
