@@ -38,7 +38,7 @@ import com.hyperdrive.woodstock.repositories.OperatingExpenseRepository;
 import com.hyperdrive.woodstock.repositories.ProjectRepository;
 import com.hyperdrive.woodstock.repositories.RequestItemRepository;
 import com.hyperdrive.woodstock.repositories.RequestRepository;
-import com.hyperdrive.woodstock.repositories.UserRepository;
+import com.hyperdrive.woodstock.services.UserService;
 
 /** Classe para o perfil de teste
  * 
@@ -49,7 +49,7 @@ import com.hyperdrive.woodstock.repositories.UserRepository;
 public class TestConfig implements CommandLineRunner {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 	
 	@Autowired
 	private CompanyRepository companyRepository;
@@ -102,7 +102,9 @@ public class TestConfig implements CommandLineRunner {
 				UserType.ADMIN, comp);
 		User u3 = new User(null, "Wesley Fernando", "123456", "wesley@gmail.com", "11956492430", UserStatus.ENABLED, 
 				UserType.WOODWORKER, comp);
-		userRepository.saveAll(Arrays.asList(u1, u2, u3));
+		userService.insert(u1);
+		userService.insert(u2);
+		userService.insert(u3);
 		
 		Address ad1 = new Address(null, "Rua Dublin", "Santo André", "SP", "253", "apto23", "09220810");
 		Address ad2 = new Address(null, "Rua Bell Aliance", "São Caetano do Sul", "SP", "225", "", "09581-680");

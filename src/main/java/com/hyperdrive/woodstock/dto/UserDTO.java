@@ -35,6 +35,10 @@ public class UserDTO implements Serializable {
 	@NotNull
 	@Min(value = 1)
 	private Long companyId;
+	
+	public UserDTO() {
+		super();
+	}
 
 	public UserDTO(String name, String password, String email, String phone,
 			UserStatus status, UserType type, Long companyId) {

@@ -1,0 +1,140 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffebe1d885c, pid=19348, tid=7756
+#
+# JRE version: Java(TM) SE Runtime Environment (11.0.6+8) (build 11.0.6+8-LTS)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (11.0.6+8-LTS, mixed mode, tiered, compressed oops, g1 gc, windows-amd64)
+# Problematic frame:
+# V  [jvm.dll+0x6c885c]
+#
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=49655 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost -Dspring.jmx.enabled=true -Dspring.application.admin.enabled=true -Xverify:none -XX:TieredStopAtLevel=1 -Dspring.boot.project.name=woodstock -Dfile.encoding=UTF-8 com.hyperdrive.woodstock.WoodstockApplication --spring.output.ansi.enabled=always
+
+Host: AMD FX(tm)-6300 Six-Core Processor             , 6 cores, 11G,  Windows 10 , 64 bit Build 18362 (10.0.18362.959)
+Time: Fri Aug 21 15:53:31 2020 Hora oficial do Brasil elapsed time: 1 seconds (0d 0h 0m 1s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00000213e50e7800):  WatcherThread [stack: 0x000000ff9a400000,0x000000ff9a500000] [id=7756]
+
+Stack: [0x000000ff9a400000,0x000000ff9a500000],  sp=0x000000ff9a4ff7f0,  free space=1021k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x6c885c]
+V  [jvm.dll+0x714d0d]
+V  [jvm.dll+0x73ab89]
+V  [jvm.dll+0x733905]
+V  [jvm.dll+0x635846]
+C  [ucrtbase.dll+0x20e82]
+C  [KERNEL32.DLL+0x17bd4]
+C  [ntdll.dll+0x6ce51]
+
+
+siginfo: EXCEPTION_ACCESS_VIOLATION (0xc0000005), reading address 0x0000000000000008
+
+
+Register to memory mapping:
+
+RIP=0x00007ffebe1d885c jvm.dll
+RAX=0x0 is NULL
+RBX=0x0 is NULL
+RCX=0x0000000800000007 is pointing into metadata
+RDX=0x0000000000000032 is an unknown value
+RSP=0x000000ff9a4ff7f0 points into unknown readable memory: 00 78 0e e5 13 02 00 00
+RBP=0x0000000000000002 is an unknown value
+RSI=0x00000213e5023700 points into unknown readable memory: e0 2f 0d e5 13 02 00 00
+RDI=0x0 is NULL
+R8 =0x0 is NULL
+R9 =0x00000213ca960b80 is at begin+0 in a stub
+StubRoutines::atomic_cmpxchg_long [0x00000213ca960b80, 0x00000213ca960b89[ (9 bytes)
+R10=0x00000000546c6148 is an unknown value
+R11=0x000000e5a709d9fd is an unknown value
+R12=0x0 is NULL
+R13=0x00000213e50e7800 points into unknown readable memory: a8 a3 3e be fe 7f 00 00
+R14=0x0000000000000032 is an unknown value
+R15=0x00000213e405d5b0 points into unknown readable memory: 00 00 00 00 00 00 00 00
+
+
+Registers:
+RAX=0x0000000000000000, RBX=0x0000000000000000, RCX=0x0000000800000007, RDX=0x0000000000000032
+RSP=0x000000ff9a4ff7f0, RBP=0x0000000000000002, RSI=0x00000213e5023700, RDI=0x0000000000000000
+R8 =0x0000000000000000, R9 =0x00000213ca960b80, R10=0x00000000546c6148, R11=0x000000e5a709d9fd
+R12=0x0000000000000000, R13=0x00000213e50e7800, R14=0x0000000000000032, R15=0x00000213e405d5b0
+RIP=0x00007ffebe1d885c, EFLAGS=0x0000000000010202
+
+Top of Stack: (sp=0x000000ff9a4ff7f0)
+0x000000ff9a4ff7f0:   00000213e50e7800 00000213e50e7800
+0x000000ff9a4ff800:   00009ba21e980718 00007ffebe1193a9
+0x000000ff9a4ff810:   00007ffebe5857d8 00007ffebe224d0d
+0x000000ff9a4ff820:   0000000000000001 00000213c2651190
+0x000000ff9a4ff830:   00000213c2651190 431bde82d7b634db
+0x000000ff9a4ff840:   00000213e405d5b0 00009ba21e980718
+0x000000ff9a4ff850:   00000213c2651190 00007ffebe24ab89
+0x000000ff9a4ff860:   0000000000000001 0000000000000032
+0x000000ff9a4ff870:   0000000000000032 0000000000000002
+0x000000ff9a4ff880:   0000000000000000 0000000000000000
+0x000000ff9a4ff890:   0000000000000000 0000000000000000
+0x000000ff9a4ff8a0:   0000000000000030 000000ff9a4ff8d8
+0x000000ff9a4ff8b0:   0000000000100000 00007ffebe13ff7a
+0x000000ff9a4ff8c0:   00000213e50e7800 0000000000000000
+0x000000ff9a4ff8d0:   0000000000100000 000000ff9a4ff9a0
+0x000000ff9a4ff8e0:   000000ff9a400000 00007ffebe243905 
+
+Instructions: (pc=0x00007ffebe1d885c)
+0x00007ffebe1d883c:   35 47 7e 3a 00 33 db 48 8b 06 39 18 7e 27 48 89
+0x00007ffebe1d884c:   7c 24 30 8b fb 48 8b 40 18 48 8b 0c 07 48 8b 01
+0x00007ffebe1d885c:   ff 50 08 48 8b 06 48 8d 7f 08 ff c3 3b 18 7c e5
+0x00007ffebe1d886c:   48 8b 7c 24 30 48 8b 5c 24 38 48 83 c4 20 5e c3 
+
+
+Stack slot to memory mapping:
+stack at sp + 0 slots: 0x00000213e50e7800 points into unknown readable memory: a8 a3 3e be fe 7f 00 00
+stack at sp + 1 slots: 0x00000213e50e7800 points into unknown readable memory: a8 a3 3e be fe 7f 00 00
+stack at sp + 2 slots: 0x00009ba21e980718 is an unknown value
+stack at sp + 3 slots: 0x00007ffebe1193a9 jvm.dll
+stack at sp + 4 slots: 0x00007ffebe5857d8 jvm.dll
+stack at sp + 5 slots: 0x00007ffebe224d0d jvm.dll
+stack at sp + 6 slots: 0x0000000000000001 is an unknown value
+stack at sp + 7 slots: 0x00000213c2651190 points into unknown readable memory: 01 00 00 00 00 00 00 00
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x00000213e50d2980, length=12, elements={
+0x00000213c2652800, 0x00000213e0f2d000, 0x00000213e0f2e000, 0x00000213e3e84800,
+0x00000213e3e85800, 0x00000213e3e8f800, 0x00000213e3e96800, 0x00000213e3e10800,
+0x00000213e40da800, 0x00000213e507f000, 0x00000213e506e000, 0x00000213e5059800
+}
+
+Java Threads: ( => current thread )
+  0x00000213c2652800 JavaThread "main" [_thread_blocked, id=10012, stack(0x000000ff98f00000,0x000000ff99000000)]
+  0x00000213e0f2d000 JavaThread "Reference Handler" daemon [_thread_blocked, id=23236, stack(0x000000ff99600000,0x000000ff99700000)]
+  0x00000213e0f2e000 JavaThread "Finalizer" daemon [_thread_blocked, id=23784, stack(0x000000ff99700000,0x000000ff99800000)]
+  0x00000213e3e84800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=584, stack(0x000000ff99800000,0x000000ff99900000)]
+  0x00000213e3e85800 JavaThread "Attach Listener" daemon [_thread_blocked, id=20364, stack(0x000000ff99900000,0x000000ff99a00000)]
+  0x00000213e3e8f800 JavaThread "C1 CompilerThread0" daemon [_thread_in_vm, id=20332, stack(0x000000ff99a00000,0x000000ff99b00000)]
+  0x00000213e3e96800 JavaThread "Sweeper thread" daemon [_thread_blocked, id=9620, stack(0x000000ff99b00000,0x000000ff99c00000)]
+  0x00000213e3e10800 JavaThread "Common-Cleaner" daemon [_thread_blocked, id=18036, stack(0x000000ff99c00000,0x000000ff99d00000)]
+  0x00000213e40da800 JavaThread "Service Thread" daemon [_thread_blocked, id=7528, stack(0x000000ff99d00000,0x000000ff99e00000)]
+  0x00000213e507f000 JavaThread "RMI TCP Accept-0" daemon [_thread_in_native, id=19256, stack(0x000000ff9a100000,0x000000ff9a200000)]
+  0x00000213e506e000 JavaThread "RMI TCP Accept-49655" daemon [_thread_blocked, id=10184, stack(0x000000ff9a200000,0x000000ff9a300000)]
+  0x00000213e5059800 JavaThread "RMI TCP Accept-0" daemon [_thread_in_native, id=12000, stack(0x000000ff9a300000,0x000000ff9a400000)]
+
+Other Threads:
+  0x00000213e0f26000 VMThread "VM Thread" [stack: 0x000000ff99500000,0x000000ff99600000] [id=3496]
+=>0x00000213e50e7800 WatcherThread [stack: 0x000000ff9a400000,0x000000ff9a500000] [id=7756]
+  0x00000213c2667000 GCTaskThread "GC Thread#0" [stack: 0x000000ff99000000,0x000000ff99100000] [id=11464]
+  0x00000213e4ffe000 GCTaskThread "GC Thread#1" [stack: 0x000000ff99e00000,0x000000ff99f00000] [id=10036]
+  0x00000213e4ffe800 GCTaskThread "GC Thread#2" [stack: 0x000000ff99f00000,0x000000ff9a000000] [id=1548]
+  0x00000213e4fff000 GCTaskThread "GC Thread#3" [stack: 0x000000ff9a000000,0x000000ff9a100000] [id=21516]
+  0x00000213e0d36800 ConcurrentGCThread "G1 Main Marker" [stack: 0x000000ff99100000,0x000000ff99200000] [id=21992]
+  0x00000213c26a9800 ConcurrentGCThread "G1 Conc#0" [stack: 0x000000ff99200000,0x000000ff99300000] [id=12460]
+  0x00000213e0e0c800 ConcurrentGCThread "G1 Refine#0" [stack: 0x000000ff99300000,0x000000ff99400000] [id=19644]
