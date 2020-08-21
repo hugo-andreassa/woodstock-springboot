@@ -5,7 +5,31 @@ package com.hyperdrive.woodstock.entities.enums;
  * @author Hugo Andreassa Amaral 
  */
 public enum UserType {
-	WOODWORKER,
-	ADMINISTRATOR,
-	STOCKIST;
+	ADMIN(1, "ROLE_ADMIN"),
+	WOODWORKER(2, "ROLE_WOODWORKER"),
+	STOCKIST(3, "ROLE_STOCKIST");
+	
+	private int cod;
+	private String description;
+	
+	private UserType(int cod, String description) {
+		this.cod = cod;
+		this.description = description;
+	}
+
+	public int getCod() {
+		return cod;
+	}
+
+	public void setCod(int cod) {
+		this.cod = cod;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}	
 }

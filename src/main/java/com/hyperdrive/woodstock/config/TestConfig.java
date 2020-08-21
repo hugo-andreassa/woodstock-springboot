@@ -96,9 +96,12 @@ public class TestConfig implements CommandLineRunner {
 				"https://woodstock-springboot.s3-sa-east-1.amazonaws.com/comp1.jpg", adrs);
 		companyRepository.save(comp);
 		
-		User u1 = new User(null, "Hugo A.", "123456", "hugo.andreassa@gmail.com", "11956492900", UserStatus.ENABLED, UserType.STOCKIST, comp);
-		User u2 = new User(null, "Rafael M.", "123456", "berlattomoveis@hotmail.com", "11956492430", UserStatus.ENABLED, UserType.ADMINISTRATOR, comp);
-		User u3 = new User(null, "Wesley Fernando", "123456", "wesley@gmail.com", "11956492430", UserStatus.ENABLED, UserType.WOODWORKER, comp);
+		User u1 = new User(null, "Hugo A.", "123456", "hugo.andreassa@gmail.com", "11956492900", UserStatus.ENABLED,
+				UserType.ADMIN, comp);
+		User u2 = new User(null, "Rafael M.", "123456", "berlattomoveis@hotmail.com", "11956492430", UserStatus.ENABLED, 
+				UserType.ADMIN, comp);
+		User u3 = new User(null, "Wesley Fernando", "123456", "wesley@gmail.com", "11956492430", UserStatus.ENABLED, 
+				UserType.WOODWORKER, comp);
 		userRepository.saveAll(Arrays.asList(u1, u2, u3));
 		
 		Address ad1 = new Address(null, "Rua Dublin", "Santo André", "SP", "253", "apto23", "09220810");
