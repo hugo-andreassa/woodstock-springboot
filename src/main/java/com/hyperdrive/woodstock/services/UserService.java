@@ -9,6 +9,7 @@ import org.hibernate.PropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hyperdrive.woodstock.entities.User;
@@ -18,6 +19,9 @@ import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 	@Autowired
 	private UserRepository repository;
@@ -34,12 +38,12 @@ public class UserService {
 	
 	public User insert(User entity) {
 		try {
-			entity.setId(null);
+			entity.setPassword(pe.encode(entity.getPassword()));
 			
 			return repository.save(entity);	
 		} catch (PropertyValueException e) {
 			throw new ResourceNotFoundException(entity.getId());
-		}
+		} 
 	}
 	
 	public void deleteById(Long id) {
@@ -52,21 +56,14 @@ public class UserService {
 		}		
 	}
 	
-	public User update(Long id, User obj) {
+	public User update(Long id, User entity) {
 		try {
-			User entity = repository.getOne(id);
-			updateData(entity, obj);
+			entity.setId(id);
+			entity.setPassword(pe.encode(entity.getPassword()));
 			
 			return repository.save(entity);	
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}		
-	}
-	
-	private void updateData(User entity, User obj) {
-		entity.setName(obj.getName());
-		entity.setPhone(obj.getPhone());
-		entity.setStatus(obj.getStatus());
-		entity.setType(obj.getType());
 	}
 }

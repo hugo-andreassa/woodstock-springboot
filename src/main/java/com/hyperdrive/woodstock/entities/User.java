@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,8 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hyperdrive.woodstock.entities.enums.UserStatus;
 import com.hyperdrive.woodstock.entities.enums.UserType;
 
@@ -30,24 +31,23 @@ public class User implements Serializable {
 	private String name;
 	
 	@Column(nullable = false)
-	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	
 	@Column(unique = true, nullable = false)
 	private String email;
 	
-	@Column(nullable = true)
 	private String phone;
 	
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	private UserStatus status;
 	
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	private UserType type;
 	
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = false)
-	@JsonProperty(access = Access.READ_WRITE)
 	private Company company;
 	
 	public User() {
@@ -82,6 +82,7 @@ public class User implements Serializable {
 		this.name = name;
 	}
 	
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
