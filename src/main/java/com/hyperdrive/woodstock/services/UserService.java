@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hyperdrive.woodstock.entities.Company;
 import com.hyperdrive.woodstock.entities.User;
 import com.hyperdrive.woodstock.repositories.UserRepository;
 import com.hyperdrive.woodstock.services.exceptions.DatabaseException;
@@ -26,8 +27,11 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
-	public List<User> findAll() {
-		return repository.findAll();
+	public List<User> findAllByCompanyId(Long companyId) {
+		Company company = new Company();
+		company.setId(companyId);
+		
+		return repository.findByCompany(company);
 	}
 	
 	public User findById(Long id) {
