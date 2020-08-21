@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.hyperdrive.woodstock.security.JWTAuthenticationFilter;
+import com.hyperdrive.woodstock.security.JWTAuthorizationFilter;
 import com.hyperdrive.woodstock.security.JWTUtil;
 import com.hyperdrive.woodstock.services.UserDetailsService;
 
@@ -36,7 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private final static String[] PUBLIC_MATCHERS = {
 			"/h2-console/**",
-			"/login/**"
 	};
 	
 	private final static String[] PUBLIC_MATCHERS_GET = {
@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			
 			"/companies/**",
 			
-			"/clients/**",
+		//	"/clients/**",
 			"/budgets/**",
 			"/budgetItems/**",
 			"/cuttingPlans/**",
@@ -76,6 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest().authenticated();
 		
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
