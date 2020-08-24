@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CNPJ;
 
-import com.amazonaws.services.snowball.model.Address;
+import com.hyperdrive.woodstock.entities.Address;
 import com.hyperdrive.woodstock.entities.Company;
 
 /** CompanyDTO
@@ -139,6 +139,7 @@ public class CompanyDTO implements Serializable {
 		company.setEmail(email);
 		company.setSite(site);
 		company.setLogo(logo);
+		company.setAddress(address);
 		
 		return company;
 	}
