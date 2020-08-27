@@ -43,6 +43,13 @@ public class UserResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@GetMapping(value = "/email")
+	public ResponseEntity<User> findByEmail(@RequestParam(name = "email") String email) {
+		User obj = service.findByEmail(email);
+		
+		return ResponseEntity.ok().body(obj);
+	}
+	
 	@PostMapping
 	public ResponseEntity<Void> insert(@RequestBody UserDTO dto) {
 		User obj = service.insert(dto.toUser());

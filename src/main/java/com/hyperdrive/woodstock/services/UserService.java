@@ -9,12 +9,17 @@ import org.hibernate.PropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hyperdrive.woodstock.entities.Company;
 import com.hyperdrive.woodstock.entities.User;
+import com.hyperdrive.woodstock.entities.enums.UserType;
 import com.hyperdrive.woodstock.repositories.UserRepository;
+import com.hyperdrive.woodstock.security.UserSS;
+import com.hyperdrive.woodstock.services.exceptions.AuthorizationException;
 import com.hyperdrive.woodstock.services.exceptions.DatabaseException;
 import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
 
@@ -35,9 +40,27 @@ public class UserService {
 	}
 	
 	public User findById(Long id) {
+		
+		UserSS user = authenticated();
+		if(user == null || !user.hasRole(UserType.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Access denied");
+		}
+		
 		Optional<User> opt = repository.findById(id);
 		
 		return opt.orElseThrow(() -> new ResourceNotFoundException(id));
+	}
+	
+	public User findByEmail(String email) {
+		
+		UserSS user = authenticated();
+		if(user == null || !user.hasRole(UserType.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Access denied");
+		}
+		
+		Optional<User> opt = repository.findByEmail(email);
+		
+		return opt.orElseThrow(() -> new UsernameNotFoundException(email));
 	}
 	
 	public User insert(User entity) {
@@ -68,6 +91,14 @@ public class UserService {
 			return repository.save(entity);	
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
+		}		
+	}
+	
+	private UserSS authenticated() {
+		try {
+			return (UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal();	
+		} catch (Exception e) {
+			return null;
 		}		
 	}
 }

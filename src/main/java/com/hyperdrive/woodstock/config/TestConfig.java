@@ -146,9 +146,9 @@ public class TestConfig implements CommandLineRunner {
 		Project p2 = new Project(null, "", "", bi1);
 		projectRepository.saveAll(Arrays.asList(p1, p2));
 		
-		OperatingExpense oe1 = new OperatingExpense(null, "Galão de Água", "", 30.0, 
+		OperatingExpense oe1 = new OperatingExpense(null, "Galão de Água", "", 
 				Instant.now(), OperatingExpenseType.SUPPLIES, comp);
-		OperatingExpense oe2 = new OperatingExpense(null, "Canetas", "", 30.0, 
+		OperatingExpense oe2 = new OperatingExpense(null, "Canetas", "", 
 				Instant.now(), OperatingExpenseType.OFFICE_EXPENSES, comp);
 		expenseRepository.saveAll(Arrays.asList(oe1, oe2));
 		

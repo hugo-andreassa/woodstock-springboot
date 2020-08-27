@@ -39,9 +39,6 @@ public class OperatingExpense implements Serializable {
 	
 	private String description;
 	
-	@Column(nullable = false)
-	private Double value;
-	
 	@Column(nullable = false, updatable = false)
 	@JsonProperty(access = Access.READ_ONLY)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", locale = "pt-BR", timezone = "Brazil/East")
@@ -59,13 +56,12 @@ public class OperatingExpense implements Serializable {
 		
 	}
 	
-	public OperatingExpense(Long id, String name, String description, Double value, Instant creationDate,
+	public OperatingExpense(Long id, String name, String description, Instant creationDate,
 			OperatingExpenseType type, Company company) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.value = value;
 		this.creationDate = creationDate;
 		this.type = type;
 		this.company = company;
@@ -93,14 +89,6 @@ public class OperatingExpense implements Serializable {
 	
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	
-	public Double getValue() {
-		return value;
-	}
-	
-	public void setValue(Double value) {
-		this.value = value;
 	}
 	
 	public Instant getCreationDate() {

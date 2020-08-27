@@ -125,10 +125,6 @@ public class CompanyDTO implements Serializable {
 		this.address = address;
 	}
 	
-	/**
-	 * 
-	 * @return Retorna um objeto Company a partir do DTO
-	 */
 	public Company toCompany() {
 		
 		Company company = new Company();

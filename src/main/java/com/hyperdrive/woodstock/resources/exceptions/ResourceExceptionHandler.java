@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.hyperdrive.woodstock.services.exceptions.AuthorizationException;
 import com.hyperdrive.woodstock.services.exceptions.DatabaseException;
 import com.hyperdrive.woodstock.services.exceptions.FileException;
 import com.hyperdrive.woodstock.services.exceptions.ResourceNotFoundException;
@@ -93,6 +94,16 @@ public class ResourceExceptionHandler {
 	public ResponseEntity<StandardError> amazonS3(AmazonS3Exception e, HttpServletRequest request) {
 		String error = "Amazon s3 error";
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+		
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+		
+		return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler(AuthorizationException.class)
+	public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request) {
+		String error = "Authorization error";
+		HttpStatus status = HttpStatus.FORBIDDEN;
 		
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 		

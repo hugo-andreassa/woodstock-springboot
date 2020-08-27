@@ -89,4 +89,8 @@ public class UserSS implements UserDetails {
 			return false;
 		}		
 	}
+	
+	public boolean hasRole(UserType admin) {
+		return authorities.contains(new SimpleGrantedAuthority(admin.getDescription()));
+	}
 }

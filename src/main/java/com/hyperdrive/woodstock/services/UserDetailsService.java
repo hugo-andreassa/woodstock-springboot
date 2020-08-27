@@ -1,5 +1,7 @@
 package com.hyperdrive.woodstock.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,11 +19,9 @@ public class UserDetailsService implements org.springframework.security.core.use
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user = repository.findByEmail(email);
+		Optional<User> opt = repository.findByEmail(email);
 		
-		if(user == null) {
-			throw new UsernameNotFoundException(email);
-		}
+		User user = opt.orElseThrow(() -> new UsernameNotFoundException(email));
 		
 		UserSS userSS = new UserSS(user.getId(), user.getPassword(), user.getEmail(), user.getStatus(), user.getType());
 		return userSS;
