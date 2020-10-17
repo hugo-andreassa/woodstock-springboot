@@ -101,7 +101,7 @@ public class TestConfig implements CommandLineRunner {
 		User u2 = new User(null, "Rafael M.", "123456", "berlattomoveis@hotmail.com", "11956492430", UserStatus.ENABLED, 
 				UserType.ADMIN, comp);
 		User u3 = new User(null, "Wesley Fernando", "123456", "wesley@gmail.com", "11956492430", UserStatus.ENABLED, 
-				UserType.WOODWORKER, comp);
+				UserType.MARCENEIRO, comp);
 		userService.insert(u1);
 		userService.insert(u2);
 		userService.insert(u3);
@@ -121,19 +121,19 @@ public class TestConfig implements CommandLineRunner {
 		
 		Budget b1 = new Budget(null, 50, null, Instant.now(), 
 				"Entrada de 30% e restante em até 15x no cartão", 
-				BudgetStatus.COMPLETED, c1, null);
+				BudgetStatus.COMPLETO, c1, null);
 		Budget b2 = new Budget(null, 50, null, Instant.now(), 
 				"Entrada de 20% e restante em até 10x no cartão", 
-				BudgetStatus.COMPLETED, c2, null);
+				BudgetStatus.COMPLETO, c2, null);
 		Budget b3 = new Budget(null, 50, null, Instant.now(), 
 				"Entrada de 40% e restante em até 20x no cartão", 
-				BudgetStatus.COMPLETED, c3, null);
+				BudgetStatus.COMPLETO, c3, null);
 		budgetRepository.saveAll(Arrays.asList(b1, b2, b3));
 		
-		BudgetItem bi1 = new BudgetItem(null, "Escrivaninha", 500.0, 1, "Quarto", BudgetItemStatus.WAITING, b1);
-		BudgetItem bi2 = new BudgetItem(null, "Criado", 100.0, 2, "Quarto", BudgetItemStatus.FINISHED, b1);
-		BudgetItem bi3 = new BudgetItem(null, "Torre Quente", 1250.0, 1, "Cozinha", BudgetItemStatus.PRODUCING, b1);
-		BudgetItem bi4 = new BudgetItem(null, "Armário", 900.0, 1, "Cozinha", BudgetItemStatus.WAITING, b1);
+		BudgetItem bi1 = new BudgetItem(null, "Escrivaninha", 500.0, 1, "Quarto", BudgetItemStatus.ESPERANDO, b1);
+		BudgetItem bi2 = new BudgetItem(null, "Criado", 100.0, 2, "Quarto", BudgetItemStatus.ESPERANDO, b1);
+		BudgetItem bi3 = new BudgetItem(null, "Torre Quente", 1250.0, 1, "Cozinha", BudgetItemStatus.ESPERANDO, b1);
+		BudgetItem bi4 = new BudgetItem(null, "Armário", 900.0, 1, "Cozinha", BudgetItemStatus.ESPERANDO, b1);
 		budgetItemRepository.saveAll(Arrays.asList(bi1, bi2, bi3, bi4));		
 		
 		CuttingPlan cp1 = new CuttingPlan(null, 2.40, 1.40, 3, "", bi1);

@@ -1,7 +1,5 @@
 package com.hyperdrive.woodstock.dto;
 
-import java.time.Instant;
-
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.Min;
@@ -23,7 +21,7 @@ public class BudgetDTO {
 	@Min(value = 10)
 	private Integer deadline;
 	
-	private Instant deliveryDay;
+	private String deliveryDay;
 	
 	@NotBlank
 	private String paymentMethod;
@@ -42,7 +40,7 @@ public class BudgetDTO {
 		
 	}
 
-	public BudgetDTO(Integer deadline, Instant deliveryDay, String paymentMethod, BudgetStatus status, Long clientId,
+	public BudgetDTO(Integer deadline, String deliveryDay, String paymentMethod, BudgetStatus status, Long clientId,
 			Address address) {
 		super();
 		this.deadline = deadline;
@@ -61,11 +59,11 @@ public class BudgetDTO {
 		this.deadline = deadline;
 	}
 
-	public Instant getDeliveryDay() {
+	public String getDeliveryDay() {
 		return deliveryDay;
 	}
 
-	public void setDeliveryDay(Instant deliveryDay) {
+	public void setDeliveryDay(String deliveryDay) {
 		this.deliveryDay = deliveryDay;
 	}
 
@@ -102,9 +100,8 @@ public class BudgetDTO {
 	}
 	
 	public Budget toBudget() {
-						
 		Budget bud = new Budget();
-		
+				
 		bud.setDeadline(deadline);
 		bud.setDeliveryDay(deliveryDay);
 		bud.setPaymentMethod(paymentMethod);

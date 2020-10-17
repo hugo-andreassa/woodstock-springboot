@@ -52,6 +52,7 @@ public class Client implements Serializable {
 	private Company company;
 	
 	@OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
+	@JsonIgnore
 	private List<Budget> budgets;	
 	
 	public Client() {

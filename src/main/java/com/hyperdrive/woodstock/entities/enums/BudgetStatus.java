@@ -5,8 +5,8 @@ package com.hyperdrive.woodstock.entities.enums;
  * @author Hugo Andreassa Amaral 
  */
 public enum BudgetStatus {
-	NEGOTIATING,
-	SEALED,
-	COMPLETED,
-	CANCELED;
+	NEGOCIANDO,
+	FECHADO,
+	COMPLETO,
+	CANCELADO;
 }

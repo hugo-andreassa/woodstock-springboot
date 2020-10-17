@@ -39,11 +39,10 @@ public class Budget implements Serializable {
 	@Column(nullable = false)
 	private Integer deadline;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", locale = "pt-BR", timezone = "Brazil/East")
-	private Instant deliveryDay;
+	private String deliveryDay;
 	
 	@Column(nullable = false, updatable = false)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", locale = "pt-BR", timezone = "Brazil/East")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", locale = "pt-BR", timezone = "America/Sao_Paulo")
 	@JsonProperty(access = Access.READ_ONLY)
 	private Instant creationDate;
 	
@@ -62,13 +61,14 @@ public class Budget implements Serializable {
 	private Address address;
 	
 	@OneToMany(mappedBy = "budget", cascade = CascadeType.REMOVE)
+	@JsonIgnore
 	private List<BudgetItem> items;
 	
 	public Budget() {
 		
 	}
 
-	public Budget(Long id, Integer deadline, Instant deliveryDay, Instant creationDate, String paymentMethod,
+	public Budget(Long id, Integer deadline, String deliveryDay, Instant creationDate, String paymentMethod,
 			BudgetStatus status, Client client, Address address) {
 		super();
 		this.id = id;
@@ -97,11 +97,11 @@ public class Budget implements Serializable {
 		this.deadline = deadline;
 	}
 
-	public Instant getDeliveryDay() {
+	public String getDeliveryDay() {
 		return deliveryDay;
 	}
 
-	public void setDeliveryDay(Instant deliveryDay) {
+	public void setDeliveryDay(String deliveryDay) {
 		this.deliveryDay = deliveryDay;
 	}
 

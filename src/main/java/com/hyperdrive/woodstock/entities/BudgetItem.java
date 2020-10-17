@@ -50,9 +50,11 @@ public class BudgetItem implements Serializable {
 	private Budget budget;
 	
 	@OneToMany(mappedBy = "budgetItem", cascade = CascadeType.REMOVE)
+	@JsonIgnore
 	private List<CuttingPlan> cuttingPlan;
 	
 	@OneToMany(mappedBy = "budgetItem", cascade = CascadeType.REMOVE)
+	@JsonIgnore
 	private List<Project> project;
 	
 	public BudgetItem() {

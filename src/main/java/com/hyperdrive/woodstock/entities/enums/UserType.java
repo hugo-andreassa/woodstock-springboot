@@ -6,8 +6,8 @@ package com.hyperdrive.woodstock.entities.enums;
  */
 public enum UserType {
 	ADMIN(1, "ROLE_ADMIN"),
-	WOODWORKER(2, "ROLE_WOODWORKER"),
-	STOCKIST(3, "ROLE_STOCKIST");
+	MARCENEIRO(2, "ROLE_WOODWORKER"),
+	ESTOQUISTA(3, "ROLE_STOCKIST");
 	
 	private int cod;
 	private String description;
