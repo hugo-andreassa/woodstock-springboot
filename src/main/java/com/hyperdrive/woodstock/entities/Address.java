@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author Hugo Andreassa Amaral 
  */
 @Entity
-@Table(name = "tb_adress")
+@Table(name = "tb_address")
 public class Address implements Serializable {
 
 	private static final long serialVersionUID = 1L;
