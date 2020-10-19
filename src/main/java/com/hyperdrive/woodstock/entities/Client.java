@@ -37,10 +37,10 @@ public class Client implements Serializable {
 	
 	private String email;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String phone;
 	
-	@Column(unique = true, nullable = false)
+	@Column(unique = false, nullable = true)
 	private String cpfOrCnpj;
 	
 	@OneToOne(cascade = CascadeType.REMOVE)

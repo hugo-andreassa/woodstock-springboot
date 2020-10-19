@@ -139,7 +139,7 @@ public class BudgetItem implements Serializable {
 	}
 	
 	public Double subTotal() {
-		return quantity * price;
+		return price;
 	}
 
 	@Override

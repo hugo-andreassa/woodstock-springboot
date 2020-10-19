@@ -25,10 +25,8 @@ public class ClientDTO implements Serializable {
 	@Email
 	private String email;
 	
-	@NotBlank
 	private String phone;
 	
-	@NotBlank
 	private String cpfOrCnpj;
 	
 	@NotNull
