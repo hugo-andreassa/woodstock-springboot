@@ -128,13 +128,12 @@ public class PdfService {
 		String creationDate = DATE_TIME_FORMATTER.format(budget.getCreationDate());
 		
 		// Cria a tabela
-		PdfPTable table = createTable(3, new int[] { 10, 8, 5 });
+		PdfPTable table = createTable(3, new int[] { 10, 9, 5 });
 
 		// Recupera o logo e adiciona ele na classe Image
 		Image img = Image.getInstance(new URL(logo));
 		img.setAlignment(Element.ALIGN_CENTER);
-		img.scaleToFit(200, 200);
-		System.out.println(img.toString());
+		img.scaleToFit(150, 150);
 		
 		// Cria a celula
 		PdfPCell cell = null;
@@ -185,7 +184,7 @@ public class PdfService {
 
 		// Coloca o paragrafo dentro da celula
 		cell = createCellTableWithElement(0.5f, p);	
-		cell.setFixedHeight(50);
+		cell.setFixedHeight(40);
 		// Adiciona a celula na tabela
 		table.addCell(cell);
 
@@ -194,7 +193,7 @@ public class PdfService {
 
 		// Coloca o paragrafo dentro da celula
 		cell = createCellTableWithElement(0.5f, p);
-		cell.setFixedHeight(50);
+		cell.setFixedHeight(40);
 		// Adiciona a celula na tabela
 		table.addCell(cell);
 

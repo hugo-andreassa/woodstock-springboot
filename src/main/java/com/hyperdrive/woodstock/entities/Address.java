@@ -157,7 +157,38 @@ public class Address implements Serializable {
 
 	@Override
 	public String toString() {
-		return street + ", Nº" + number + " - " + city + " - " + state + ", " + cep;
+		StringBuilder sb = new StringBuilder();
+		
+		if(!street.isBlank()) {
+			sb.append(street);
+		}
+		
+		if(!number.isBlank()) {
+			sb.append(", ");
+			sb.append(number);
+		} 	
+		
+		if(!comp.isBlank()) {
+			sb.append(", ");
+			sb.append(comp);
+		}
+		
+		if(!city.isBlank()) {
+			sb.append(", ");
+			sb.append(city);
+		}
+		
+		if(!state.isBlank()) {
+			sb.append(" - ");
+			sb.append(state);
+		}
+		
+		if(!cep.isBlank()) {
+			sb.append(", ");
+			sb.append(cep);
+		}
+		
+		return sb.toString();
 	}	
 	
 	
