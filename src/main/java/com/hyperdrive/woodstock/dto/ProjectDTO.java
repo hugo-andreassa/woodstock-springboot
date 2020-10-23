@@ -17,8 +17,8 @@ public class ProjectDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotBlank
-	private String picture;
+	@NotNull
+	private String url;
 	
 	private String comment;
 	
@@ -32,17 +32,17 @@ public class ProjectDTO implements Serializable {
 
 	public ProjectDTO(String url, String comment, Long budgetItemId) {
 		super();
-		this.picture = url;
+		this.url = url;
 		this.comment = comment;
 		this.budgetItemId = budgetItemId;
 	}
 
 	public String getUrl() {
-		return picture;
+		return url;
 	}
 
 	public void setUrl(String url) {
-		this.picture = url;
+		this.url = url;
 	}
 
 	public String getComment() {
@@ -63,7 +63,7 @@ public class ProjectDTO implements Serializable {
 	
 	public Project toProject() {
 		Project proj = new Project();
-		proj.setUrl(picture);
+		proj.setUrl(url);
 		proj.setComment(comment);
 		
 		BudgetItem bdItem = new BudgetItem();
