@@ -68,6 +68,8 @@ public class ProjectService {
 	
 	public void deleteById(Long id) {
 		try {
+			s3Service.deleteFile(id);
+			
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);
@@ -91,7 +93,7 @@ public class ProjectService {
 	public URI uploadPicture(MultipartFile multipartFile, Long projectId) {
 		Project prjt = repository.findById(projectId).orElseThrow(() -> new ResourceNotFoundException(projectId));		
 		
-		BufferedImage jpgImage= imageService.getJpgImageFromFile(multipartFile);
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
 		String fileName = prefix + projectId + ".jpg";
 		
 		URI uri = s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");

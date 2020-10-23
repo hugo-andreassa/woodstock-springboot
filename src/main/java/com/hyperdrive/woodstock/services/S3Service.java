@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.hyperdrive.woodstock.services.exceptions.FileException;
 
@@ -26,11 +29,26 @@ public class S3Service {
 	private Logger log = LoggerFactory.getLogger(S3Service.class);
 
 	@Autowired
-	private AmazonS3 s3client;
+	private AmazonS3 s3Client;
 
 	@Value("${s3.bucket}")
 	private String bucketName;
+	
+	@Value("${img.prefix.project.profile}")
+	private String prefix;
 
+	public void deleteFile(Long projectId) {
+		 try {
+			String fileName = prefix + projectId + ".jpg";
+			
+            s3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+        } catch (AmazonServiceException e) {
+            e.printStackTrace();
+        } catch (SdkClientException e) {
+            e.printStackTrace();
+        }
+	}
+	
 	public URI uploadFile(MultipartFile multipartFile) {
 
 		try {
@@ -50,10 +68,10 @@ public class S3Service {
 			meta.setContentType(contentType);
 
 			log.info("Iniciando Upload");
-			s3client.putObject(bucketName, filename, is, meta);
+			s3Client.putObject(bucketName, filename, is, meta);
 			log.info("Upload finalizado");
 
-			return s3client.getUrl(bucketName, filename).toURI();
+			return s3Client.getUrl(bucketName, filename).toURI();
 		} /* catch (AmazonServiceException e) {
 			log.info("AmazonServiceException: " + e.getMessage());
 			log.info("Erro Code: " + e.getErrorCode());
