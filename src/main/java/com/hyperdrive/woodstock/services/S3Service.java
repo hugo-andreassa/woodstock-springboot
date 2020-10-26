@@ -79,7 +79,7 @@ public class S3Service {
 			log.info("AmazonClientException: " + e.getMessage());
 			log.info("Cause: " + e.getCause());
 		} */ catch (URISyntaxException e) {
-			throw new FileException("Error converting URI");
+			throw new FileException("Erro convertendo URI");
 		}
 	}
 }

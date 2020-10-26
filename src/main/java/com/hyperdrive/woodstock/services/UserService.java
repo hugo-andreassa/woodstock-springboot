@@ -43,7 +43,7 @@ public class UserService {
 		
 		UserSS user = authenticated();
 		if(user == null || !user.hasRole(UserType.ADMIN) && !id.equals(user.getId())) {
-			throw new AuthorizationException("Access denied");
+			throw new AuthorizationException("Acesso negado");
 		}
 		
 		Optional<User> opt = repository.findById(id);
@@ -55,7 +55,7 @@ public class UserService {
 		
 		UserSS user = authenticated();
 		if(user == null || !user.hasRole(UserType.ADMIN) && !email.equals(user.getUsername())) {
-			throw new AuthorizationException("Access denied");
+			throw new AuthorizationException("Acesso negado");
 		}
 		
 		Optional<User> opt = repository.findByEmail(email);
@@ -65,6 +65,10 @@ public class UserService {
 	
 	public User insert(User entity) {
 		try {
+			
+			if(entity.getPassword().isBlank()) {
+				throw new DatabaseException("O campo senha não pode ser vazio");
+			}
 			entity.setPassword(pe.encode(entity.getPassword()));
 			
 			return repository.save(entity);	
@@ -86,7 +90,10 @@ public class UserService {
 	public User update(Long id, User entity) {
 		try {
 			entity.setId(id);
-			entity.setPassword(pe.encode(entity.getPassword()));
+			
+			if(!entity.getPassword().isBlank()) {
+				entity.setPassword(pe.encode(entity.getPassword()));	
+			}
 			
 			return repository.save(entity);	
 		} catch (EntityNotFoundException e) {

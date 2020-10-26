@@ -3,7 +3,6 @@ package com.hyperdrive.woodstock.dto;
 import java.io.Serializable;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.hyperdrive.woodstock.entities.BudgetItem;

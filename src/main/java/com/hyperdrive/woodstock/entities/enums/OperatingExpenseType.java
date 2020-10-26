@@ -1,11 +1,12 @@
 package com.hyperdrive.woodstock.entities.enums;
 
 public enum OperatingExpenseType {
-	OFFICE_EXPENSES,
-	RENT,
-	VEHICLE_EXPENSES,
-	SALARY,
-	MAINTENANCE,
-	BILLS,
-	SUPPLIES;
+	
+	DESPESAS_ESCRITORIO,
+	ALUGUEL,
+	DESPESAS_VEICULO,
+	SALARIO,
+	MANUTENCAO,
+	CONTAS,
+	SUPRIMENTOS;
 }

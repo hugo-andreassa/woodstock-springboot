@@ -83,7 +83,7 @@ public class UserSS implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		if(status == UserStatus.ENABLED) {
+		if(status == UserStatus.ATIVADO) {
 			return true;
 		} else {
 			return false;

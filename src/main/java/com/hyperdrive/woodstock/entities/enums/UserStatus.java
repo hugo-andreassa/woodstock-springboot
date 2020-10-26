@@ -5,6 +5,6 @@ package com.hyperdrive.woodstock.entities.enums;
  * @author Hugo Andreassa Amaral 
  */
 public enum UserStatus {
-	ENABLED,
-	DISABLED;
+	ATIVADO,
+	DESATIVADO;
 }

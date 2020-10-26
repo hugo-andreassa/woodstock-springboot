@@ -96,11 +96,11 @@ public class TestConfig implements CommandLineRunner {
 				"https://woodstock-springboot.s3-sa-east-1.amazonaws.com/comp1.jpg", adrs);
 		companyRepository.save(comp);
 		
-		User u1 = new User(null, "Hugo A.", "123456", "hugo.andreassa@gmail.com", "11956492900", UserStatus.ENABLED,
+		User u1 = new User(null, "Hugo A.", "123456", "hugo.andreassa@gmail.com", "11956492900", UserStatus.ATIVADO,
 				UserType.ADMIN, comp);
-		User u2 = new User(null, "Rafael M.", "123456", "berlattomoveis@hotmail.com", "11956492430", UserStatus.ENABLED, 
+		User u2 = new User(null, "Rafael M.", "123456", "berlattomoveis@hotmail.com", "11956492430", UserStatus.ATIVADO, 
 				UserType.ADMIN, comp);
-		User u3 = new User(null, "Wesley Fernando", "123456", "wesley@gmail.com", "11956492430", UserStatus.ENABLED, 
+		User u3 = new User(null, "Wesley Fernando", "123456", "wesley@gmail.com", "11956492430", UserStatus.ATIVADO, 
 				UserType.MARCENEIRO, comp);
 		userService.insert(u1);
 		userService.insert(u2);
@@ -147,9 +147,9 @@ public class TestConfig implements CommandLineRunner {
 		projectRepository.saveAll(Arrays.asList(p1, p2));
 		
 		OperatingExpense oe1 = new OperatingExpense(null, "Galão de Água", "", 
-				Instant.now(), OperatingExpenseType.SUPPLIES, comp);
+				Instant.now(), OperatingExpenseType.SUPRIMENTOS, comp);
 		OperatingExpense oe2 = new OperatingExpense(null, "Canetas", "", 
-				Instant.now(), OperatingExpenseType.OFFICE_EXPENSES, comp);
+				Instant.now(), OperatingExpenseType.DESPESAS_ESCRITORIO, comp);
 		expenseRepository.saveAll(Arrays.asList(oe1, oe2));
 		
 		Material m1 = new Material(null, "Corrediça 25mm", "", 3, StockUnit.PR, comp);
@@ -159,7 +159,7 @@ public class TestConfig implements CommandLineRunner {
 		Material m5 = new Material(null, "Dobradiça Curva", "", 3, StockUnit.UN, comp);
 		materialRepository.saveAll(Arrays.asList(m1, m2, m3, m4, m5));
 		
-		Request r1 = new Request(null, "", Instant.now(), RequestStatus.WATING, comp);
+		Request r1 = new Request(null, "", Instant.now(), RequestStatus.ESPERANDO, comp);
 		requestRepository.saveAll(Arrays.asList(r1));
 				
 		RequestItem ri1 = new RequestItem(r1, m1, 10, null);

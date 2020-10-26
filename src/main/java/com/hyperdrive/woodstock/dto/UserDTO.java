@@ -18,7 +18,7 @@ public class UserDTO implements Serializable {
 	@NotBlank
 	private String name;
 	
-	@NotBlank
+	@NotNull
 	private String password;
 	
 	@NotBlank
