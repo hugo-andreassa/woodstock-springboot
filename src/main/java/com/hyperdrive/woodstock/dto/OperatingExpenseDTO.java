@@ -24,6 +24,10 @@ public class OperatingExpenseDTO implements Serializable {
 	private String description;
 	
 	@NotNull
+	@Min(value = 1)
+	private Double value;
+	
+	@NotNull
 	private OperatingExpenseType type;
 	
 	@NotNull
@@ -34,11 +38,12 @@ public class OperatingExpenseDTO implements Serializable {
 		
 	}
 
-	public OperatingExpenseDTO(String name, String description, OperatingExpenseType type,
-			Long companyId) {
+	public OperatingExpenseDTO(String name, String description, Double value, 
+			OperatingExpenseType type, Long companyId) {
 		super();
 		this.name = name;
 		this.description = description;
+		this.value = value;
 		this.type = type;
 		this.companyId = companyId;
 	}
@@ -57,6 +62,14 @@ public class OperatingExpenseDTO implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Double getValue() {
+		return value;
+	}
+
+	public void setValue(Double value) {
+		this.value = value;
 	}
 
 	public OperatingExpenseType getType() {
@@ -79,6 +92,7 @@ public class OperatingExpenseDTO implements Serializable {
 		OperatingExpense expense = new OperatingExpense();
 		expense.setName(name);
 		expense.setDescription(description);
+		expense.setValue(value);
 		expense.setType(type);
 		
 		Company comp = new Company();

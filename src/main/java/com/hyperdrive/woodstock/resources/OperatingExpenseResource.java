@@ -29,7 +29,7 @@ public class OperatingExpenseResource {
 	@Autowired
 	private OperatingExpenseService service;
 	
-	@GetMapping()
+	@GetMapping
 	public ResponseEntity<List<OperatingExpense>> findAll(@RequestParam(name = "company") Long companyId) {
 		List<OperatingExpense> list = service.findAllByCompanyId(companyId);
 		

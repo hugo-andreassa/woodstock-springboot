@@ -25,6 +25,5 @@ public class UserDetailsService implements org.springframework.security.core.use
 		
 		UserSS userSS = new UserSS(user.getId(), user.getPassword(), user.getEmail(), user.getStatus(), user.getType());
 		return userSS;
-	}	
-
+	}
 }

@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/materials/**",
 			"/requests/**",
 			
-			"/operatingExpenses/**"
+			"/expenses/**"
 	};
 	
 	private final static String[] PUBLIC_MATCHERS_POST = {

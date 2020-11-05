@@ -1,6 +1,7 @@
 package com.hyperdrive.woodstock.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +17,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.hyperdrive.woodstock.entities.enums.StockUnit;
 
 /** Material
@@ -42,6 +46,14 @@ public class Material implements Serializable {
 	private Integer stock;
 	
 	@Column(nullable = false)
+	private Integer minimumStock;
+	
+	@Column(nullable = false)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", locale = "pt-BR", timezone = "America/Sao_Paulo")
+	@JsonProperty(access = Access.READ_ONLY)
+	private Instant lastUpdate;
+	
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private StockUnit unit;
 	
@@ -56,12 +68,15 @@ public class Material implements Serializable {
 		
 	}
 
-	public Material(Long id, String name, String description, Integer stock, StockUnit unit, Company company) {
+	public Material(Long id, String name, String description, Integer stock, Integer minimumStock, Instant lastUpdate,
+			StockUnit unit, Company company) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.stock = stock;
+		this.minimumStock = minimumStock;
+		this.lastUpdate = lastUpdate;
 		this.unit = unit;
 		this.company = company;
 	}
@@ -98,6 +113,22 @@ public class Material implements Serializable {
 		this.stock = stock;
 	}
 	
+	public Integer getMinimumStock() {
+		return minimumStock;
+	}
+
+	public void setMinimumStock(Integer minimumStock) {
+		this.minimumStock = minimumStock;
+	}
+
+	public Instant getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Instant lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
 	public StockUnit getUnit() {
 		return unit;
 	}

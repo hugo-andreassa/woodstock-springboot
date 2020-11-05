@@ -1,5 +1,6 @@
 package com.hyperdrive.woodstock.services;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +43,7 @@ public class MaterialService {
 	
 	public Material insert(Material entity) {
 		try {			
+			entity.setLastUpdate(Instant.now());
 			
 			return repository.save(entity);
 		} catch (DataIntegrityViolationException e) {
@@ -62,6 +64,7 @@ public class MaterialService {
 	public Material update(Long id, Material entity) {
 		try {
 			entity.setId(id);
+			entity.setLastUpdate(Instant.now());
 			
 			return repository.save(entity);	
 		} catch (EntityNotFoundException e) {

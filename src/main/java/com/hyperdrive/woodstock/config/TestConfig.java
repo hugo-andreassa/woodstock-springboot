@@ -146,17 +146,17 @@ public class TestConfig implements CommandLineRunner {
 		Project p2 = new Project(null, "", "", bi1);
 		projectRepository.saveAll(Arrays.asList(p1, p2));
 		
-		OperatingExpense oe1 = new OperatingExpense(null, "Galão de Água", "", 
+		OperatingExpense oe1 = new OperatingExpense(null, "Galão de Água", "", 250.00, 
 				Instant.now(), OperatingExpenseType.SUPRIMENTOS, comp);
-		OperatingExpense oe2 = new OperatingExpense(null, "Canetas", "", 
+		OperatingExpense oe2 = new OperatingExpense(null, "Canetas", "", 250.00,
 				Instant.now(), OperatingExpenseType.DESPESAS_ESCRITORIO, comp);
 		expenseRepository.saveAll(Arrays.asList(oe1, oe2));
 		
-		Material m1 = new Material(null, "Corrediça 25mm", "", 3, StockUnit.PR, comp);
-		Material m2 = new Material(null, "Corrediça 35mm", "", 3, StockUnit.PR, comp);
-		Material m3 = new Material(null, "Corrediça 45mm", "", 3, StockUnit.PR, comp);
-		Material m4 = new Material(null, "Dobradiça Reta", "", 3, StockUnit.UN, comp);
-		Material m5 = new Material(null, "Dobradiça Curva", "", 3, StockUnit.UN, comp);
+		Material m1 = new Material(null, "Corrediça 25mm", "", 3, 1, Instant.now(), StockUnit.PR, comp);
+		Material m2 = new Material(null, "Corrediça 35mm", "", 3, 1, Instant.now(), StockUnit.PR, comp);
+		Material m3 = new Material(null, "Corrediça 45mm", "", 3, 1, Instant.now(), StockUnit.PR, comp);
+		Material m4 = new Material(null, "Dobradiça Reta", "", 3, 1, Instant.now(), StockUnit.UN, comp);
+		Material m5 = new Material(null, "Dobradiça Curva", "", 3, 1, Instant.now(), StockUnit.UN, comp);
 		materialRepository.saveAll(Arrays.asList(m1, m2, m3, m4, m5));
 		
 		Request r1 = new Request(null, "", Instant.now(), RequestStatus.ESPERANDO, comp);

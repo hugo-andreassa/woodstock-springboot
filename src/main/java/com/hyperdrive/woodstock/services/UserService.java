@@ -89,10 +89,14 @@ public class UserService {
 	
 	public User update(Long id, User entity) {
 		try {
-			entity.setId(id);
+			entity.setId(id);			
 			
 			if(!entity.getPassword().isBlank()) {
 				entity.setPassword(pe.encode(entity.getPassword()));	
+			} else {
+				Optional<User> opt = repository.findById(id);
+				User user = opt.get();
+				entity.setPassword(user.getPassword());
 			}
 			
 			return repository.save(entity);	

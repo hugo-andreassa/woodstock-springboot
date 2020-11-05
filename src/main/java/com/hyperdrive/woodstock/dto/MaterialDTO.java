@@ -24,6 +24,10 @@ public class MaterialDTO implements Serializable {
 	private Integer stock;
 	
 	@NotNull
+	@Min(value = 0)
+	private Integer minimumStock;
+	
+	@NotNull
 	private StockUnit unit;
 	
 	@NotNull
