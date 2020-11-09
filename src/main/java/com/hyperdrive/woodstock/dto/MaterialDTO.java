@@ -66,6 +66,14 @@ public class MaterialDTO implements Serializable {
 	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
+	
+	public Integer getMinimumStock() {
+		return minimumStock;
+	}
+
+	public void setMinimumStock(Integer minimumStock) {
+		this.minimumStock = minimumStock;
+	}
 
 	public StockUnit getUnit() {
 		return unit;
@@ -88,6 +96,7 @@ public class MaterialDTO implements Serializable {
 		mat.setName(name);
 		mat.setDescription(description);
 		mat.setStock(stock);
+		mat.setMinimumStock(minimumStock);
 		mat.setUnit(unit);
 		
 		Company comp = new Company();
