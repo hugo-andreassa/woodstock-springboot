@@ -5,8 +5,6 @@ import java.time.Instant;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,10 +45,6 @@ public class OperatingExpense implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", locale = "pt-BR", timezone = "Brazil/East")
 	private Instant creationDate;
 	
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private OperatingExpenseType type;
-	
 	@OneToOne
 	@JoinColumn(name = "company_id", nullable = false)
 	private Company company;
@@ -67,7 +61,6 @@ public class OperatingExpense implements Serializable {
 		this.description = description;
 		this.value = value;
 		this.creationDate = creationDate;
-		this.type = type;
 		this.company = company;
 	}
 
@@ -109,14 +102,6 @@ public class OperatingExpense implements Serializable {
 	
 	public void setCreationDate(Instant creationDate) {
 		this.creationDate = creationDate;
-	}
-	
-	public OperatingExpenseType getType() {
-		return type;
-	}
-	
-	public void setType(OperatingExpenseType type) {
-		this.type = type;
 	}
 	
 	@JsonIgnore
