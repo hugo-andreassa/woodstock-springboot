@@ -1,5 +1,6 @@
 package com.hyperdrive.woodstock.services;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,10 @@ public class ClientService {
 		Company company = new Company();
 		company.setId(companyId);
 		
-		return repository.findByCompany(company);
+		List<Client> clients = repository.findByCompany(company); 
+		Collections.sort(clients);
+		
+		return clients;
 	}
 	
 	public Client findById(Long id) {

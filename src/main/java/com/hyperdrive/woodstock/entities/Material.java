@@ -29,7 +29,7 @@ import com.hyperdrive.woodstock.entities.enums.StockUnit;
  */
 @Entity
 @Table(name = "tb_material")
-public class Material implements Serializable {
+public class Material implements Serializable, Comparable<Material> {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -180,5 +180,10 @@ public class Material implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public int compareTo(Material o) {
+		return this.getName().compareTo(o.getName());
 	}
 }
