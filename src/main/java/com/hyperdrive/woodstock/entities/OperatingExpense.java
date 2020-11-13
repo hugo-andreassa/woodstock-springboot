@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.hyperdrive.woodstock.entities.enums.OperatingExpenseType;
 
 /** Operating Expense
  * 
@@ -54,7 +53,7 @@ public class OperatingExpense implements Serializable {
 	}
 	
 	public OperatingExpense(Long id, String name, String description, Double value, 
-			Instant creationDate, OperatingExpenseType type, Company company) {
+			Instant creationDate, Company company) {
 		super();
 		this.id = id;
 		this.name = name;

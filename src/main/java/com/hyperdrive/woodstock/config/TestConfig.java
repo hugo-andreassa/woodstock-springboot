@@ -22,7 +22,6 @@ import com.hyperdrive.woodstock.entities.RequestItem;
 import com.hyperdrive.woodstock.entities.User;
 import com.hyperdrive.woodstock.entities.enums.BudgetItemStatus;
 import com.hyperdrive.woodstock.entities.enums.BudgetStatus;
-import com.hyperdrive.woodstock.entities.enums.OperatingExpenseType;
 import com.hyperdrive.woodstock.entities.enums.RequestStatus;
 import com.hyperdrive.woodstock.entities.enums.StockUnit;
 import com.hyperdrive.woodstock.entities.enums.UserStatus;
@@ -147,9 +146,9 @@ public class TestConfig implements CommandLineRunner {
 		projectRepository.saveAll(Arrays.asList(p1, p2));
 		
 		OperatingExpense oe1 = new OperatingExpense(null, "Galão de Água", "", 250.00, 
-				Instant.now(), OperatingExpenseType.SUPRIMENTOS, comp);
+				Instant.now(), comp);
 		OperatingExpense oe2 = new OperatingExpense(null, "Canetas", "", 250.00,
-				Instant.now(), OperatingExpenseType.DESPESAS_ESCRITORIO, comp);
+				Instant.now(), comp);
 		expenseRepository.saveAll(Arrays.asList(oe1, oe2));
 		
 		Material m1 = new Material(null, "Corrediça 25mm", "", 3, 1, Instant.now(), StockUnit.PR, comp);

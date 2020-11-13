@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 
 import com.hyperdrive.woodstock.entities.Company;
 import com.hyperdrive.woodstock.entities.OperatingExpense;
-import com.hyperdrive.woodstock.entities.enums.OperatingExpenseType;
 
 /** OperatingExpense DTO
  * 
@@ -35,8 +34,7 @@ public class OperatingExpenseDTO implements Serializable {
 		
 	}
 
-	public OperatingExpenseDTO(String name, String description, Double value, 
-			OperatingExpenseType type, Long companyId) {
+	public OperatingExpenseDTO(String name, String description, Double value, Long companyId) {
 		super();
 		this.name = name;
 		this.description = description;

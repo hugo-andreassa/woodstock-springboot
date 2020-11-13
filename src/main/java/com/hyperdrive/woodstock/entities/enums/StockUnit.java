@@ -11,6 +11,7 @@ package com.hyperdrive.woodstock.entities.enums;
  * {@link #PT}
  * {@link #RL}
  * {@link #KG} 
+ * {@link #SC} 
  * {@link #L}
  * 
  * @author Hugo
@@ -56,6 +57,11 @@ public enum StockUnit {
    	 * Kilos
    	 */
     KG,
+    
+    /**
+   	 * Sacos
+   	 */
+    SC,
     
     /**
    	 * Litros
