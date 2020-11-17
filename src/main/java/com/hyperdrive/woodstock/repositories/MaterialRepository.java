@@ -9,5 +9,5 @@ import com.hyperdrive.woodstock.entities.Material;
 
 public interface MaterialRepository extends JpaRepository<Material, Long>{
 	
-	List<Material> findByCompany(Company company);
+	List<Material> findByCompanyOrderByNameAsc(Company company);
 }

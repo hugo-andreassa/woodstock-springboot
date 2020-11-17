@@ -32,7 +32,7 @@ public class OperatingExpenseService {
 		Company company = new Company();
 		company.setId(companyId);
 		
-		return repository.findByCompany(company);
+		return repository.findByCompanyOrderByIdDesc(company);
 	}
 	
 	public OperatingExpense findById(Long id) {

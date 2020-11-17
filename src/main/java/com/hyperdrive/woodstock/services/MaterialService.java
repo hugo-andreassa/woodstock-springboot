@@ -1,7 +1,6 @@
 package com.hyperdrive.woodstock.services;
 
 import java.time.Instant;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,10 +32,7 @@ public class MaterialService {
 		Company company = new Company();
 		company.setId(companyId);
 		
-		List<Material> materials = repository.findByCompany(company);
-		Collections.sort(materials);
-		
-		return materials;
+		return repository.findByCompanyOrderByNameAsc(company);
 	}
 	
 	public Material findById(Long id) {

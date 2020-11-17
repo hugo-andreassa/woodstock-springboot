@@ -9,5 +9,5 @@ import com.hyperdrive.woodstock.entities.OperatingExpense;
 
 public interface OperatingExpenseRepository extends JpaRepository<OperatingExpense, Long>{
 	
-	List<OperatingExpense> findByCompany(Company company);
+	List<OperatingExpense> findByCompanyOrderByIdDesc(Company company);
 }

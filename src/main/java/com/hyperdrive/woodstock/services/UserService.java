@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.hyperdrive.woodstock.entities.Company;
 import com.hyperdrive.woodstock.entities.User;
+import com.hyperdrive.woodstock.entities.enums.UserStatus;
 import com.hyperdrive.woodstock.entities.enums.UserType;
 import com.hyperdrive.woodstock.repositories.UserRepository;
 import com.hyperdrive.woodstock.security.UserSS;
@@ -70,6 +71,9 @@ public class UserService {
 				throw new DatabaseException("O campo senha não pode ser vazio");
 			}
 			entity.setPassword(pe.encode(entity.getPassword()));
+			
+			entity.setStatus(UserStatus.DESATIVADO);
+			entity.setType(UserType.MARCENEIRO);
 			
 			return repository.save(entity);	
 		} catch (PropertyValueException e) {

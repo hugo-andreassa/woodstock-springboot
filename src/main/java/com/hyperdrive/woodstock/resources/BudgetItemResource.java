@@ -67,7 +67,6 @@ public class BudgetItemResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PreAuthorize("hasAnyRole('MARCENERIO', 'ADMIN', 'ESTOQUISTA')")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody BudgetItemDTO dto) {
 		service.update(id, dto.toBudgetItem());
