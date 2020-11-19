@@ -95,13 +95,15 @@ public class UserService {
 		try {
 			entity.setId(id);			
 			
-			if(!entity.getPassword().isBlank()) {
-				entity.setPassword(pe.encode(entity.getPassword()));	
-			} else {
-				Optional<User> opt = repository.findById(id);
-				User user = opt.get();
-				entity.setPassword(user.getPassword());
+			User user = repository.findById(id).get();			
+			String password = user.getPassword();
+			
+			if(entity.getPassword() != null) {
+				if(!entity.getPassword().isBlank()) {
+					password = pe.encode(entity.getPassword());
+				}
 			}
+			entity.setPassword(password);
 			
 			return repository.save(entity);	
 		} catch (EntityNotFoundException e) {
